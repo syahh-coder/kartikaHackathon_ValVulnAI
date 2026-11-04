@@ -1,0 +1,22 @@
+# Local tools and downloaded source copies
+.cache/
+docs/sources/*.pdf
+docs/sources/*.txt
+/guidebook-kartika.pdf
+
+# Runtime credentials and artifacts
+.env
+.env.*
+!.env.example
+artifacts/
+*.sqlite
+*.sqlite3
+*.sqlite3-*
+*.db
+
+# Python environment and caches
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
