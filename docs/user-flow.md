@@ -1,8 +1,12 @@
 # Alur pengguna dan kondisi proses
 
-Status: rancangan diperbarui 3 November 2026; prototipe UI simulasi tersedia untuk review, belum ada backend/worker atau pengujian runtime sistem validasi. Pengguna menyatakan pendaftaran diterima. Desain: [design.md](design.md). Kontrak: [architecture.md](architecture.md). Pemeriksaan keamanan: [security-review.md](security-review.md).
+**Alur submission yang direncanakan 7 November 2026:** login -> pilih program -> kirim report -> gate scope backend -> triage teks AI -> tampilkan saran/kekurangan. Pemeriksaan produk terdaftar tetap dipicu tindakan pengguna melalui jalur lama; model tidak membuat job atau instruksi worker. Ringkasan AI atas observasi tersedia ditandai terpisah dari hasil verifier dan review admin. BUSINESS_LOGIC diarahkan ke pesan belum didukung; review rekaman lama bukan pengganti validator. R1/R2 belum diimplementasikan oleh update dokumen ini. [Scope](submission-scope.md), [prompt berikutnya](execution-prompt.md).
+
+Status 5 November 2026: BAC M3 dan XSS-08 fixture tetap M4b sudah melalui UI → worker → evidence/verifier → review/publikasi/ekspor lokal. [Hasil M4b](m4b-verification.md), [M3](m3-verification.md). Klaim terstruktur dan planner mock; model live belum tersedia. UI XSS mengunci rute tanpa script/nonce/fixture bebas. Prototipe simulasi tetap terpisah. [Desain](design.md), [kontrak](architecture.md), [pemeriksaan](security-review.md).
 
 ## 1. Aktor dan batas
+
+Alur tambahan yang tersedia 6 November: **review rekaman bisnis manual**. Pelapor menekan Siapkan review bukti bisnis untuk membuat snapshot tanpa run. Admin mengunggah JSON pada revisi tersebut, melihat hasil/file privat, menulis catatan dan membagikan ringkasan tetap. Pelapor hanya melihat hasil yang dipublikasikan; review ulang menarik publikasi. UI menampilkan versi snapshot dan menyatakan rekaman bukan pengujian langsung/verdict kerentanan. [Langkah pemakaian dan batas](business-record-review.md). Ini terpisah dari alur worker di bawah.
 
 | Aktor | Tugas | Batas |
 | --- | --- | --- |
@@ -101,7 +105,7 @@ Run ulang mempunyai ID dan ledger biaya baru. `COMPLETED` berbeda dari verdict; 
 5. Simpan output mentah, evidence, error/refusal, usage dan waktu sebelum melihat label/scoring.
 6. Hitung metrik serta hasil per kategori/grup; ekspor agregat yang boleh ditampilkan. GT tetap privat dan tidak masuk chat/runtime agent.
 
-Dataset berisi 20 teks, bukan 20 bug unik. Lab menargetkan 24 titik; belum ada titik, report final atau metrik yang diklaim telah berjalan. Detail ada pada [evaluation.md](evaluation.md).
+Dataset berisi 20 teks, bukan 20 bug unik. Lab menargetkan 24 titik; BAC-08 dan XSS-08 development sudah direproduksi operator, 22 lainnya belum tersedia. Report final berlabel dan metrik belum tersedia. Detail ada pada [evaluation.md](evaluation.md).
 
 ## 8. Potongan implementasi pertama
 

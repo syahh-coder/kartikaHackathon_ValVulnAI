@@ -1,0 +1,8 @@
+.assessment-content pre{max-width:100%;white-space:pre-wrap;overflow-wrap:anywhere;font:11px/1.8 var(--mono);overflow:auto}
+.assessment-content details{margin:18px 0}.assessment-content summary{cursor:pointer;color:var(--muted)}
+.dialog-body form>p{margin-bottom:24px}.dialog-body button{margin:5px 5px 5px 0}
+.conversation-item{width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block}
+.run-area,.assessment-card,.assessment-content{min-width:0}.assessment-content p{overflow-wrap:anywhere}
+#login-error:not(:empty){color:var(--danger)}.dialog-body{padding-bottom:40px}
+@media(max-width:760px){.run-context{max-width:130px}.model-label{max-width:130px;overflow:hidden;text-overflow:ellipsis}.assessment-top{flex-wrap:wrap;overflow-wrap:anywhere}}
+.triage-area{min-width:0;margin:24px 0}.triage-card h2{font-size:18px;margin-bottom:12px}.triage-card h3{font-size:14px;margin:14px 0 8px}.triage-card ul{padding-left:22px}.triage-card li{margin:6px 0;overflow-wrap:anywhere}.stale-result{border-left:3px solid var(--warning,var(--muted));padding-left:12px;font-weight:600}.observation-fact{margin:16px 0;padding:12px;border:1px solid var(--border);border-radius:8px;overflow-wrap:anywhere}.observation-fact code{font-size:11px;white-space:normal;overflow-wrap:anywhere}.triage-card .draft-actions{flex-wrap:wrap}.triage-card button:disabled{opacity:.55;cursor:not-allowed}

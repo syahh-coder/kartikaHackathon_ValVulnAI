@@ -8,6 +8,7 @@ docs/sources/*.txt
 .env
 .env.*
 !.env.example
+!.env.azure.example
 artifacts/
 *.sqlite
 *.sqlite3
@@ -20,3 +21,6 @@ __pycache__/
 *.py[cod]
 .pytest_cache/
 .ruff_cache/
+.local-data/
+*.egg-info/
+build/

@@ -1,0 +1,294 @@
+{
+  "source": "Installed distribution METADATA and RECORD; not a dependency security audit",
+  "python_host": "3.11.9",
+  "sqlite_host": "3.45.1",
+  "packages": [
+    {
+      "name": "aiosqlite",
+      "version": "0.22.1",
+      "license_metadata": "MIT License",
+      "license_files": [
+        "aiosqlite-0.22.1.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "name": "annotated-doc",
+      "version": "0.0.5",
+      "license_metadata": "MIT",
+      "license_files": [
+        "annotated_doc-0.0.5.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "name": "annotated-types",
+      "version": "0.8.0",
+      "license_metadata": "MIT",
+      "license_files": [
+        "annotated_types-0.8.0.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "name": "anyio",
+      "version": "4.16.0",
+      "license_metadata": "MIT",
+      "license_files": [
+        "anyio-4.16.0.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "name": "argon2-cffi",
+      "version": "25.1.0",
+      "license_metadata": "MIT",
+      "license_files": [
+        "argon2_cffi-25.1.0.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "name": "argon2-cffi-bindings",
+      "version": "26.1.0",
+      "license_metadata": "MIT",
+      "license_files": [
+        "argon2_cffi_bindings-26.1.0.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "name": "certifi",
+      "version": "2026.10.23",
+      "license_metadata": "MPL-2.0",
+      "license_files": [
+        "certifi-2026.10.23.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "name": "cffi",
+      "version": "2.1.1",
+      "license_metadata": "MIT-0",
+      "license_files": [
+        "cffi-2.1.1.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "name": "click",
+      "version": "8.5.0",
+      "license_metadata": "BSD-3-Clause",
+      "license_files": [
+        "click-8.5.0.dist-info/licenses/LICENSE.txt"
+      ]
+    },
+    {
+      "name": "colorama",
+      "version": "0.4.6",
+      "license_metadata": "BSD License",
+      "license_files": [
+        "colorama-0.4.6.dist-info/licenses/LICENSE.txt"
+      ]
+    },
+    {
+      "name": "fastapi",
+      "version": "0.162.0",
+      "license_metadata": "MIT",
+      "license_files": [
+        "fastapi-0.162.0.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "name": "h11",
+      "version": "0.16.0",
+      "license_metadata": "MIT",
+      "license_files": [
+        "h11-0.16.0.dist-info/licenses/LICENSE.txt"
+      ]
+    },
+    {
+      "name": "httpcore",
+      "version": "1.0.9",
+      "license_metadata": "BSD-3-Clause",
+      "license_files": [
+        "httpcore-1.0.9.dist-info/licenses/LICENSE.md"
+      ]
+    },
+    {
+      "name": "httpx",
+      "version": "0.28.1",
+      "license_metadata": "BSD-3-Clause",
+      "license_files": [
+        "httpx-0.28.1.dist-info/licenses/LICENSE.md"
+      ]
+    },
+    {
+      "name": "idna",
+      "version": "3.20",
+      "license_metadata": "BSD-3-Clause",
+      "license_files": [
+        "idna-3.20.dist-info/licenses/LICENSE.md"
+      ]
+    },
+    {
+      "name": "iniconfig",
+      "version": "2.3.1",
+      "license_metadata": "MIT",
+      "license_files": [
+        "iniconfig-2.3.1.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "name": "Jinja2",
+      "version": "3.1.6",
+      "license_metadata": "BSD License",
+      "license_files": [
+        "jinja2-3.1.6.dist-info/licenses/LICENSE.txt"
+      ]
+    },
+    {
+      "name": "MarkupSafe",
+      "version": "3.0.4",
+      "license_metadata": "BSD-3-Clause",
+      "license_files": [
+        "markupsafe-3.0.4.dist-info/licenses/LICENSE.txt"
+      ]
+    },
+    {
+      "name": "opentelemetry-api",
+      "version": "1.45.2",
+      "license_metadata": "Apache-2.0",
+      "license_files": [
+        "opentelemetry_api-1.45.2.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "name": "packaging",
+      "version": "26.3",
+      "license_metadata": "Apache-2.0 OR BSD-2-Clause",
+      "license_files": [
+        "packaging-26.3.dist-info/licenses/LICENSE",
+        "packaging-26.3.dist-info/licenses/LICENSE.APACHE",
+        "packaging-26.3.dist-info/licenses/LICENSE.BSD",
+        "packaging/licenses/__init__.py",
+        "packaging/licenses/__pycache__/__init__.cpython-311.pyc",
+        "packaging/licenses/__pycache__/_spdx.cpython-311.pyc",
+        "packaging/licenses/_spdx.py"
+      ]
+    },
+    {
+      "name": "pluggy",
+      "version": "1.7.0",
+      "license_metadata": "MIT",
+      "license_files": [
+        "pluggy-1.7.0.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "name": "pwdlib",
+      "version": "0.3.1",
+      "license_metadata": "MIT License",
+      "license_files": [
+        "pwdlib-0.3.1.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "name": "pycparser",
+      "version": "3.12",
+      "license_metadata": "BSD-3-Clause",
+      "license_files": [
+        "pycparser-3.12.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "name": "pydantic",
+      "version": "2.14.2",
+      "license_metadata": "MIT",
+      "license_files": [
+        "pydantic-2.14.2.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "name": "pydantic-settings",
+      "version": "2.16.2",
+      "license_metadata": "MIT",
+      "license_files": [
+        "pydantic_settings-2.16.2.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "name": "pydantic_core",
+      "version": "2.50.2",
+      "license_metadata": "MIT",
+      "license_files": [
+        "pydantic_core-2.50.2.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "name": "Pygments",
+      "version": "2.21.0",
+      "license_metadata": "BSD-2-Clause",
+      "license_files": [
+        "pygments-2.21.0.dist-info/licenses/AUTHORS",
+        "pygments-2.21.0.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "name": "pytest",
+      "version": "9.2.0",
+      "license_metadata": "MIT",
+      "license_files": [
+        "pytest-9.2.0.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "name": "pytest-asyncio",
+      "version": "1.4.1.post1",
+      "license_metadata": "Apache-2.0",
+      "license_files": [
+        "pytest_asyncio-1.4.1.post1.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "name": "python-dotenv",
+      "version": "1.2.4",
+      "license_metadata": "BSD-3-Clause",
+      "license_files": [
+        "python_dotenv-1.2.4.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "name": "python-multipart",
+      "version": "0.0.33",
+      "license_metadata": "Apache-2.0",
+      "license_files": [
+        "python_multipart-0.0.33.dist-info/licenses/LICENSE.txt"
+      ]
+    },
+    {
+      "name": "starlette",
+      "version": "1.10.0",
+      "license_metadata": "BSD-3-Clause",
+      "license_files": [
+        "starlette-1.10.0.dist-info/licenses/LICENSE.md"
+      ]
+    },
+    {
+      "name": "typing-inspection",
+      "version": "0.4.5",
+      "license_metadata": "MIT",
+      "license_files": [
+        "typing_inspection-0.4.5.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "name": "typing_extensions",
+      "version": "4.16.0",
+      "license_metadata": "PSF-2.0",
+      "license_files": [
+        "typing_extensions-4.16.0.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "name": "uvicorn",
+      "version": "0.54.0",
+      "license_metadata": "BSD-3-Clause",
+      "license_files": [
+        "uvicorn-0.54.0.dist-info/licenses/LICENSE.md"
+      ]
+    }
+  ]
+}

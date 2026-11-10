@@ -1,6 +1,8 @@
 # Deklarasi komponen, sumber, dan atribusi
 
-Status: prototipe UI lokal dibuat tanpa dependensi npm/runtime aplikasi tambahan. Backend dan dependensi runtime produk belum diimplementasikan/dipasang. Referensi desain dicatat di bawah; pengguna meminta tahap UI selesai dahulu.
+**Tambahan R3/R4 7 November:** runner teks/evaluator dan script paket tidak menambah library runtime. Memakai HTTPX/Pydantic/aiosqlite serta stdlib yang sudah dipin. Slide/thumbnail adalah HTML/CSS asli proyek, font sistem, dirender oleh playwright-core/Chromium QA host yang sudah tersedia; binary QA tidak disertakan dalam source ZIP. Screenshot/video merekam app disposable MOCK dengan data sintetis dan banner capture. Inventaris M1/M2/M4 serta notice seccomp disertakan; kandidat ZIP tidak memuat image/binary OS/browser. Lisensi source asli tetap keputusan pengguna yang pending; tidak membuat LICENSE sepihak atau mengklaim inventaris sebagai audit hukum. Build image review terpisah hanya lokal, tidak didistribusikan. [Materi](../submission/README.md), [hasil/batas](r3-r4-verification.md).
+
+Status: prototipe UI lokal dibuat tanpa dependensi npm/runtime aplikasi tambahan. Dependensi app M1 sudah dipasang dan dipin; worker HTTP/lab M2 memakai pin Python yang sama; M4a memasang Playwright/Chromium worker melalui lock terpisah. Provider live belum tersedia. Versi/lisensi metadata langsung dan transitif tercatat pada [dependencies-m1.json](dependencies-m1.json), diambil dari distribusi terpasang, bukan tebakan atau audit keamanan dependensi.
 
 Dasar: rulebook Bagian G dan S&K Pasal 5.3-5.4 memperbolehkan penggunaan komponen pihak ketiga dengan hak penggunaan yang sah, atribusi, serta deklarasi dasar pre-existing. Dokumen ini harus diperbarui berdasarkan komponen yang benar-benar digunakan.
 
@@ -18,17 +20,17 @@ Daftar ini merupakan rencana, bukan klaim seluruh kontribusi sudah selesai. Bant
 | Komponen | Peran rencana | Sumber | Versi/commit/lisensi aktual | Status |
 | --- | --- | --- | --- | --- |
 | Python | Runtime | https://www.python.org/ | Python terpasang 3.11.9; catat ketentuan distribusi saat packaging | Terdeteksi pada host |
-| FastAPI | API dan dashboard | https://fastapi.tiangolo.com/ | Belum dipilih/diperiksa untuk versi yang akan digunakan | Direncanakan |
-| Uvicorn | Server app dan lab | https://www.uvicorn.org/ | Versi/lisensi aktual belum dikunci/diperiksa | Dipilih dalam PRD, belum dipasang |
-| Pydantic | Schema/validasi | https://docs.pydantic.dev/ | Major 2 direncanakan; minor/patch/lisensi versi aktual belum dikunci | Direncanakan |
-| SQLite | Dua database lokal app/lab | https://www.sqlite.org/ | Catat versi engine bawaan build Python serta notice distribusinya saat packaging | Dipilih dalam PRD, DB produk belum dibuat |
-| aiosqlite | Akses SQLite async | https://aiosqlite.omnilib.dev/en/stable/ | Versi/lisensi aktual belum dikunci/diperiksa | Dipilih dalam PRD, belum dipasang |
-| python-multipart | Parsing form/upload teks | https://fastapi.tiangolo.com/tutorial/request-files/ | Versi/lisensi aktual belum dikunci/diperiksa | Dipilih dalam PRD, belum dipasang |
-| pwdlib dengan Argon2 | Hash password platform | https://fastapi.tiangolo.com/tutorial/security/oauth2-jwt/ | Catat versi/lisensi paket serta dependensi Argon2 aktual | Dipilih dalam PRD, belum dipasang |
-| HTTPX | HTTP worker | https://www.python-httpx.org/ | Belum dipilih/diperiksa | Direncanakan |
+| FastAPI | API dan dashboard | https://fastapi.tiangolo.com/ | 0.162.0 / MIT (metadata distribusi; detail notice pada inventaris) | Dipakai dan diuji pada M1 app; HTTPX provider nyata belum aktif |
+| Uvicorn | Server app dan lab | https://www.uvicorn.org/ | 0.54.0 / BSD-3-Clause (metadata distribusi; detail notice pada inventaris) | Dipakai dan diuji pada M1 app; HTTPX provider nyata belum aktif |
+| Pydantic | Schema/validasi | https://docs.pydantic.dev/ | 2.14.2 / MIT (metadata distribusi; detail notice pada inventaris) | Dipakai dan diuji pada M1 app; HTTPX provider nyata belum aktif |
+| SQLite | Database app; lab menyusul | https://www.sqlite.org/ | Host 3.45.1; image 3.40.1; engine bawaan Python, notice image tetap diperiksa sebelum rilis | App M1 diuji; DB lab belum dibuat |
+| aiosqlite | Akses SQLite async | https://aiosqlite.omnilib.dev/en/stable/ | 0.22.1 / MIT License (metadata distribusi; detail notice pada inventaris) | Dipakai dan diuji pada M1 app; HTTPX provider nyata belum aktif |
+| python-multipart | Parsing form/upload teks | https://fastapi.tiangolo.com/tutorial/request-files/ | 0.0.33 / Apache-2.0 (metadata distribusi; detail notice pada inventaris) | Dipakai dan diuji pada M1 app; HTTPX provider nyata belum aktif |
+| pwdlib dengan Argon2 | Hash password platform | https://fastapi.tiangolo.com/tutorial/security/oauth2-jwt/ | 0.3.1 / MIT License (metadata distribusi; detail notice pada inventaris) | Dipakai dan diuji pada M1 app; HTTPX provider nyata belum aktif |
+| HTTPX | HTTP worker | https://www.python-httpx.org/ | 0.28.1 / BSD-3-Clause (metadata distribusi; detail notice pada inventaris) | Dipakai dan diuji pada M1 app; HTTPX provider nyata belum aktif |
 | Playwright/Chromium | Browser worker | https://playwright.dev/python/ | Catat versi paket dan browser, serta notice masing-masing | Direncanakan |
-| Jinja2 | Template UI chat dan halaman program | https://jinja.palletsprojects.com/ | Belum dipilih/diperiksa | Direncanakan |
-| Docker/Compose | Packaging lab | https://docs.docker.com/compose/ | CLI terdeteksi; daemon dan image belum diverifikasi | Rencana penggunaan |
+| Jinja2 | Template UI chat dan halaman program | https://jinja.palletsprojects.com/ | 3.1.6 / BSD License (metadata distribusi; detail notice pada inventaris) | Dipakai dan diuji pada M1 app; HTTPX provider nyata belum aktif |
+| Docker/Compose | Packaging lokal | https://docs.docker.com/compose/ | Engine 29.7.2 / Compose v5.3.1; image Python 3.11.18 dengan digest pada Dockerfile | App M1 build/health/restart lulus; worker/lab belum ada |
 | Qwen3-Coder | Penalaran model | https://qwenlm.github.io/blog/qwen3-coder/ | Catat model ID, inference provider, dan ketentuan endpoint | Belum dipanggil live |
 | OpenRouter | Akses API model | https://openrouter.ai/terms | Terms dan biaya diperiksa; key belum tersedia | Belum diaktifkan |
 | Gemini Developer API | Cadangan direct Free Tier; opsi primary/comparator sebelum freeze | https://aistudio.google.com/docs/pricing | Kandidat gemini-3.5-flash-lite; key, quota, ketentuan data dan tools akun belum diuji | Rencana adapter, belum dipakai |
@@ -36,11 +38,11 @@ Daftar ini merupakan rencana, bukan klaim seluruh kontribusi sudah selesai. Bant
 | xAI/Grok API | Provider opsional berbasis usage/kredit aktual | https://x.ai/api | Model/key/kredit/biaya belum ditetapkan; Playground bukan free tier API yang terkonfirmasi | Rencana adapter, default nonaktif |
 | Azure for Students / Microsoft Foundry | Kandidat kredit pendidikan dan inference model Azure | https://azure.microsoft.com/en-us/free/students/ | Aktivasi hibah, saldo, cakupan produk, deployment/model/version dan quota belum diverifikasi | Panduan apply tersedia, profil default nonaktif |
 | Sign in with ChatGPT | Opsi lanjutan plan usage pengguna eligible | https://developers.openai.com/siwc/token-sharing-open-source | Consent, registrasi, model/tool dan cap output belum diverifikasi; bukan kuota bersama backend | Belum masuk integrasi MVP awal |
-| pytest / pytest-asyncio | Pemeriksaan pengembangan | https://docs.pytest.org/ ; https://pytest-asyncio.readthedocs.io/ | Versi/lisensi aktual belum dikunci/diperiksa; bukan service produksi | Direncanakan, belum dipasang untuk proyek |
+| pytest / pytest-asyncio | Pemeriksaan development | https://docs.pytest.org/ ; https://pytest-asyncio.readthedocs.io/ | 9.2.0 MIT / 1.4.1.post1 Apache-2.0; metadata distribusi | 86 tes M1 lulus; tidak dipasang pada runtime image |
 
 Tabel tidak menyatakan semua komponen berlisensi sama atau semua kandidat telah menjadi dependensi. Catat lisensi versi aktual, notice, URL dan modifikasi sebelum menyalin/mendistribusikan komponen. Library runtime, browser binary, model weights dan layanan API mempunyai objek hak/ketentuan yang berbeda.
 
-Ringkasan stack dipilih pada 4 November 2026 di [prd.md](../prd.md). Penambahan tabel ini hanya inventaris rencana; tidak menjalankan instalasi, mengunduh image/browser atau membuat container.
+Ringkasan stack dipilih pada 4 November 2026 di [prd.md](../prd.md). Tabel sudah diperbarui untuk dependensi app aktual M1; komponen worker/browser dan layanan model tetap rencana. Requirements runtime/dev mengunci versi transitif, termasuk Argon2 bindings dan dependensi framework. Daftar file LICENSE/NOTICE relatif pada distribusi dicatat pada inventaris; paket tetap membawa notice upstream. Setuptools 84.2.1 dipin sebagai build backend, bukan runtime image. Distribusi/rilis masih perlu pemeriksaan notice Python/Debian/image dan pilihan lisensi kode asli proyek.
 
 ## 3. Skill pentest dari GitHub
 
@@ -69,3 +71,24 @@ Lisensi untuk kode asli proyek belum dipilih pengguna; belum ada file LICENSE pr
 Panduan yang dibaca: [Impeccable](https://github.com/pbakaus/impeccable) (LICENSE Apache-2.0 diperiksa), [Jakub Krehel](https://github.com/jakubkrehel/skills) (MIT), [Emil Kowalski](https://github.com/emilkowalski/skills) (MIT). File dan Git blob SHA yang dibaca ada pada [design-references.md](design-references.md). Tidak memasang CLI/plugin upstream atau menyalin source/template/asset mereka; menerapkan prinsip secara manual. Delapan referensi lain dinilai dan diposisikan pada dokumen yang sama.
 
 Source HTML/CSS/JS serta icon SVG sederhana dibuat untuk prototipe proyek ini. Font memakai system stack; tidak mengambil foto, webfont, template atau asset berbayar. Skill Sites bawaan dipakai sebagai panduan pembuatan prototipe lokal, tanpa hosting/registrasi Site. QA memakai Chromium dan playwright-core yang sudah tersedia pada host; bukan dependensi yang dibundel ke aplikasi. Versi aktual dan hasil QA dicatat di `ui-review.md`; ini tidak menyatakan Playwright worker produk sudah dipasang atau aman.
+
+
+## 7. Komponen OS untuk isolasi M2
+
+Worker/lab memakai image Python 3.11.18 dengan digest yang sama seperti M1. `iptables` 1.8.9-2 dan `util-linux` 2.38.1-5+deb12u3 (setpriv), beserta library sistem terkait, dipasang untuk bootstrap firewall namespace dan penurunan UID/capability. Versi aktual dan bagian lisensi dari file copyright terpasang ada pada [dependencies-m2.json](dependencies-m2.json). Paket ini memiliki lisensi campuran per file (antara lain GPL/LGPL/BSD/Artistic); tidak menyatakan semuanya MIT. File notice `/usr/share/doc/.../copyright` dipertahankan di image; kewajiban source/notice distribusi image diperiksa pada persiapan rilis M10. Belum ada paket/rilis image publik yang dibuat.
+
+HTTPX/aiosqlite/Pydantic/FastAPI/Uvicorn/pwdlib di worker/lab memakai requirements.lock yang sama, bukan SDK model baru. Tidak menyalin target latihan pihak ketiga atau memasang skill pentest. Portal, kontrak dan evaluator M2 dibuat untuk proyek dengan bantuan Codex. Label GT dataset, model/provider dan browser tidak menjadi dependensi worker M2.
+
+## Komponen UI/QA M3 - 5 November 2026
+
+UI backend memakai Jinja2/JavaScript/CSS dan aset baseline proyek tanpa runtime npm baru; `ui-prototype/` dipertahankan terpisah. QA host memakai instalasi `playwright-core` 1.64.1, metadata lisensi Apache-2.0, serta Chromium lokal; versi browser aktual dicatat di `artifacts/m3/ui-verification.json`. Paket/binary QA tidak disalin dari proyek host lain ke source, tidak dibundel dan tidak dipasang pada worker produk. Path dependensi dikonfigurasi melalui environment script. Browser worker/notice distribusinya tetap checkpoint M4/rilis; jangan menganggap QA host meluluskannya. M3 tidak menambah dependensi Python; inventaris M1/M2 tetap berlaku.
+
+## Komponen browser M4a - 5 November 2026
+
+Worker menambah Playwright Python **1.64.1** (Apache-2.0), greenlet **3.5.6** (MIT AND PSF-2.0) dan pyee **13.0.1** (MIT), berdasarkan metadata distribusi Linux terpasang. Chromium **156.0.8078.4**, revision **1248**, dipasang melalui installer Playwright yang versinya dikunci. Manifest paket juga mencantumkan browser lain; itu bukan klaim Firefox/WebKit telah diinstal. Hanya Chromium dipakai produk. Inventaris paket/notice dan 217 paket OS aktual ada pada [dependencies-m4.json](dependencies-m4.json).
+
+Profil `containers/chromium-seccomp.json` berasal dari [Microsoft Playwright v1.64.1](https://github.com/microsoft/playwright/blob/v1.64.1/utils/docker/seccomp_profile.json), Git blob `fddc05fb520affb145404e6f6f647ca96af8087d`, Apache-2.0, turunan default Docker. Modifikasi lokal menambahkan izin chroot untuk sandbox namespace setelah capability container dihapus. [Notice/provenance](../containers/CHROMIUM-SECCOMP-NOTICE.md) dan [lisensi upstream](../containers/PLAYWRIGHT-LICENSE) disertakan. Tidak mengklaim profil upstream sebagai karya tim, atau memakai seccomp unconfined/SYS_ADMIN/host IPC.
+
+Library/binary tetap membawa notice upstream di image; pemeriksaan notice/source distribusi Chromium/Debian/image dan freeze apt masih prasyarat rilis M10. Versi paket/browser diuji, tetapi inventaris ini bukan audit keamanan dependensi atau opini legal. Tidak menambahkan API model, skill pentest eksternal, target latihan pihak ketiga atau deployment cloud. Hasil aktual dan batas operator/UI pada [m4-verification.md](m4-verification.md).
+
+M4c (5 November) menambah tujuh fitur lab, migrasi, fixture dan evaluator lokal yang dibuat untuk proyek dengan bantuan Codex; tanpa target/payload pihak ketiga atau dependensi baru. Probe operator memakai Playwright/Chromium worker M4a yang sama. Inventaris paket M1/M2/M4a tetap berlaku; hash source dan ID image aktual dicatat privat pada artefak [M4c](m4c-verification.md). Source evaluator/manifest tidak disalin ke image produk.

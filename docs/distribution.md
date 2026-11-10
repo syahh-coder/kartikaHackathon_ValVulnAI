@@ -1,5 +1,9 @@
 # Rencana distribusi karya melalui GitHub
 
+**Kandidat lokal R4 tersedia, belum dipublikasikan:** [final-review.md](final-review.md) menautkan source ZIP/checksum, hasil setup/startup yang benar-benar dijalankan, quick start, slide HTML/PDF, thumbnail, tiga screenshot, preview WebM MOCK dan draft publikasi. [Bahan lokal](../submission/README.md). Lisensi asli, video final/link YouTube/slide publik dan hasil live/benchmark tetap pending. Isi “belum dibuat” di bawah adalah rencana distribusi terdahulu; tidak mengesahkan publikasi baru.
+
+**Urutan aktif 7 November 2026:** lanjutkan R1-R4 pada [scope submission](submission-scope.md), bukan mengulang M1/M3 atau menunggu 24 titik. Release harus menjelaskan triage AI teks, batas tiga subtype produk, dan benchmark fungsional mekanisme dikenal; M6 asli tetap sebagian. Source/data/service tidak diperbarui oleh keputusan dokumentasi ini.
+
 Status: keputusan kanal pada 3 November 2026, diperbarui 4 November 2026. **Link Karya menggunakan repository GitHub publik; tidak membuat live web, GitHub Pages, atau menyewa VPS untuk submission ini.** Repo publik tersedia di [syahh-coder/kartikaHackathon_ValVulnAI](https://github.com/syahh-coder/kartikaHackathon_ValVulnAI). Pengguna mengotorisasi push awal dokumentasi dan prototipe UI pada 4 November. Paket/release aplikasi dan kelengkapan submission belum dibuat; push awal ini tidak memulai backend.
 
 ## 1. Jalur penilaian yang dipilih
@@ -43,13 +47,13 @@ Rencanakan susunan berikut; jangan mengganti status sekarang menjadi seolah fitu
 - Konfigurasi model/provider, ketersediaan mode tanpa key, biaya/keterbatasan serta pemecahan masalah.
 - Arsitektur, metode evaluasi, hasil aktual, lisensi/atribusi dan deklarasi pre-existing.
 
-Perintah produk baru boleh disebut bekerja setelah diuji. Perintah membuka prototipe statis yang saat ini tersedia tetap terpisah pada [ui-prototype/README.md](../ui-prototype/README.md); bukan quick start backend yang belum ada.
+Perintah produk baru boleh disebut bekerja setelah diuji. Perintah membuka prototipe statis yang saat ini tersedia tetap terpisah pada [ui-prototype/README.md](../ui-prototype/README.md); terpisah dari quick start fondasi backend M1 yang kini tersedia pada README; paket MVP/release belum tersedia.
 
 ## 4. Paket lokal yang direncanakan
 
-Tujuan kemudahan setup: satu konfigurasi Compose untuk komponen yang dibutuhkan aplikasi lokal, tanpa orkestrasi cloud. Schema, pemisahan worker, policy dan jaringan tetap dimiliki [architecture.md](architecture.md). Jangan membangun Compose pada tahap perencanaan ini.
+Tujuan kemudahan setup: satu konfigurasi Compose untuk komponen yang dibutuhkan aplikasi lokal, tanpa orkestrasi cloud. Schema, pemisahan worker, policy dan jaringan tetap dimiliki [architecture.md](architecture.md). Tahap perencanaan ini sudah diikuti implementasi M1 lokal; Compose app telah diuji, worker/lab menyusul.
 
-Topologi, handoff volume dan batas worker dirinci di [runtime.md](runtime.md). Ini spesifikasi yang harus diuji saat implementasi, bukan klaim paket Compose sudah tersedia.
+Topologi, handoff volume dan batas worker dirinci di [runtime.md](runtime.md). Compose app tersedia pada M1; tiga service nyata, handoff dan isolasi HTTP sudah diuji M2. Browser serta paket rilis tetap checkpoint selanjutnya.
 
 Target pengalaman setelah prasyarat/config/seed awal siap adalah satu perintah `docker compose up -d --build` untuk menjalankan aplikasi normal. App, worker dan lab tidak memerlukan server Python/npm host terpisah; evaluator/scoring masih alat operator host di luar startup normal. Target ini baru boleh disebut bekerja sesudah cold start/restart diuji pada paket nyata.
 
@@ -58,7 +62,7 @@ Target pengalaman setelah prasyarat/config/seed awal siap adalah satu perintah `
 | Source aplikasi dan lab | Versi submission dapat ditelusuri ke tag/commit yang sama |
 | Konfigurasi | Contoh konfigurasi tanpa secret; nilai default demo diberi label |
 | Akun/seed | Identitas sintetis platform terpisah dari akun target; instruksi login/reset tersedia |
-| Report contoh | Probe development/demo yang tidak mencemari held-out; bukan seluruh 20 report final sebagai bahan tuning |
+| Report contoh | Contoh development/demo terpisah dari 20 teks final functional-v2; mekanismenya memang dikenal, tidak diklaim held-out akar masalah baru |
 | Evidence contoh | Hasil autentik yang sudah direduksi bila tersedia; fixture/replay diberi asal dan mode |
 | Dependensi/image | Versi yang dikunci; jelaskan unduhan awal dan apakah build butuh internet |
 | Arsip release | ZIP paket versi tertentu dan checksum; bukan salinan cache, database runtime atau seluruh folder kerja |
@@ -100,10 +104,10 @@ Setup lokal memberi juri langkah tambahan dibanding aplikasi hosted. Kurangi ham
 
 ## 7. Urutan kerja dan batas otorisasi
 
-1. Sekarang: push awal dokumentasi dan UI ke repo yang diberikan pengguna; tanpa deployment atau release aplikasi.
+1. Riwayat: push awal dokumentasi/UI telah dilakukan pada 4 November; ini bukan otorisasi push/release baru.
 2. UI baseline sudah dinyatakan fix oleh pengguna pada 4 November 2026; perbaikan boleh menyusul, tanpa konfirmasi UI ulang untuk M1.
-3. Mulai M1 lokal di chat baru sesuai [implementation.md](implementation.md) dan prompt handoff; kategori, model live/evaluasi serta rilis tetap mengikuti dependensi dan batas otorisasi masing-masing.
-4. Pada M10, susun paket, video, slide serta gambar dari hasil aktual dan lakukan pemeriksaan rilis.
+3. M1-M5 selesai teknis lokal; M6 sebagian. Kerjakan R1 adapter/triage teks sesuai [implementation.md](implementation.md) dan [prompt aktif](execution-prompt.md); akses live/GT tetap diverifikasi terpisah.
+4. Pada R4 (pengemasan submission), susun paket, video, slide serta gambar dari hasil aktual dan lakukan pemeriksaan rilis. Tidak mensyaratkan kelulusan backlog M6 asli; keterbatasannya wajib terlihat.
 5. Setelah paket siap ditinjau, publikasi release dan pengisian platform mengikuti otorisasi pengguna. Otorisasi push awal tidak berarti paket submission sudah siap atau platform sudah diisi.
 
 Cloud deployment, domain, tunnel laptop, GitHub Pages dan VPS tidak masuk jalur submission yang dipilih. Perubahan kebutuhan tersebut harus menjadi keputusan baru yang dicatat, bukan dependensi tersembunyi.

@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "notes": "Operator-maintained metadata only. Not runtime context, GT, fresh reproduction or benchmark approval.",
+  "entries": [
+    {"id":"BAC-01","category":"BAC","allocation":"evaluation","status":"PLANNED","root_cause_group":null,"verification_document":null},
+    {"id":"BAC-02","category":"BAC","allocation":"evaluation","status":"PLANNED","root_cause_group":null,"verification_document":null},
+    {"id":"BAC-03","category":"BAC","allocation":"evaluation","status":"PLANNED","root_cause_group":null,"verification_document":null},
+    {"id":"BAC-04","category":"BAC","allocation":"evaluation","status":"PLANNED","root_cause_group":null,"verification_document":null},
+    {"id":"BAC-05","category":"BAC","allocation":"non_benchmark","status":"PLANNED","root_cause_group":null,"verification_document":null},
+    {"id":"BAC-06","category":"BAC","allocation":"non_benchmark","status":"PLANNED","root_cause_group":null,"verification_document":null},
+    {"id":"BAC-07","category":"BAC","allocation":"non_benchmark","status":"PLANNED","root_cause_group":null,"verification_document":null},
+    {"id":"BAC-08","category":"BAC","allocation":"development","status":"OPERATOR_REPRODUCED","root_cause_group":"attachment-delete-owner-check","verification_document":"docs/m2-verification.md"},
+    {"id":"XSS-01","category":"XSS","allocation":"evaluation","status":"OPERATOR_REPRODUCED","root_cause_group":"html-element-output","verification_document":"docs/m4c-verification.md"},
+    {"id":"XSS-02","category":"XSS","allocation":"evaluation","status":"OPERATOR_REPRODUCED","root_cause_group":"html-element-output","verification_document":"docs/m4c-verification.md"},
+    {"id":"XSS-03","category":"XSS","allocation":"evaluation","status":"OPERATOR_REPRODUCED","root_cause_group":"html-element-output","verification_document":"docs/m4c-verification.md"},
+    {"id":"XSS-04","category":"XSS","allocation":"evaluation","status":"OPERATOR_REPRODUCED","root_cause_group":"html-element-output","verification_document":"docs/m4c-verification.md"},
+    {"id":"XSS-05","category":"XSS","allocation":"non_benchmark","status":"OPERATOR_REPRODUCED","root_cause_group":"html-element-output","verification_document":"docs/m4c-verification.md"},
+    {"id":"XSS-06","category":"XSS","allocation":"non_benchmark","status":"OPERATOR_REPRODUCED","root_cause_group":"html-attribute-output","verification_document":"docs/m4c-verification.md"},
+    {"id":"XSS-07","category":"XSS","allocation":"non_benchmark","status":"OPERATOR_REPRODUCED","root_cause_group":"dom-fragment-innerhtml","verification_document":"docs/m4c-verification.md"},
+    {"id":"XSS-08","category":"XSS","allocation":"development","status":"OPERATOR_REPRODUCED","root_cause_group":"dom-fragment-innerhtml","verification_document":"docs/m4b-verification.md"},
+    {"id":"UP-01","category":"UPLOAD","allocation":"evaluation","status":"OPERATOR_REPRODUCED","root_cause_group":"upload-active-content-origin","verification_document":"docs/m5-verification.md"},
+    {"id":"UP-02","category":"UPLOAD","allocation":"non_benchmark","status":"OPERATOR_REPRODUCED","root_cause_group":"upload-active-content-origin","verification_document":"docs/m5-verification.md"},
+    {"id":"UP-03","category":"UPLOAD","allocation":"non_benchmark","status":"OPERATOR_REPRODUCED","root_cause_group":"upload-shared-filename-storage","verification_document":"docs/m5-verification.md"},
+    {"id":"UP-04","category":"UPLOAD","allocation":"development","status":"OPERATOR_REPRODUCED","root_cause_group":"html-element-output","verification_document":"docs/m5-verification.md"},
+    {"id":"BL-01","category":"BUSINESS_LOGIC","allocation":"evaluation","status":"PLANNED","root_cause_group":null,"verification_document":null},
+    {"id":"BL-02","category":"BUSINESS_LOGIC","allocation":"non_benchmark","status":"PLANNED","root_cause_group":null,"verification_document":null},
+    {"id":"BL-03","category":"BUSINESS_LOGIC","allocation":"non_benchmark","status":"PLANNED","root_cause_group":null,"verification_document":null},
+    {"id":"BL-04","category":"BUSINESS_LOGIC","allocation":"development","status":"PLANNED","root_cause_group":null,"verification_document":null}
+  ]
+}

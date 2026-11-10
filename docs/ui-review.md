@@ -2,6 +2,8 @@
 
 QA prototipe: 3 November 2026. Status terbaru **4 November 2026: pengguna menerima UI sebagai baseline fix untuk mulai backend**, dengan perbaikan berikutnya tetap boleh. Gate UI sudah terpenuhi; M1 dimulai di chat baru tanpa konfirmasi UI ulang. Ini persetujuan baseline visual/alur, bukan verifikasi backend atau model.
 
+Pembaruan backend M2 dicatat terpisah pada [m2-verification.md](m2-verification.md): worker HTTP/lab dan isolasi sudah diuji operator, bukan QA browser UI produk. Baseline ui-prototype tetap tidak diubah pada M1-M2.
+
 ## Artefak
 
 - [Halaman interaktif](../ui-prototype/dist/index.html) dan [cara membuka](../ui-prototype/README.md).
@@ -45,7 +47,7 @@ Browser: Chromium **156.0.8078.4** dari cache host. Harness: playwright-core **1
 
 - Pemeriksaan visual/interaksi rinci yang belum tercakup QA tetap terbatas; pengguna sudah menerima baseline pada 4 November. Persetujuan pengguna tidak disamakan dengan audit aksesibilitas atau keamanan lengkap.
 - Screen reader NVDA/VoiceOver, perangkat sentuh fisik, zoom browser 200%, Firefox/Safari dan seluruh kombinasi kontras.
-- Autentikasi, otorisasi/ownership server, policy, worker, Docker, bukti nyata atau model live. Seluruh acceptance criteria pada [security-review.md](security-review.md) tetap BELUM DIUJI; penambahan checklist desain tidak berarti tes runtime lulus.
+- Autentikasi, otorisasi/ownership server, policy, worker, Docker, bukti nyata atau model live. M1 kemudian menguji fondasi auth/API/app Docker secara terpisah; lihat [hasil M1](m1-verification.md). Itu bukan QA browser UI backend atau worker/model live. Status per acceptance criteria pada [security-review.md](security-review.md).
 - Pemrosesan file PDF/OCR, durable storage, pemulihan draft setelah reload atau sinkronisasi antartab.
 
 ## Review pengguna sebelum lanjut
@@ -63,3 +65,11 @@ Palet grafit + sage dipilih pengguna dan baseline UI sudah diterima secara ekspl
 Pengguna meminta nama model terlihat di samping keterangan mode. Header kini menampilkan Qwen3-Coder di samping Simulasi; klik label membuka ID `qwen/qwen3-coder`, akses rencana OpenRouter dan status belum terhubung. Nama/provider adalah konfigurasi rencana, bukan model yang telah dipanggil. Tidak menambah model selector atau akses API.
 
 Pemeriksaan browser khusus revisi pada 320, 390, 768, 1366 dan 1440 px: label tetap dalam header, tanpa overflow horizontal; dialog detail dibuka/ditutup dan focus kembali ke tombol model. Tidak ada page error atau request eksternal. Screenshot pratinjau dan `qa-results.json` diperbarui. Pada saat QA 3 November, status masih menunggu review; konfirmasi baseline diberikan pengguna pada 4 November. Tidak menjalankan ulang QA browser hanya untuk perubahan status dokumentasi ini.
+
+## QA UI backend M3 - 5 November 2026
+
+UI produk pada app kini memakai session/role dan API aktual, dengan tampilan baseline grafit/sage. Login hunter/admin, pilih program, chat/upload, draft reload/navigasi, validasi BAC, polling terminal, review/publikasi dan ekspor diuji di Chromium host. Lima viewport: 320/390/768/1366/1440; tiga screenshot lokal. Laporan dan response ditampilkan inert; evidence hanya admin, export hunter memakai ringkasan tersanitasi. Respons sesi/polling/navigasi lama ditolak. Hasil/version/artefak dan kegagalan yang diperbaiki pada [m3-verification.md](m3-verification.md). Ini bukan browser worker atau integrasi model live; `ui-prototype/` tetap simulasi terpisah.
+
+## UI evidence M4a - 5 November 2026
+
+QA Chromium host pada bukti browser operator aktual lulus: admin membuka BROWSER_PROBE sebagai JSON teks, termasuk HTML/nonce/base64 screenshot, tanpa node img/script aktif. Hunter ditolak pada evidence/ekspor run admin. Nol page error/request eksternal; tidak membuat run/request target baru. Artefak privat artifacts/m4/ui-evidence-verification.json dan admin-evidence-ui.png; [hasil M4a](m4-verification.md). Ini pemeriksaan rendering/privasi, belum alur validasi atau publikasi XSS milik hunter melalui UI.

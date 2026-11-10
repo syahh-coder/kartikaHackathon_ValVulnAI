@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="id" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Validasi laporan pada lab sintetis lokal.">
+  <meta name="color-scheme" content="dark light">
+  <title>ValVuln AI</title>
+  <link rel="icon" href="/static/mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/static/styles.css">
+  <link rel="stylesheet" href="/static/workspace.css">
+  <script src="/static/icons.js" defer></script>
+  <script src="/static/triage.js" defer></script>
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Lewati navigasi</a>
+  <div class="prototype-bar">
+    <div class="prototype-label"><span class="prototype-dot"></span><strong>Lab sintetis lokal</strong><span class="prototype-explanation" id="runtime-label">Memuat status triage dan planner…</span></div>
+    <button id="logout" class="text-button" type="button" hidden>Keluar</button>
+  </div>
+  <div class="app-shell" id="app-shell">
+    <aside class="sidebar" aria-label="Navigasi program">
+      <div class="brand"><span class="brand-mark" data-icon="mark"></span><span>ValVuln <span class="brand-ai">AI</span></span><button type="button" id="sidebar-close" class="icon-button mobile-only" aria-label="Tutup navigasi" data-icon="close"></button></div>
+      <button class="workspace-switch" type="button" id="workspace-switch"><span class="workspace-symbol" data-icon="box"></span><span><strong>Portal Pengadaan</strong><small>Lab demo</small></span><span class="workspace-chevron" data-icon="chevrons"></span></button>
+      <button class="new-report" type="button" id="new-report" aria-keyshortcuts="Alt+N"><span data-icon="plus"></span>Laporan baru<span class="key-hint" aria-hidden="true">Alt N</span></button>
+      <nav class="admin-nav" id="admin-nav" aria-label="Administrasi" hidden><button type="button" data-view="reports"><span data-icon="inbox"></span>Laporan program</button><button type="button" data-view="guidelines"><span data-icon="sliders"></span>Guideline program</button></nav>
+      <div class="history-label"><span id="history-label">Laporan saya</span><button type="button" class="icon-button compact" id="search-toggle" aria-label="Cari percakapan" aria-expanded="false" data-icon="search"></button></div>
+      <div class="history-search" id="history-search" hidden><label class="sr-only" for="history-query">Cari percakapan</label><input id="history-query" type="search" placeholder="Cari laporan…" autocomplete="off"></div>
+      <nav class="conversation-list" id="conversation-list" aria-label="Percakapan laporan"></nav>
+      <div class="sidebar-bottom"><button type="button" class="guide-link" id="sidebar-guide"><span data-icon="book"></span>Panduan program<span data-icon="arrow-up-right"></span></button><div class="account-row"><span class="avatar">UK</span><span class="account-copy"><strong id="account-name">Belum masuk</strong><small id="account-role">Bug hunter</small></span><button id="theme-toggle" class="icon-button" type="button" aria-label="Gunakan tema terang" data-icon="sun"></button></div></div>
+    </aside>
+    <button class="sidebar-scrim" id="sidebar-scrim" type="button" aria-label="Tutup navigasi" hidden></button>
+    <div class="workspace-main">
+      <header class="topbar"><button class="icon-button mobile-only" id="sidebar-open" type="button" aria-label="Buka navigasi" aria-expanded="false" data-icon="menu"></button><div class="program-heading"><span class="program-name">Portal Pengadaan &amp; Logistik</span><span class="program-subtitle">Ruang validasi laporan</span></div><div class="topbar-actions"><div class="run-context"><span class="mode-label"><span class="status-dot"></span>Mock</span><button type="button" class="model-label" id="model-info" aria-label="Status model dari server" title="Bukan model live">Belum ada run</button></div><button type="button" class="scope-button" id="scope-button" aria-label="Scope program"><span data-icon="book"></span><span>Scope program</span></button></div></header>
+      <div class="notification" id="notification" role="status" aria-live="polite"></div>
+      <main id="main-content" tabindex="-1">
+        <section class="chat-view" id="chat-view" aria-label="Percakapan validasi">
+          <div class="chat-scroll" id="chat-scroll"><div class="chat-content" id="chat-content"></div></div>
+          <div class="composer-region" id="composer-region">
+            <div class="composer-width"><div id="attachment-preview" class="attachment-preview" hidden></div><form id="composer-form" class="composer"><label class="sr-only" for="message-input">Tulis laporan atau pertanyaan</label><textarea id="message-input" placeholder="Tulis laporan atau tanyakan sesuatu…" rows="2" maxlength="32000" aria-describedby="composer-help"></textarea><div class="composer-tools"><div class="composer-left"><button type="button" class="icon-button attach-button" id="attach-button" aria-label="Lampirkan laporan TXT atau MD" data-icon="paperclip"></button><span class="file-hint">TXT / MD · maks. 128 KiB</span></div><button type="submit" class="send-button" id="send-button" aria-label="Kirim pesan" data-icon="arrow-up"></button></div><input type="file" id="file-input" accept=".txt,.md,text/plain,text/markdown" hidden></form><p class="composer-error" id="composer-error" role="alert"></p><div class="composer-caption"><span id="composer-help">Scope diperiksa sebelum pengujian internal.</span><span><kbd>Enter</kbd> kirim · <kbd>Shift Enter</kbd> baris baru</span></div></div>
+          </div>
+        </section>
+        <section class="page-view" id="page-view" hidden></section>
+      </main>
+    </div>
+  </div>
+  <dialog id="detail-dialog" class="detail-dialog" aria-labelledby="dialog-title"><div class="dialog-header"><div><span class="dialog-kicker" id="dialog-kicker"></span><h2 id="dialog-title"></h2></div><button type="button" class="icon-button" id="dialog-close" aria-label="Tutup panel" data-icon="close"></button></div><div class="dialog-body" id="dialog-body"></div></dialog>
+  <dialog id="login-dialog" class="login-dialog" aria-labelledby="login-title"><div class="login-brand"><span class="brand-mark" data-icon="mark"></span>ValVuln AI</div><h2 id="login-title">Kembali ke ruang kerja.</h2><p>Masuk untuk melanjutkan pemeriksaan laporan.</p><form id="login-form"><label for="login-name">Username</label><input id="login-name" name="username" autocomplete="username" placeholder="Username akun program" required><label for="login-password">Password</label><input id="login-password" name="password" type="password" autocomplete="current-password" placeholder="Masukkan password" required><button class="primary-button" type="submit">Masuk <span data-icon="arrow-right"></span></button></form><p id="login-error" role="alert"></p><p class="login-note">Gunakan akun demo yang di-seed operator. Role ditentukan server.</p></dialog>
+  <noscript><p class="noscript-message">Antarmuka memerlukan JavaScript. Model live belum terhubung.</p></noscript>
+</body>
+</html>

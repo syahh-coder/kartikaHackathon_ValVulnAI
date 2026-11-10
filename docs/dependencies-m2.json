@@ -1,0 +1,103 @@
+{
+  "source": "dpkg-query and packaged copyright files; not a vulnerability or legal audit",
+  "python_packages": "Same pins as requirements.lock / dependencies-m1.json",
+  "os_packages": [
+    {
+      "package": "iptables",
+      "version": "1.8.9-2",
+      "license_sections": [
+        "License: Artistic",
+        "License: GPL-2",
+        "License: GPL-2+",
+        "License: custom"
+      ],
+      "notice_path": "/usr/share/doc/iptables/copyright"
+    },
+    {
+      "package": "util-linux",
+      "version": "2.38.1-5+deb12u3",
+      "license_sections": [
+        "License: BSD-3-clause",
+        "License: BSD-4-clause",
+        "License: BSLA",
+        "License: GPL-2",
+        "License: GPL-2+",
+        "License: GPL-3+",
+        "License: LGPL",
+        "License: LGPL-2+",
+        "License: LGPL-2.1+",
+        "License: LGPL-3+",
+        "License: MIT",
+        "License: public-domain"
+      ],
+      "notice_path": "/usr/share/doc/util-linux/copyright"
+    },
+    {
+      "package": "libip4tc2",
+      "version": "1.8.9-2",
+      "license_sections": [
+        "License: Artistic",
+        "License: GPL-2",
+        "License: GPL-2+",
+        "License: custom"
+      ],
+      "notice_path": "/usr/share/doc/libip4tc2/copyright"
+    },
+    {
+      "package": "libip6tc2",
+      "version": "1.8.9-2",
+      "license_sections": [
+        "License: Artistic",
+        "License: GPL-2",
+        "License: GPL-2+",
+        "License: custom"
+      ],
+      "notice_path": "/usr/share/doc/libip6tc2/copyright"
+    },
+    {
+      "package": "libmnl0",
+      "version": "1.0.4-3",
+      "license_sections": [
+        "License: GPL-2+",
+        "License: LGPL-2.1"
+      ],
+      "notice_path": "/usr/share/doc/libmnl0/copyright"
+    },
+    {
+      "package": "libxtables12",
+      "version": "1.8.9-2",
+      "license_sections": [
+        "License: Artistic",
+        "License: GPL-2",
+        "License: GPL-2+",
+        "License: custom"
+      ],
+      "notice_path": "/usr/share/doc/libxtables12/copyright"
+    },
+    {
+      "package": "libnfnetlink0",
+      "version": "1.0.2-2",
+      "license_sections": [
+        "License: GPL-2.0+"
+      ],
+      "notice_path": "/usr/share/doc/libnfnetlink0/copyright"
+    },
+    {
+      "package": "libnftnl11",
+      "version": "1.2.4-2",
+      "license_sections": [
+        "License: GPL-2",
+        "License: GPL-2+"
+      ],
+      "notice_path": "/usr/share/doc/libnftnl11/copyright"
+    },
+    {
+      "package": "libnetfilter-conntrack3",
+      "version": "1.0.9-3",
+      "license_sections": [
+        "License: GPL-2+"
+      ],
+      "notice_path": "/usr/share/doc/libnetfilter-conntrack3/copyright"
+    }
+  ]
+}

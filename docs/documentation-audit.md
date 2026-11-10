@@ -1,8 +1,26 @@
 # Audit dokumentasi sebelum backend
 
+## Penyesuaian scope setelah M6 - 7 November 2026
+
+Pengguna meminta solusi M6 lalu menyetujui rekomendasi penyempitan dan pembaruan dokumentasi/prompt. [Scope submission](submission-scope.md) kini memisahkan target 24 titik/M6 asli sebagai backlog dari R1 adapter/triage teks, R2 UI/ringkasan bukti, R3 functional-v2 dan R4 paket. BUSINESS_LOGIC LAB tetap unsupported dan hitungan historis tetap 13/24. Fitur review bisnis tidak dijadikan pengganti kelengkapan M6.
+
+`evaluation.md` kini protokol fungsional 20 teks 10/10, alokasi 8/8/4 pada BAC-08/XSS-08/UP-04, A dokumen versus B dokumen+observasi. Model tidak memicu worker. Paparan mekanisme development diungkap; tidak mengklaim held-out akar masalah baru. Prediksi model dibanding GT, hasil verifier terpisah. Protokol lama disimpan di [evaluation-v1.md](evaluation-v1.md), handoff lama di [execution-prompt-history.md](execution-prompt-history.md). Gate katalog/riwayat grup/manifest lama dipertahankan, bukan dilonggarkan agar lulus.
+
+`execution-prompt.md` diganti dengan satu batch R1 yang konkret, termasuk schema/error/redaksi/ownership/ledger dan nol aksi target. Root AGENTS/plan/PRD/README serta dokumen arsitektur/runtime/security/flow/desain/lab/distribusi/checklist mendapat penunjuk keputusan aktif. Ini perubahan rencana/dokumentasi saja: tidak mengubah source produk, data/Compose, status GT, konfigurasi model, pemanggilan API, commit/push atau deployment. Pemeriksaan format/link/konsistensi dilakukan setelah edit; hasilnya dilaporkan terpisah dari tes aplikasi historis.
+
+Pemeriksaan dokumen 7 November lulus: 41 Markdown terbaca UTF-8, 320 link lokal tanpa target hilang dan tidak ada fence terbuka/karakter pengganti. Contoh alokasi 20/10/10 dan F1 16/19 diperiksa secara aritmetika. Hash sebelum/sesudah sama untuk katalog, riwayat development, source gate katalog dan Compose; status tetap 13 OPERATOR_REPRODUCED/11 PLANNED. `git diff --check` lulus dengan pengecualian spasi hard break Markdown yang disengaja. Tidak menjalankan tes aplikasi/target/model karena perubahan hanya dokumentasi; hasil tes historis tidak disebut pengujian ulang.
+
+## Riwayat audit sebelum perubahan scope
+
+**Pembaruan M4c, 5 November 2026:** M1-M4 selesai teknis lokal; 180 tes dan tujuh titik XSS tambahan/kontrol Chromium lulus. Total sembilan dari 24 titik direproduksi operator; 15 titik lain pending. [Hasil M4c](m4c-verification.md). Cakupan planner/UI tetap BAC/XSS-08 mock, data GT/model live/benchmark belum tersedia. Sumber status di README, plan/PRD, implementation, peta lab dan handoff diselaraskan; audit sebelum implementasi di bawah tetap riwayat.
+
 Tanggal: **3 November 2026**. Lingkup: seluruh Markdown proyek, status prototipe, konsistensi arsitektur/evaluasi dan kesiapan rencana submission. Tidak membangun backend/lab, menghubungi target, membeli kredit atau menjalankan model live.
 
-**Status terbaru 4 November 2026:** pengguna sudah menyatakan UI fix sebagai baseline untuk mulai backend, sambil membolehkan perbaikan berikutnya. Gate UI pada catatan audit lama di bawah sudah terselesaikan; prompt handoff M1 tidak perlu meminta persetujuan UI ulang. Backend tetap belum dimulai pada turn konfirmasi/dokumentasi ini.
+**Pembaruan setelah M2, 4 November 2026:** lab BAC-08, worker HTTP/handoff/isolasi dan crash setelah mutasi sudah direproduksi operator; lihat [hasil M2](m2-verification.md). Model live/benchmark/GT manusia belum tersedia. Catatan audit lama di bawah tetap riwayat.
+
+**Pembaruan setelah eksekusi M1, 4 November 2026:** fondasi app lokal selesai dengan mock dan 86 tes, termasuk smoke Docker/persistensi. Lihat [hasil M1](m1-verification.md). Audit di bawah adalah riwayat sebelum implementasi.
+
+**Status saat handoff 4 November 2026:** pengguna sudah menyatakan UI fix sebagai baseline untuk mulai backend, sambil membolehkan perbaikan berikutnya. Gate UI pada catatan audit lama di bawah sudah terselesaikan; prompt handoff M1 tidak perlu meminta persetujuan UI ulang. Backend tetap belum dimulai pada turn konfirmasi/dokumentasi ini.
 
 **Catatan perubahan 4 November 2026:** angka 40 laporan/80 run pada catatan audit 3 November di bawah adalah snapshot lama. Target aktif telah dikurangi pengguna menjadi **20 laporan (10 valid/10 tidak valid), 40 run A/B**, dengan batas awal hingga 260 panggilan model sebelum development/chat. Target lab 24 titik belum diubah. Rancangan aktif mengikuti evaluation.md dan plan.md; catatan historis ini tidak menggantikannya.
 

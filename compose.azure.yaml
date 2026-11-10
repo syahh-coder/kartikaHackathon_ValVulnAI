@@ -1,0 +1,13 @@
+# Explicit overlay for the EXISTING valvuln-review preview_data ledger/volume.
+# Never use a new project name to bypass accumulated cost reservations.
+# docker compose -p valvuln-review -f compose.preview.yaml -f compose.azure.yaml up -d --build app
+services:
+  app:
+    env_file:
+      - path: .env.azure
+        required: true
+    environment:
+      VALVULN_TRIAGE_MODE: live
+      VALVULN_TRIAGE_PROVIDER: azure
+      VALVULN_EXECUTION_MODE: mock
+      VALVULN_DISPATCHER_ENABLED: "false"

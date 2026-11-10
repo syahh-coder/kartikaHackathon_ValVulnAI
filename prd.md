@@ -1,6 +1,10 @@
 # PRD ValVuln AI
 
-Tanggal: **4 November 2026**. Tim: **ukas and codex vs everbody**. Status: spesifikasi produk dan pilihan stack untuk MVP; belum ada backend, Compose, database produk atau model live yang dibangun/diuji. Prototipe UI masih simulasi, tetapi pengguna sudah menyatakan **fix sebagai baseline untuk mulai backend**, dengan perbaikan berikutnya tetap boleh. Gate UI terpenuhi; eksekusi M1 dilakukan di chat baru, bukan pada turn konfirmasi dokumen ini.
+**Pilihan provider terbaru7 November:** pengguna meminta Microsoft Azure Foundry melalui Azure for Students. Adapter Azure TEXT-ONLY untuk triage/prediksi dan konfigurasi privat sudah CODE_TESTED; model/deployment/akses kredit belum dipilih atau diverifikasi pada akun. Jalur OpenRouter tetap tersedia dengan pemilihan eksplisit, tanpa fallback otomatis. Biaya Azure belum terverifikasi ditahan sebagai reservasi penuh COST_UNKNOWN. [Setup pengguna](docs/azure-setup.md), [hasil tes](docs/azure-verification.md). Tidak memperluas model menjadi eksekutor target atau mengubah batas Rp50.000.
+
+**Cakupan submission aktif 7 November 2026:** [submission-scope.md](docs/submission-scope.md) menggantikan scope kategori/gate kelengkapan lama: triage AI teks, tiga jalur produk terdaftar BAC-08/XSS-08/UP-04 yang sudah ada, dan ringkasan bukti. BUSINESS_LOGIC LAB dan sisa 24 titik menjadi backlog; M6 DEFERRED untuk submission. Model tidak memicu worker/tools. Target functional-v2 20 teks 10/10 alokasi 8/8/4 pada mekanisme dikenal; bukan held-out akar masalah baru. [R1 CODE_TESTED](docs/r1-verification.md) dan [R2 CODE_TESTED/QA lokal lulus](docs/r2-verification.md); live belum diverifikasi, berikutnya R3. Ringkasan R2 buatan aplikasi dari observasi tersimpan, bukan ringkasan AI/verdict baru. Stack/topologi/source schema tetap 005, tanpa update data/service aktif. Status 6 November di bawah tetap riwayat/backlog bila bertentangan dengan keputusan scope baru.
+
+Tanggal: **6 November 2026**. Tim: **ukas and codex vs everbody**. Status: M1-M5 selesai teknis lokal; M6 sebagian. [Review rekaman bisnis dan workflow langkah admin](docs/business-record-review.md) tersedia di produk, 172 tes serta QA desktop/mobile lulus; app Compose diperbarui, 37 riwayat run/ledger utuh, worker/lab tetap M5. Workflow administratif menggunakan konteks schema/hash dan versi asal, tanpa eksekusi target/model/verdict kerentanan. Validasi LAB tetap BAC-08, XSS-08 dan UP-04 dengan planner mock. Total 13/24 titik, 11 PLANNED, grouping belum siap; validator BUSINESS_LOGIC LAB, GT manusia, model live dan benchmark belum tersedia.
 
 Dokumen ini menjadi ringkasan kebutuhan produk dan **pemilik keputusan tech stack**. Schema/izin/API berada di [architecture.md](docs/architecture.md), detail runtime di [runtime.md](docs/runtime.md), dan urutan implementasi di [implementation.md](docs/implementation.md). Tidak menggandakan seluruh kontrak ke PRD.
 
@@ -38,7 +42,7 @@ Scope kategori: BAC/IDOR, XSS, file upload dan business logic pada subtype yang 
 | Migrasi | File SQL bernomor + catatan schema version | Migrasi eksplisit dan dapat diperiksa; prosedur bootstrap/backup diuji sebelum rilis |
 | Password platform | pwdlib dengan Argon2 | Hash password; session opaque acak disimpan server-side, bukan JWT login MVP |
 | Agent/workflow | State machine Python + adapter provider | Satu orchestrator; policy tidak diserahkan kepada prompt/model |
-| Model/API | OpenRouter utama, Gemini direct cadangan; OpenAI API dan xAI opsional | Provider adapter terpisah, model/biaya eksplisit; mock dahulu, belum ada integrasi live |
+| Model/API | OpenRouter teks pada source R1; provider lain tetap rencana | Model/biaya eksplisit, CODE_TESTED dengan HTTP simulasi; live belum diverifikasi |
 | HTTP | HTTPX async | Client provider pada app; client target terpisah pada worker |
 | Browser target | Playwright Python + Chromium | Hanya di worker; browser bukan container/service keempat |
 | Antrean | SQLite pada app + satu dispatcher async | Tidak membutuhkan Redis/Celery; job/action dikirim melalui volume handoff |
@@ -46,13 +50,13 @@ Scope kategori: BAC/IDOR, XSS, file upload dan business logic pada subtype yang 
 | Pemeriksaan | pytest + pytest-asyncio, Playwright sesuai kebutuhan | Policy, auth, state, evidence, biaya, metrik dan alur UI yang relevan |
 | Evaluator | CLI Python di host operator | GT dan scoring tidak menjadi tool/route model atau service yang terus berjalan |
 
-Nama paket di atas adalah pilihan implementasi, **belum dependensi yang dipasang**. Patch/minor paket, Python image/digest dan build Chromium dikunci saat milestone terkait setelah kompatibilitas Python 3.11 diperiksa. Versi browser Playwright harus cocok dengan paketnya. Lisensi/notice aktual dicatat di [third-party.md](docs/third-party.md). Database SQLite menggunakan engine yang tersedia pada build Python; tidak memasang paket bernama sqlite3 dari PyPI.
+Dependensi app M1 sudah dipasang dan dipin pada pyproject.toml serta requirements.lock; worker/lab M2 memakai pin yang sama; M4a menambah requirements-worker.lock khusus Playwright/Chromium worker, dengan [inventaris M4](docs/dependencies-m4.json). Inventaris aktual: [dependencies-m1.json](docs/dependencies-m1.json). Patch/minor paket, Python image/digest dan build Chromium dikunci saat milestone terkait setelah kompatibilitas Python 3.11 diperiksa. Versi browser Playwright harus cocok dengan paketnya. Lisensi/notice aktual dicatat di [third-party.md](docs/third-party.md). Database SQLite menggunakan engine yang tersedia pada build Python; tidak memasang paket bernama sqlite3 dari PyPI.
 
 Pemilihan SQLite didasarkan pada aplikasi lokal dengan penulisan terbatas; SQLite membatasi satu writer pada satu waktu. Antrean harus memakai transaksi pendek dan diuji terhadap double-submit/concurrency. Ini keputusan desain proyek, bukan bukti throughput aktual. Dasar: [SQLite appropriate uses](https://www.sqlite.org/whentouse.html) dan [aiosqlite](https://aiosqlite.omnilib.dev/en/stable/).
 
 ### 3.1 Provider AI dan status akses
 
-Permintaan pengguna 4 November 2026 menambahkan pilihan provider dan fallback. Semuanya **rancangan adapter**, belum dipasang, diberi key, atau diuji live. Penambahan provider tidak menambah container dan tidak mengubah budget total Rp50.000.
+Permintaan pengguna 4 November 2026 menambahkan pilihan provider dan fallback. M1 menyediakan kontrak/simulasi adapter planner. R1 kini menyediakan source transport OpenRouter nyata untuk triage **teks saja**, diuji dengan HTTP simulasi; key/akses dan LIVE_VERIFIED belum tersedia. Provider lain dan planner live tetap belum diimplementasikan. Jalur triage tidak memakai fallback provider atau tools dan tidak mengubah container/budget total Rp50.000. [Kontrak/konfigurasi R1](docs/r1-verification.md).
 
 | Profil provider | Model/akses rencana | Status gratis dan peran |
 | --- | --- | --- |
@@ -88,7 +92,7 @@ Gemini free tier dipakai hanya dengan data sintetis; ketentuan pemanfaatan data 
 | worker | Tools HTTP, Playwright/Chromium, session akun target, capture | Tanpa port host; hanya jaringan lab_internal | Inbox read-only, outbox read-write dan konfigurasi/akun alias minimum read-only |
 | lab | Portal dummy FastAPI/Jinja2, aturan bisnis dan kondisi target | Port internal 8001; tanpa port host; jaringan lab_internal | lab_data sendiri |
 
-Port tersebut **default rancangan**, belum URL aplikasi yang bekerja; konflik port diperiksa pada M1. App bind di dalam container agar port mapping dapat melayani host, tetapi port host hanya loopback. Nama DNS service lab menjadi binding origin operator, bukan URL bebas dari report.
+Port app **127.0.0.1:8000** sudah diverifikasi pada M1. Lab M2 melayani port internal 8001 tanpa port host; worker/lab berada pada jaringan internal terpisah yang sudah menjalani probe HTTP/egress. App bind di dalam container agar port mapping dapat melayani host, tetapi port host hanya loopback. Nama DNS service lab menjadi binding origin operator, bukan URL bebas dari report.
 
 UI dan backend berada pada container app yang sama. Satu portal lab menampung rancangan 24 titik kerentanan; bukan 24 container. Jumlah container tidak bertambah ketika laporan baru dikirim. Browser hanya diluncurkan sesuai kebutuhan run dan dibersihkan setelah akun/run berganti.
 
@@ -96,7 +100,7 @@ UI dan backend berada pada container app yang sama. Satu portal lab menampung ra
 
 Target setelah Docker/Compose, konfigurasi dan seed awal disiapkan adalah `docker compose up -d --build` dari root repo. Pada MVP lengkap perintah ini menyalakan app/worker/lab tanpa perlu menjalankan Python, npm atau server lain pada host. Saat M1 baru fondasi, pemeriksaan Compose boleh hanya mencakup app; jangan membuat placeholder worker/lab untuk mengklaim tiga service sudah berfungsi.
 
-Ini **kriteria yang harus dibangun/diuji**, bukan perintah produk yang sudah tersedia. Build awal dapat memerlukan internet. Seed akun/program serta reset/evaluasi merupakan operasi operator terpisah; evaluator host masih memerlukan Python dan bukan bagian startup aplikasi normal. Startup tidak memanggil model, menguji target atau mereset state/hasil secara otomatis. Detail readiness dan restart pada runtime.md.
+Perintah Compose ini sudah diuji pada M1 untuk **app saja**, termasuk cold start, restart dan stop/start; pada M2 perintah yang sama sudah menyalakan tiga service nyata; alur BAC/UI/verifier minimum diuji pada M3; browser worker M4a terhubung ke workflow/UI XSS-08 fixture tetap pada M4b. Build awal dapat memerlukan internet. Seed akun/program serta reset/evaluasi merupakan operasi operator terpisah; evaluator host masih memerlukan Python dan bukan bagian startup aplikasi normal. Startup tidak memanggil model, menguji target atau mereset state/hasil secara otomatis. Detail readiness dan restart pada runtime.md.
 
 ```mermaid
 flowchart LR
@@ -153,7 +157,7 @@ Konfigurasi policy dan credential target memakai mount/secret minimum read-only 
 | FR-11 | Provider dan fallback terkontrol | Hanya daftar operator yang aktif; perpindahan tercatat, cap bersama, provider terkunci setelah respons pertama; fallback mati saat benchmark |
 | FR-12 | Startup aplikasi satu perintah | Setelah setup/seed, Compose menyalakan service yang sudah diimplementasikan; startup/restart mempertahankan data/ledger, tidak menjalankan validasi/model/reset otomatis, dan dependency belum siap ditampilkan dengan benar |
 
-Detail pengujian dan checkpoint dimiliki security-review.md serta implementation.md; tabel ini tidak menyatakan satu pun sudah lulus.
+Detail pengujian dan checkpoint dimiliki security-review.md serta implementation.md; hasil fondasi M1 dan lab/worker M2 dicatat per tahap; tabel ini bukan kelulusan seluruh MVP.
 
 ## 7. Batas resource, waktu dan biaya
 

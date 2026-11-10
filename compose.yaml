@@ -1,0 +1,124 @@
+services:
+  app:
+    build: .
+    init: true
+    env_file:
+      - path: .env
+        required: false
+    ports:
+      - "127.0.0.1:8000:8000"
+    environment:
+      VALVULN_DATA_DIR: /data
+      VALVULN_EXECUTION_MODE: ${VALVULN_EXECUTION_MODE:-mock}
+      VALVULN_PUBLIC_ORIGIN: ${VALVULN_PUBLIC_ORIGIN:-http://127.0.0.1:8000}
+      VALVULN_ALLOW_HTTP_LOOPBACK: ${VALVULN_ALLOW_HTTP_LOOPBACK:-true}
+      VALVULN_COOKIE_SECURE: ${VALVULN_COOKIE_SECURE:-false}
+      VALVULN_BUDGET_IDR: ${VALVULN_BUDGET_IDR:-50000}
+      VALVULN_TRANSPORT_KEY_FILE: /run/secrets/job_key
+    volumes:
+      - app_data:/data
+      - job_inbox:/handoff/inbox
+      - job_outbox:/handoff/outbox:ro
+    secrets:
+      - job_key
+    networks:
+      - app_net
+    read_only: true
+    tmpfs:
+      - /tmp:size=32m,mode=1777
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    mem_limit: 512m
+    cpus: 1.0
+    pids_limit: 128
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/health', timeout=3)"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+  evaluator:
+    profiles: [evaluation]
+    build:
+      context: .
+      dockerfile: evaluator/Dockerfile
+    entrypoint: ["python", "-m", "evaluator.text_benchmark"]
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      VALVULN_DATA_DIR: /data
+    volumes:
+      - app_data:/data
+      - ./artifacts/r3:/evaluation
+    networks: [app_net]
+    read_only: true
+    tmpfs: ["/tmp:size=32m,mode=1777"]
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    mem_limit: 512m
+    pids_limit: 128
+  worker:
+    build:
+      context: .
+      dockerfile: worker/Dockerfile
+    init: true
+    volumes:
+      - job_inbox:/handoff/inbox:ro
+      - job_outbox:/handoff/outbox
+    secrets: [job_key, lab_accounts]
+    networks:
+      lab_internal:
+        ipv4_address: 172.30.74.2
+    read_only: true
+    tmpfs: ["/tmp:size=256m,mode=1777"]
+    shm_size: 128m
+    cap_drop: [ALL]
+    # Bootstrap sets namespace-local firewall, then drops these capabilities permanently.
+    cap_add: [NET_ADMIN, SETUID, SETGID, SETPCAP]
+    security_opt: ["no-new-privileges:true", "seccomp=./containers/chromium-seccomp.json"]
+    mem_limit: 1g
+    cpus: 1.0
+    pids_limit: 256
+    restart: unless-stopped
+  lab:
+    build:
+      context: .
+      dockerfile: lab/Dockerfile
+    init: true
+    volumes: ["lab_data:/data"]
+    secrets: [lab_accounts]
+    networks:
+      lab_internal:
+        ipv4_address: 172.30.74.3
+    read_only: true
+    tmpfs: ["/tmp:size=32m,mode=1777"]
+    cap_drop: [ALL]
+    cap_add: [NET_ADMIN, SETUID, SETGID, SETPCAP]
+    security_opt: ["no-new-privileges:true"]
+    mem_limit: 512m
+    cpus: 1.0
+    pids_limit: 128
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8001/api/health', timeout=3)"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+volumes:
+  app_data:
+  lab_data:
+  job_inbox:
+  job_outbox:
+networks:
+  app_net:
+  lab_internal:
+    internal: true
+    enable_ipv6: false
+    ipam:
+      config: [{subnet: 172.30.74.0/29}]
+secrets:
+  job_key:
+    file: ./.local-data/secrets/job-key
+  lab_accounts:
+    file: ./.local-data/secrets/lab-accounts.json

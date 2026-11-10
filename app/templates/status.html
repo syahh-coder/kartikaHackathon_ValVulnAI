@@ -1,0 +1,10 @@
+<!doctype html>
+<html lang="id">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>ValVuln AI · Fondasi lokal</title><link rel="stylesheet" href="/static/status.css"></head>
+<body><main>
+  <p class="eyebrow">VALVULN AI <span>Fondasi {{ phase }}</span></p>
+  <h1>Fondasi lokal tersedia.</h1>
+  <p>API laporan, akun demo dan antrean sudah tersedia. Antarmuka chat backend menyusul pada M3; prototipe UI tetap terpisah.</p>
+  <p>Mode model: <strong>{{ mode }}</strong>. {% if phase == 'M2' %}Worker HTTP dan portal lab dikendalikan operator lokal. Validasi lab dari chat menyusul pada M3.{% else %}Worker dan portal lab belum terhubung.{% endif %} Model live belum tersedia. Hasil mock bukan bukti kerentanan.</p>
+  <a href="/api/readiness">Periksa kesiapan</a> <a href="/openapi.json">Schema API lokal</a>
+</main></body></html>

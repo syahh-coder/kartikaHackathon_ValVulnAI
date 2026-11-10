@@ -1,8 +1,14 @@
 # Peta rencana kerentanan portal lab
 
-Status seluruh titik di bawah: **PLANNED / BELUM DIIMPLEMENTASIKAN / BELUM DIVERIFIKASI MANUAL**. Pengguna meminta target mempunyai lebih dari 20 kerentanan dan mengetahui fitur tempatnya. Rancangan ini menetapkan **24 titik**; nama fitur dan route adalah spesifikasi awal, bukan endpoint yang sudah berjalan.
+**Keputusan 7 November 2026:** target 24 titik dan alokasi evaluasi lama pada dokumen ini menjadi backlog/protokol v1. Status aktual dan riwayat grup tetap dipertahankan, M6 tidak dicentang selesai. Submission functional-v2 memakai subtype produk BAC-08/XSS-08/UP-04 dan tidak mengklaim held-out akar masalah baru; [scope](submission-scope.md), [evaluasi aktif](evaluation.md). Tidak mengubah katalog/gate/manifest untuk memenuhi scope baru.
+
+Status audit 6 November 2026: **BAC-08, XSS-01..08 dan UP-01..04 IMPLEMENTED / OPERATOR-REPRODUCED**, total **13 dari 24 titik**, dengan kondisi rentan/perbaikan dan kontrol ([M2](m2-verification.md), [M4c](m4c-verification.md), [M5](m5-verification.md)). Bukti upload berasal dari runtime 5 November dan diaudit offline 6 November, bukan reproduksi ulang. **11 titik lain PLANNED / BELUM DIIMPLEMENTASIKAN / BELUM DIVERIFIKASI MANUAL**: BAC-01..07 dan BL-01..04. GT manusia untuk 20 laporan masih pending. Workflow/UI upload hanya UP-04; UP-01..03 operator.
 
 Dokumen ini untuk pembuat lab dan evaluator. Jangan dimount ke worker, dikirim ke model validator, dimasukkan ke profil publik target, atau dijadikan tool pencarian agent. Aturan akses/bisnis yang diperlukan tetap diberikan melalui profil tanpa membocorkan jawaban.
+
+Status terstruktur per ID disimpan pada [evaluator/catalog.json](../evaluator/catalog.json), dengan pemeriksaan offline `python -m evaluator.catalog_audit --require-ready`. M6b memvalidasi tepat 24 ID/alokasi/status/reference, tanpa mengeksekusi target. Saat ini gate exit 2 karena 11 mekanisme PLANNED dan konflik grup development/evaluasi; status reproduksi terdahulu adalah catatan historis, bukan GT manusia atau reproduksi ulang. [Hasil M6b](m6b-verification.md).
+
+M6a menambah implementasi kontrol aman fitur permintaan/persetujuan/pemenuhan, bukan mekanisme kerentanan BL-01..04. Status empat titik BL tetap PLANNED dan hitungan tetap 13/24. Source baru diuji pada database sementara dan container disposable, belum service Compose aktif. [Hasil M6a](m6a-verification.md).
 
 ## 1. Jumlah dan pemakaian
 
@@ -44,9 +50,15 @@ Setiap bukti harus mengikat akun, objek, aturan, dan dampak. Menerima status 200
 | XSS-05 | Nama pemasok, `GET /suppliers` | Nilai nama pemasok tersimpan dieksekusi pada daftar | Field kode pemasok ditampilkan sebagai teks dan kontrol normal tetap berjalan | Non-benchmark |
 | XSS-06 | Referensi pelacakan, `GET /tracking` | Input masuk ke konteks atribut yang dapat memicu marker dalam browser lab | Halaman pembanding mengodekan nilai menurut konteks atribut | Non-benchmark |
 | XSS-07 | Panel detail berbasis fragmen URL, `GET /requests/view` | JavaScript frontend memasukkan fragmen ke sink HTML yang dapat dieksekusi | Panel pembanding memakai penyajian teks; raw fragment bukan bukti eksekusi | Non-benchmark |
-| XSS-08 | Pratinjau notifikasi, `GET /notifications/preview` | Sumber data preview mencapai sink DOM yang tidak aman | Tampilan preview aman tidak mengeksekusi marker | Development |
+| XSS-08 | Pratinjau notifikasi, `GET /notifications/preview` | IMPLEMENTED / OPERATOR-REPRODUCED M4a: fragmen fixture mencapai innerHTML dan callback nonce main frame pada origin lab | Kondisi textContent menampilkan fixture sebagai teks; kontrol inert/JS/context baru/PNG diperiksa | Development; GT manusia pending |
 
 Gunakan marker lokal unik yang tidak mengambil data atau menghubungi layanan luar. Setiap subtype yang disebut harus benar-benar ada. Jika beberapa titik memakai renderer rentan yang sama, catat akar masalah bersama dan sesuaikan group split.
+
+### Implementasi/operator M4c
+
+XSS-01..07 kini memiliki HTTP input/tampilan aktual sesuai tabel, dua kondisi dan jalur kontrol aman. XSS-02..05 memakai write requester-a dan browser pembaca requester-b yang baru; review permintaan A diberikan ke B melalui penugasan eksplisit tanpa akses lampiran privat. XSS-06 memakai fixture konteks atribut, XSS-07 fragmen DOM. [M4c](m4c-verification.md) mencatat 14 fase/42 capture/138 request dan status per titik. Manifest privat `artifacts/m4c/catalog-manifest.json` mengikat run/snapshot/evidence, hash source lab, artefak kondisi serta percobaan gagal. Ini reproduksi operator, bukan label dataset manusia atau kemampuan planner live.
+
+Grup konservatif sementara: XSS-01..05 = `html-element-output`, XSS-06 = `html-attribute-output`, XSS-07 dan XSS-08 = `dom-fragment-innerhtml`. Lima fitur HTML memiliki input/state/handler sendiri, tetapi tidak dihitung sebagai lima sampel akar masalah independen. XSS-07 tetap non-benchmark; overlap DOM development tidak masuk held-out. Tinjau grouping final sebelum freeze. Keempat area evaluasi XSS tidak dipakai untuk tuning planner; runtime UI tetap hanya XSS-08.
 
 ## 4. File upload
 
@@ -58,6 +70,10 @@ Gunakan marker lokal unik yang tidak mengambil data atau menghubungi layanan lua
 | UP-04 | Nama berkas pada daftar upload, `GET /requests/{id}/attachments` | Metadata nama berkas dirender sebagai HTML aktif | Label nama file aman ditampilkan sebagai teks | Development |
 
 UP-01/02/04 mempunyai tag sekunder XSS dan UP-03 dapat bertag BAC. Jangan menghitung satu mekanisme bersama dua kali sebagai akar masalah independen. Tidak ada kebutuhan shell, malware, eksekusi server, atau fixture destruktif. Jika bukti menunjukkan suatu perilaku tidak dapat dieksploitasi pada konfigurasi browser target, jangan mempertahankannya sebagai celah hanya untuk memenuhi hitungan.
+
+Grouping M5: UP-01/02 `upload-active-content-origin`, UP-03 `upload-shared-filename-storage`, UP-04 `html-element-output`. Development UP-04 berbagi grup terakhir dengan XSS-01..05; alokasi evaluasi HTML saat ini belum independen dan harus ditinjau/revisi sebelum freeze, tanpa memilih kasus sesudah melihat hasil model. Empat ID upload bukan empat grup independen.
+
+Review [M6f](m6f-verification.md) mempertahankan grup konservatif dan alokasi di atas. Riwayat development UP-04 tetap menghalangi evaluasi grup HTML meskipun label alokasinya dipindahkan. Hanya XSS-06 tercatat sebagai kandidat XSS di luar grup development; belum cukup bagi rancangan empat area XSS. Ini review metadata/source, tanpa reproduksi baru, penggantian manifest atau kenaikan status/hitungan titik.
 
 ## 5. Business logic
 
@@ -77,7 +93,7 @@ Saat implementasi, setiap titik harus mendapat catatan berikut:
 ```text
 vulnerability_id, feature, actual_route, primary_category, secondary_tags
 root_cause_group, implementation_revision, target_build
-status: PLANNED | IMPLEMENTED | MANUALLY_VERIFIED
+status: PLANNED | IMPLEMENTED | OPERATOR_REPRODUCED | MANUALLY_VERIFIED
 affected_actor, affected_object, relevant_rule, preconditions
 positive_manual_evidence, negative_control_evidence
 report_ids, evaluation_or_development, reviewer_note

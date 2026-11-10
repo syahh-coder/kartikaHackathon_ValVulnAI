@@ -1,11 +1,33 @@
 # Rencana proyek Kartika Cyber Hackathon 2026
 
+**Checkpoint7 November, integrasi Azure:** atas permintaan pengguna, adapter Foundry teks, wiring UI/evaluator, private config/checker dan overlay preview diselesaikan dengan148 tes terarah lulus. Akses akun/key/endpoint/deployment/tarif/kuota belum tersedia; berikutnya pengguna mengisi `.env.azure`, lalu smoke teks aktual melalui ledger setelah konfigurasi lengkap. CODE_TESTED terpisah dari LIVE_VERIFIED=false. [Panduan](docs/azure-setup.md), [review](docs/final-review.md). M6 tetap DEFERRED; tidak ada publikasi/submit.
+
+**Checkpoint review terbaru:** kode independen R3b–R3f dan persiapan R4 tersedia untuk review sekaligus; [indeks hasil/file/input pengguna](docs/final-review.md), [verifikasi](docs/r3-r4-verification.md). Runner/projection A/B, ledger006, gate freeze, laporan pending dan paket/media lokal sudah disiapkan. GT/bukti kandidat dan konfigurasi/smoke live/freeze/benchmark tetap pending. M6 DEFERRED; tidak ada publikasi/submit. Status R3a di bawah adalah riwayat persiapan sebelum checkpoint ini.
+
+**Instruksi paling baru 7 November:** selesaikan pekerjaan independen sisa R3 sampai persiapan paket/artefak R4, lalu serahkan untuk review pengguna sekaligus. Checkpoint bukan permintaan izin rutin atau batas berhenti setiap sub-tahap. [Prompt aktif](docs/execution-prompt.md) mengatur penanganan GT/key/bukti pending, pengujian terarah dan laporan akhir review tanpa klaim palsu. Publikasi/submit menunggu review pengguna; M6 tetap DEFERRED.
+
+**Status terbaru 7 November:** R1/R2 tetap CODE_TESTED. [R3a persiapan CODE_TESTED](docs/r3-verification.md): peta kemampuan, 20 kandidat teks/GT kosong dan scorer offline; 26 tes terarah lulus. Berikutnya R3b review GT pengguna, bukti B, integrasi prediksi/runner, freeze/live. R3 belum selesai; tidak ada hasil benchmark. Tidak mengulang suite historis atau mengejar M6 yang DEFERRED.
+
+R3a tidak mengubah aplikasi/worker/database/ledger/service. Paket privat tidak di-overwrite; angka 20 adalah kandidat variasi teks yang kelayakannya belum diterima pengguna, bukan 20 bug/skenario independen. Perhitungan metrik hanya diverifikasi melalui aritmetika sintetis. Model/GT nyata tidak digantikan hasil offline.
+
+**Hasil R2:** 13 tes terarah lulus, QA desktop/mobile flow baru lulus; label konfigurasi diperiksa ulang secara terpisah setelah diperjelas. UI memakai triage R1, tanpa perubahan izin atau dispatch worker. Ringkasan observasi bersifat read-only buatan aplikasi, tanpa inference tambahan/verdict baru. Kode/schema/data provider R1 dipakai ulang; source schema tetap 005, tanpa update service/data/ledger aktif. R3 belum menyusun dataset final atau menjalankan benchmark.
+
+**Keputusan aktif 7 November 2026:** pengguna menyetujui penyempitan scope submission setelah review M6. Pemilik cakupan: [submission-scope.md](docs/submission-scope.md). Prioritas R1 adapter/triage teks tanpa dispatch target dari model, R2 UI/ringkasan bukti, R3 functional-v2 dan R4 paket. Target 24 titik menjadi backlog; M6 asli tetap sebagian 13/24 dan BUSINESS_LOGIC belum didukung. Target 20 teks 10/10 tetap, alokasi aktif 8 BAC/8 XSS/4 upload pada tiga jalur produk tersedia. Perbandingan aktif A dokumen/B dokumen+bukti mengukur prediksi model pada mekanisme dikenal, bukan generalisasi akar masalah baru. [Protokol aktif](docs/evaluation.md), [protokol lama](docs/evaluation-v1.md), [prompt R1](docs/execution-prompt.md).
+
+**Hasil batch R1 7 November:** [CODE_TESTED](docs/r1-verification.md), adapter OpenRouter dan triage API teks independen, schema/redaksi/error/cancel/ledger serta upgrade/recovery diuji. Suite R1 final 77 lulus dalam 87,09 detik; 86 regresi lama lulus pada suite sebelumnya. Satu kegagalan selector tes diperbaiki dan artefak/retest dipertahankan; total 163 kasus unik terverifikasi lintas run. LIVE_VERIFIED belum karena CONFIGURATION_REQUIRED. Tidak memperbarui service/data/ledger aktif atau mengubah worker/katalog; berikutnya R2. Perubahan kontrak hanya menambahkan mode triage dan schema app 005, bukan izin transport dari model.
+
+Bagian berikut mempertahankan rencana lengkap/hasil sebelum penyempitan. Ketentuan 24 titik sebagai gate submission, alokasi 8/8/2/2, agent adaptif dan held-out ketat di sana adalah rencana awal/backlog; tidak menggantikan keputusan aktif di atas. Budget, keamanan, pemisahan GT dan field submission tetap berlaku. Model live dan evaluasi belum diverifikasi.
+
 **Tim:** ukas and codex vs everbody  
 **Pelaksana:** solo  
 **Tanggal rencana:** 3 November 2026, Asia/Bangkok (UTC+7)  
-**Status:** pengguna menyatakan pendaftaran diterima 3 November 2026 dan UI fix sebagai baseline mulai backend pada 4 November 2026; perbaikan UI berikutnya tetap boleh. Handoff M1 siap untuk chat baru; backend/target/evaluasi belum tersedia  
+**Status:** M1-M5 selesai teknis lokal; M6 sebagian. Review rekaman bisnis dan workflow langkah admin tersedia, 172 tes serta QA desktop/mobile lulus. App Compose diperbarui, 37 riwayat run/ledger utuh; worker/lab tetap M5. Konteks workflow administratif tidak memberi izin eksekusi target/model. Katalog tetap 13/24, 11 PLANNED, grouping belum siap; validator BUSINESS_LOGIC LAB, GT manusia dan model live/benchmark belum tersedia. [Panduan dan bukti](docs/business-record-review.md).
 **Nama produk untuk draf pendaftaran:** ValVuln AI: Agen Validasi Laporan Kerentanan; nama kerja, belum dinyatakan telah didaftarkan  
 **Kategori yang direkomendasikan setelah membaca rulebook:** Penindakan
+
+Batch lanjutan 6 November: [M6d](docs/m6d-verification.md) parser dan [M6e](docs/m6e-verification.md) rekaman event kontrol normal selesai defensif lokal; 97 tes terarah serta trace ASGI dua lifecycle lulus. M6 tetap sebagian; tidak mengubah target 24 titik, pembagian dataset atau hasil historis. Gate katalog tetap exit 2, validator BUSINESS_LOGIC produk belum tersedia.
+
+Review lanjutan [M6f](docs/m6f-verification.md): 21 tes grouping lulus; riwayat development sistem kini diperiksa terpisah dari alokasi. Keputusan belum freeze karena HTML UP-04/XSS dan kekurangan kandidat empat area XSS. Target 20 laporan 10/10, 8/8/2/2 dan 24 titik tetap; tidak mengubah katalog atau menganggap penggantian label menyelesaikan independensi split.
 
 ## 1. Tujuan dan keputusan utama
 
@@ -35,7 +57,7 @@ Pitch kerja:
 | Stack yang dikonfirmasi pengguna | Python + FastAPI |
 | Topologi MVP yang direncanakan | Tiga container: app, worker, lab; UI di app, Chromium di worker; evaluator CLI di host |
 | Database yang direncanakan | Dua file SQLite terpisah, milik app dan lab; tanpa container database |
-| Startup aplikasi normal | Target satu perintah Compose setelah setup/config/seed; belum dibuat/terverifikasi. Reset/evaluator terpisah |
+| Startup aplikasi normal | Satu perintah Compose setelah setup/config/seed telah diuji M1-M2. Reset/evaluator tetap terpisah |
 | Waktu yang tersedia | Sekitar 3 jam/hari untuk 10 hari kerja, total sekitar 30 jam |
 | Budget total API yang dikonfirmasi | Maksimal Rp50.000; API key belum tersedia |
 | Skill pentest eksternal | Repo belum ditemukan; bukan dependensi milestone awal |
@@ -276,7 +298,7 @@ Pengujian XSS dapat memakai marker unik dan instrumentasi browser yang telah dit
 Angka ini adalah konfigurasi awal untuk dikalibrasi pada data pengembangan:
 
 - Satu run aktif dan satu browser context aktif.
-- Maksimal 12 panggilan model termasuk retry, 40 request jaringan target termasuk subresource browser, dan 30 aksi browser. Detail kuota, lease/recovery serta handoff worker di [runtime.md](docs/runtime.md); seluruhnya belum diuji runtime.
+- Maksimal 12 panggilan model termasuk retry, 40 request jaringan target termasuk subresource browser, dan 30 aksi browser. Detail kuota, lease/recovery serta handoff worker di [runtime.md](docs/runtime.md); bagian HTTP/handoff/isolasi sudah diuji M2, browser/provider live belum.
 - Timeout request 10 detik; timeout keseluruhan run 180 detik.
 - Maksimal satu retry untuk error sementara; retry tetap memakai anggaran yang sama.
 - Batasi ukuran report, body request/response, upload fixture, screenshot, dan total artefak.
@@ -559,7 +581,7 @@ docs/
 artifacts/                 # Lokal; tidak masuk konteks worker/model
 ```
 
-Ini struktur usulan, belum file yang sudah dibuat. Source evaluator/GT dapat berada di repo untuk transparansi setelah evaluasi, tetapi tidak dimount ke runtime agent. Artefak yang dipublikasikan harus diperiksa dan disanitasi; credential, database runtime, serta `.env` tidak masuk repo.
+Struktur ini mencakup target MVP. Pada M1 baru `app/`, `tests/`, `scripts/`, konfigurasi/dependensi, migrasi dan Compose app yang tersedia; M2 kemudian menambahkan worker/lab API, boundary handoff dan evaluator development; browser dan evaluator benchmark menyusul. Source evaluator/GT dapat berada di repo untuk transparansi setelah evaluasi, tetapi tidak dimount ke runtime agent. Artefak yang dipublikasikan harus diperiksa dan disanitasi; credential, database runtime, serta `.env` tidak masuk repo.
 
 Jika menggunakan skill pentest dari GitHub, pilih repo secara eksplisit, periksa isi dan lisensinya, pin commit, catat sumber/modifikasi di `skills/SOURCES.md`, lalu adaptasi hanya langkah yang diperlukan. Skill tidak boleh mengubah kebijakan target dan tidak menjadi bukti kemampuan tanpa pengujian.
 
@@ -680,7 +702,7 @@ Gunakan data sintetis yang sama dan penjelasan singkat. Jangan memakai panjang r
 
 Satu submission per tim; pembaruan sebelum deadline diperbolehkan dan versi terakhir yang dinilai. Gunakan `docs/submission-checklist.md` untuk audit kelengkapan, bukan menganggap tiga link awal sudah cukup.
 
-Rencana distribusi, akses model juri dan pemeriksaan rilis dimiliki [distribution.md](docs/distribution.md). Memilih repo untuk Link Karya tidak menghapus field video YouTube, slide publik, thumbnail dan screenshot. Push awal dokumentasi/UI sudah diotorisasi; implementasi backend dan release belum dilakukan. Gate UI sudah terpenuhi pada 4 November 2026; setelah push awal, langkah berikutnya M1 lokal di chat baru. Deployment tetap di luar scope.
+Rencana distribusi, akses model juri dan pemeriksaan rilis dimiliki [distribution.md](docs/distribution.md). Memilih repo untuk Link Karya tidak menghapus field video YouTube, slide publik, thumbnail dan screenshot. Push awal dokumentasi/UI sudah diotorisasi; M1 backend lokal kemudian selesai dengan mock, tanpa push backend/release/deployment. M2 dan M3 kemudian selesai lokal; M4a browser development juga lulus operator. M4b workflow/UI XSS-08 dan M4c tujuh titik XSS/kontrol kemudian lulus lokal. M5 upload kemudian selesai berdasarkan artefak runtime dan audit 6 November; fondasi kontrol aman M6a kini diuji lokal, M6 masih sebagian. Deployment tetap di luar scope.
 
 ## 18. Risiko dan mitigasi praktis
 
@@ -729,4 +751,4 @@ Referensi ini mendukung rancangan; klaim hasil produk memerlukan eksperimen send
 
 ## 21. Langkah implementasi pertama
 
-UI baseline sudah disetujui 4 November 2026; di chat baru mulai M1 dari bootstrap Python/FastAPI, schema program/membership/chat/report-run-evidence, session/ownership, profil scope terversi dan adapter mock. Ikuti sub-batch/checkpoint M1 sebelum membuat BAC-08 development pada M2. Worker, planner live dan kategori berikutnya mengikuti dependensi milestone serta kesiapan akses/budget, tanpa memakai 20 laporan utama untuk tuning. Jangan meminta persetujuan UI ulang untuk M1; perbaikan UI yang relevan tetap boleh menyusul. Dokumentasi ini tidak menyatakan implementasi atau benchmark sudah berjalan.
+UI baseline sudah disetujui 4 November 2026; M1 kini selesai secara lokal: bootstrap Python/FastAPI, schema, session/ownership, scope dan adapter mock. Hasil aktual: [verifikasi M1](docs/m1-verification.md). M2 BAC-08 development dan worker HTTP kemudian lulus pemeriksaan operator/isolasi/crash; hasil pada [verifikasi M2](docs/m2-verification.md). M3 report-worker-verifier dan UI API juga sudah diverifikasi lokal pada 5 November; lihat [hasil M3](docs/m3-verification.md). M4a browser worker/XSS-08, M4b workflow/assessment/UI serta M4c tujuh titik XSS/kontrol kemudian lulus lokal. M5 upload kemudian selesai berdasarkan artefak runtime dan audit 6 November; fondasi kontrol aman M6a kini diuji lokal, M6 masih sebagian. Planner live dan kategori berikutnya mengikuti dependensi milestone serta kesiapan akses/budget, tanpa memakai 20 laporan utama untuk tuning. Jangan meminta persetujuan UI ulang untuk M1; perbaikan UI yang relevan tetap boleh menyusul. Status implementasi mengikuti bukti per milestone; benchmark model belum dijalankan.

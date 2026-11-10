@@ -1,8 +1,10 @@
 # Spesifikasi portal pengadaan/logistik lab
 
-Status: spesifikasi awal. Portal belum dibangun. Seluruh akun, barang, invoice dan dokumen adalah sintetis.
+**Scope submission 7 November 2026:** perluasan ke 24 titik menjadi backlog, bukan gate submission sempit. Pertahankan perilaku/isolasi dan bukti lab yang sudah ada; R1 triage teks tidak mengakses atau mengubah target. M6 asli masih sebagian dan mekanisme BUSINESS_LOGIC belum tersedia. [Pemilik cakupan aktif](submission-scope.md); spesifikasi penuh di bawah tetap referensi backlog, bukan klaim implementasi.
 
-Keputusan terbaru pengguna meminta lebih dari 20 titik kerentanan dalam target. Rancangan awal menetapkan **24 titik** beserta fitur dan route pada [lab-vulnerabilities.md](lab-vulnerabilities.md). Semua masih direncanakan; daftar itu menjadi peta jawaban pembuat/evaluator, bukan input agent.
+Status 6 November 2026: BAC-08, delapan XSS dan empat upload memiliki bukti operator, total 13 titik; [M5](m5-verification.md), [M4c](m4c-verification.md). M6a menambah kontrol bisnis aman/state/stok pada source yang diuji host/container disposable, tanpa mekanisme kerentanan baru atau validator produk. Service Compose aktif masih M5. Seluruh akun, barang, invoice dan dokumen adalah sintetis.
+
+Keputusan terbaru pengguna meminta lebih dari 20 titik kerentanan dalam target. Rancangan awal menetapkan **24 titik** beserta fitur dan route pada [lab-vulnerabilities.md](lab-vulnerabilities.md). 13 titik memiliki bukti operator (BAC-08, delapan XSS dan empat upload), 11 titik BAC/business logic tetap direncanakan; bukti M5 5 November diaudit ulang 6 November; daftar menjadi peta jawaban pembuat/evaluator, bukan input agent.
 
 Tujuan lab adalah menyediakan kondisi yang dapat diulang untuk memeriksa klaim. Lab bukan simulasi lengkap sistem TNI AD. Hubungan dengan operasi organisasi merupakan konteks penggunaan yang akan divalidasi.
 
@@ -21,8 +23,8 @@ Portal mendemonstrasikan pengamanan aplikasi **IT**. Tidak ada klaim pengujian O
 
 | Alias akun | Peran | Hak yang diharapkan |
 | --- | --- | --- |
-| `requester_a` | Pemohon unit A | Membuat dan membaca permintaan serta invoice miliknya |
-| `requester_b` | Pemohon unit B | Hak setara A, objek miliknya sendiri |
+| `requester-a` | Pemohon unit A | Membuat dan membaca permintaan serta invoice miliknya |
+| `requester-b` | Pemohon unit B | Hak setara A, objek miliknya sendiri |
 | `approver_a` | Petugas persetujuan unit A | Menilai permintaan unit A sesuai aturan; tidak mengakses unit B |
 | `lab_admin` | Admin lab | Pengelolaan data sintetis; bukan identitas default pengujian |
 
@@ -166,3 +168,26 @@ Target evaluasi terbaru pada 4 November 2026 adalah **20 teks laporan berbeda, 1
 ## Pemisahan portal dan platform validasi
 
 Requester/approver/admin lab adalah akun uji target, berbeda dari bug hunter/admin program pada platform. Portal Docker berjalan sebelum validasi dan tidak dibuat ulang per report. Intake OOS/UNKNOWN tidak melakukan health check atau request target; health/seed/reset dilakukan evaluator terpisah. Admin program tidak memperoleh reset atau manifest GT lewat UI.
+
+## Implementasi development M4a
+
+XSS-08 preview notifikasi pada GET /notifications/preview kini tersedia bagi akun lab yang terautentikasi. Fragment fixture diterapkan melalui innerHTML pada kondisi rentan dan textContent pada perbaikan; pilihan kondisi hanya maintenance evaluator, bukan request/response flag. Reset BAC dan XSS mempunyai parameter operator terpisah; reset biasa tetap membuat XSS fixed. Browser worker tidak mendapat source lab, peta bug, label kondisi atau reset endpoint.
+
+Dua akun dan kontrol inert/marker direproduksi operator dengan PNG/event, bukan GT manusia dataset utama. [Hasil M4a](m4-verification.md). Pada batch M4a total dua titik development direproduksi operator; M4c kemudian melengkapi tujuh titik XSS lain. Target 24 dan 20 laporan tetap. Fault fixture network/delay hanya dapat dipasang melalui maintenance CLI lokal untuk uji batas/cancel, bukan menu admin program atau tool model.
+
+## Implementasi tujuh fitur XSS M4c
+
+Migrasi `002_xss_catalog.sql` menambah katalog shared dengan note/description, alasan permintaan, komentar dengan nama tampilan, pemasok name/code, dan tabel penugasan reviewer. Seed requester-b ditugaskan membaca review/komentar permintaan sintetis requester-a; ini izin fitur review saja, bukan hak baca/hapus lampiran atau mutasi objek pemilik lain. Pemohon A tetap tidak dapat membuka tampilan review petugas; B tidak dapat mengedit alasan A. Peran unit/approver lengkap belum tersedia dan tidak disimulasikan sebagai otorisasi seluruh unit.
+
+Input mutasi maksimal 1.024 karakter dan memerlukan session/Origin/CSRF; nama tampilan tidak menerima role dari client. Rendering HTML element, atribut value berpetik ganda dan DOM fragment mempunyai perbaikan masing-masing. Kontrol field/view selalu di-escape/textContent; query view bukan sakelar kondisi rentan. Kondisi hanya dapat dipilih pada reset maintenance CLI, satu titik tambahan per snapshot; default seluruhnya fixed. Tidak ada reset endpoint, label kondisi atau peta bug pada response.
+
+Untuk stored XSS, input disimpan melalui HTTP oleh A dan dibaca oleh context browser B yang terpisah, tanpa payload di URL tampilan. Katalog/pemasok sintetis memang shared; alasan/komentar mengikuti kepemilikan atau penugasan review eksplisit. Rute, bukti, kontrol dan grup pada [hasil M4c](m4c-verification.md). Data/GT manusia dan validator produk bagi rute baru belum dibuat.
+
+
+## Fondasi kontrol bisnis aman M6a
+
+M6b kemudian memeriksa alur normal yang sama melintasi dua container dan satu volume uji: stok/fulfillment/snapshot/jurnal dipertahankan, tanpa reset data proyek. Aturan scope terikat run juga masuk konteks mock NONE tanpa tool, belum agent business logic LAB. Katalog privat mengaudit status/grouping dan tetap menolak kesiapan 24 titik. [Hasil M6b](m6b-verification.md).
+
+Migrasi 004 menambah tabel terpisah untuk stok, petugas, state/versi permintaan, pemenuhan unik dan event sebelum/sesudah. Aturan versi `procurement-controls-v1` tersedia setelah autentikasi melalui GET `/api/business-rules`; API bisnis menegakkan kepemilikan, unit, larangan persetujuan sendiri, urutan state, bilangan bulat positif, field material DRAFT saja, versi dan stok saat pemenuhan. Pengulangan pemenuhan identik mengembalikan hasil tersimpan. Ini kontrol aman, bukan reproduksi BL-01..04 atau bukti race condition.
+
+Setup operator eksplisit menambah petugas `approver_a` unit A dengan tugas persetujuan dan pemenuhan gabungan; hak ini tidak diwariskan requester-b yang hanya ditugaskan membaca fitur review M4c. Tidak ada akses unit B atau role dari client. Startup hanya migrasi, tanpa akun/stock/seed/reset baru. Setup berulang tidak mengganti password/stok; reset evaluator membersihkan tabel baru. Source diuji pada database sementara, belum pada data/service Compose aktif. [Pemeriksaan dan batas M6a](m6a-verification.md).

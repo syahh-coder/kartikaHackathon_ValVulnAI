@@ -1,5 +1,9 @@
 # Checklist pendaftaran dan submission
 
+**Paket persiapan lokal sudah tersedia untuk review:** [indeks file dan hasil aktual](final-review.md). Slide9 halaman, thumbnail1200×630/153445 byte dan3 screenshot serta draft preview/storyboard disiapkan. Checkbox publikasi/submission, video YouTube, lisensi, GT/live/freeze/benchmark tidak dicentang tanpa bukti. Status READY_FOR_REVIEW_WITH_PENDING_INPUTS berbeda dari submission lengkap.
+
+**Scope aktif 7 November 2026:** gunakan [submission-scope.md](submission-scope.md) dan [functional-v2](evaluation.md). Target 24 titik/protokol held-out lama menjadi backlog dan tidak dinyatakan selesai. Fitur AI, mode pemeriksaan, hasil verifier dan batas tiga subtype produk harus konsisten pada README/video/slide.
+
 Status: daftar kerja; checkbox belum menyatakan kegiatan selesai. Dasar: [rulebook](https://drive.google.com/file/d/1IN7FukytvtJBIbw2yPoSprEaTrZdbfMM/view) G/H/I dan [S&K](https://drive.google.com/file/d/1PWLGVasB0OahUCd5gL_UCElK8cnFdK4l/view) Pasal 5, 8-10.
 
 Deadline resmi pada kedua PDF: **15 November 2026 pukul 23:59 WIB**. Target internal siap 14 November. Perubahan resmi tetap dipantau.
@@ -57,7 +61,9 @@ Keputusan pengguna: **URL repo GitHub publik sebagai Link Karya, tanpa live web/
 - [ ] README berisi instalasi dan cara penggunaan yang telah diverifikasi.
 - [ ] Arsitektur, kontrak tools, scope, reset dan batas deployment internal dijelaskan.
 - [ ] Dataset aktual, GT, split, hasil per kategori, coverage dan kegagalan dijelaskan bila eksperimen telah dilakukan.
-- [ ] Target 20 laporan dengan 10 valid/10 tidak valid diverifikasi manual; jumlah titik lab nyata lebih dari 20 dan peta fitur privat evaluator tersedia. Draf asisten tidak disajikan sebagai GT yang sudah terverifikasi.
+- [ ] Jika benchmark functional-v2 disertakan: target 20 teks 10 valid/10 tidak valid, alokasi 8 BAC/8 XSS/4 upload pada subtype yang didukung, GT manual dan bukti relevan; jumlah aktual/kekurangan dilaporkan. Draf asisten bukan GT final.
+- [ ] Nyatakan mekanisme benchmark sudah dikenal saat development; tidak mengklaim held-out akar masalah baru atau 20 bug independen. Prediksi A/B terpisah dari verdict verifier.
+- [ ] Status backlog 24 titik dijelaskan jujur: 13 reproduksi historis/11 PLANNED pada keputusan scope, M6 asli belum lulus. Bukan syarat baru dari panitia atau gate submission functional-v2.
 - [ ] Konfigurasi model/provider/prompt dan batas run dicatat.
 - [ ] [Deklarasi pihak ketiga](third-party.md) lengkap: sumber, versi/commit, hak penggunaan, atribusi dan modifikasi.
 - [ ] Bahan pre-existing dibedakan dari kontribusi yang dibuat selama program.

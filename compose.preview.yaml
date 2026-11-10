@@ -1,0 +1,24 @@
+# Separate, explicit MOCK preview. No provider env_file, worker, lab or existing app_data mount.
+services:
+  app:
+    build: .
+    image: valvuln-ai-review-preview:local
+    init: true
+    ports: ["127.0.0.1:8010:8000"]
+    environment:
+      VALVULN_DATA_DIR: /data
+      VALVULN_PUBLIC_ORIGIN: http://127.0.0.1:8010
+      VALVULN_EXECUTION_MODE: mock
+      VALVULN_TRIAGE_MODE: mock
+      VALVULN_DISPATCHER_ENABLED: "false"
+      VALVULN_ALLOW_HTTP_LOOPBACK: "true"
+      VALVULN_COOKIE_SECURE: "false"
+    volumes: ["preview_data:/data"]
+    read_only: true
+    tmpfs: ["/tmp:size=32m,mode=1777"]
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    mem_limit: 512m
+    pids_limit: 128
+volumes:
+  preview_data:

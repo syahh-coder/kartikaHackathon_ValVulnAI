@@ -1,6 +1,8 @@
 # Desain UI ValVuln AI
 
-Status 4 November 2026: prototipe UI v0.1 pada `ui-prototype/dist/` **diterima pengguna sebagai baseline fix untuk mulai backend**, dengan perbaikan berikutnya tetap boleh. Pengguna memilih grafit + hijau sage. Seluruh respons/bukti UI masih simulasi; backend, autentikasi, policy, model dan target belum diimplementasikan. Wireframe tetap spesifikasi; hasil browser QA dan persetujuan baseline dicatat pada [ui-review.md](ui-review.md).
+**Penyesuaian scope 7 November 2026:** pertahankan baseline grafit/sage. Pada R2 tambahkan label model/provider aktual, mode inference, mode pemeriksaan lab, prediksi/saran AI dan hasil verifier secara terpisah. Dukungan aktif hanya subtype BAC-08/XSS-08/UP-04; business logic tetap belum didukung untuk validasi lab. Saran model tidak menjadi tombol eksekusi baru atau keputusan izin. Tidak membangun UI besar/review bisnis baru. Ini spesifikasi belum diimplementasikan; [cakupan aktif](submission-scope.md).
+
+Status 5 November 2026: baseline grafit + sage diterima pengguna pada 4 November. UI M3 memakai session/API aktual; M4b menambah pemilih BAC/XSS pratinjau, label browser aktual/planner mock serta review/ringkasan aman. [Hasil M4b](m4b-verification.md), [M3](m3-verification.md). Model live dan widget PNG mentah belum tersedia. Prototipe tetap simulasi; spesifikasi lanjutan belum seluruhnya diimplementasikan.
 
 Rujukan: [architecture.md](architecture.md), [user-flow.md](user-flow.md), [security-review.md](security-review.md), dan [implementation.md](implementation.md).
 
