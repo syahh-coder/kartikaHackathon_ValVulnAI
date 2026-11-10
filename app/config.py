@@ -17,9 +17,11 @@ class Settings(BaseSettings):
     execution_mode: Literal["mock", "live", "replay"] = "mock"
     # Text inference is independent of the deterministic lab planner.
     triage_mode: Literal["mock", "live", "replay"] = "mock"
-    triage_provider: Literal["openrouter", "azure"] = "openrouter"
+    triage_provider: Literal["openrouter", "azure", "agentrouter"] = "openrouter"
     openrouter_api_key: SecretStr | None = Field(default=None, repr=False)
     azure_api_key: SecretStr | None = Field(default=None, repr=False)
+    agentrouter_api_key: SecretStr | None = Field(default=None, repr=False)
+    agentrouter_endpoint: str = Field(default="https://agentrouter.org/v1/chat/completions", max_length=300)
     azure_endpoint: str = Field(default="", max_length=300)
     azure_expected_model: str = Field(default="", max_length=128)
     azure_api_capabilities_verified: bool = False

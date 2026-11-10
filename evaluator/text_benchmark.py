@@ -31,7 +31,8 @@ def source_hash() -> str:
 def config_readiness(config: Settings) -> dict:
     # Called once by the preparation command; never print secret values or their lengths.
     c = config
-    required = {"live_mode": c.triage_mode == "live", ("azure_key" if c.triage_provider == "azure" else "openrouter_key"): bool(secret(c).strip()),
+    key_name = "azure_key" if c.triage_provider == "azure" else ("agentrouter_key" if c.triage_provider == "agentrouter" else "openrouter_key")
+    required = {"live_mode": c.triage_mode == "live", key_name: bool(secret(c).strip()),
                 "fixed_model": bool(c.triage_model), "provider_slug": bool(c.triage_provider_slug),
                 "provider_name": bool(c.triage_provider_name), "access_verified": c.triage_access_verified,
                 "token_bound_verified": c.triage_token_bound_verified, "price_snapshot": bool(c.triage_price_snapshot),
@@ -41,6 +42,8 @@ def config_readiness(config: Settings) -> dict:
     if c.triage_provider == "azure":
         required.update({"azure_endpoint": bool(c.azure_endpoint), "azure_expected_model": bool(c.azure_expected_model),
                          "azure_api_capabilities_verified": c.azure_api_capabilities_verified})
+    elif c.triage_provider == "agentrouter":
+        required.update({"agentrouter_endpoint": bool(c.agentrouter_endpoint)})
     valid = False
     if all(required.values()):
         try:
