@@ -1190,6 +1190,43 @@
         }
       }
     },
+    "/api/triages/{triage_id}/validation-draft": {
+      "post": {
+        "summary": "Validation Draft",
+        "operationId": "validation_draft_api_triages__triage_id__validation_draft_post",
+        "parameters": [
+          {
+            "name": "triage_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Triage Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/conversations/{conversation_id}/triages": {
       "post": {
         "summary": "Create Triage",
@@ -1809,6 +1846,19 @@
           },
           "claim": {
             "$ref": "#/components/schemas/Claim"
+          },
+          "source_triage_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 64,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Triage Id"
           }
         },
         "additionalProperties": false,

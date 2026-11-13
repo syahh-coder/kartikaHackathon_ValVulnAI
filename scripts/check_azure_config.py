@@ -9,6 +9,7 @@ from pydantic import ValidationError
 from app.config import Settings
 from app.providers.contracts import ProviderFailure
 from app.providers.text_provider import require_configuration, secret
+from app.providers.triage_contracts import MAX_INPUT_TOKENS, MAX_OUTPUT_TOKENS
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -43,7 +44,7 @@ def check(path: Path) -> dict:
     minimum = None
     if all(value is not None for value in (config.triage_prompt_usd_per_million,
                                            config.triage_completion_usd_per_million, config.triage_usd_to_idr)):
-        minimum = int(((8192 * config.triage_prompt_usd_per_million + 1024 * config.triage_completion_usd_per_million)
+        minimum = int(((MAX_INPUT_TOKENS * config.triage_prompt_usd_per_million + MAX_OUTPUT_TOKENS * config.triage_completion_usd_per_million)
                        / Decimal(1_000_000) * config.triage_usd_to_idr).to_integral_value(rounding=ROUND_CEILING))
     valid = all(required.values())
     if valid:

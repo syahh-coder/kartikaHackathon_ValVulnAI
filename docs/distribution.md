@@ -1,6 +1,8 @@
 # Rencana distribusi karya melalui GitHub
 
-**Kandidat lokal R4 tersedia, belum dipublikasikan:** [final-review.md](final-review.md) menautkan source ZIP/checksum, hasil setup/startup yang benar-benar dijalankan, quick start, slide HTML/PDF, thumbnail, tiga screenshot, preview WebM MOCK dan draft publikasi. [Bahan lokal](../submission/README.md). Lisensi asli, video final/link YouTube/slide publik dan hasil live/benchmark tetap pending. Isi “belum dibuat” di bawah adalah rencana distribusi terdahulu; tidak mengesahkan publikasi baru.
+**Distribusi13 November2026:** pengguna mengotorisasi push integrasi AI ke branch main setelah baseline c6ab781. Riwayat commit GitHub menjadi rujukan versi source yang dipublikasikan; release/video/slide publik/submit final tetap pending. README terkini dan [paket review](final-review.md) adalah pintu masuk juri. [Review manual terakhir](manual-final-review.md) memisahkan kode selesai dari input/bukti/publikasi yang belum tersedia.
+
+**Arsip kandidat R4 lokal tersedia, belum dirilis:** [final-review.md](final-review.md) menautkan source ZIP/checksum, hasil setup/startup yang benar-benar dijalankan, quick start, slide HTML/PDF, thumbnail, lima screenshot, preview WebM MOCK dan draft publikasi. [Bahan lokal](../submission/README.md). Lisensi asli, video final/link YouTube/slide publik dan hasil live/benchmark tetap pending. Isi “belum dibuat” di bawah adalah rencana distribusi terdahulu; tidak mengesahkan publikasi baru.
 
 **Urutan aktif 7 November 2026:** lanjutkan R1-R4 pada [scope submission](submission-scope.md), bukan mengulang M1/M3 atau menunggu 24 titik. Release harus menjelaskan triage AI teks, batas tiga subtype produk, dan benchmark fungsional mekanisme dikenal; M6 asli tetap sebagian. Source/data/service tidak diperbarui oleh keputusan dokumentasi ini.
 

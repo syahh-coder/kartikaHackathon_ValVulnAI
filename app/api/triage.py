@@ -6,6 +6,13 @@ from app.providers.triage_contracts import TriageInput
 router = APIRouter()
 
 
+@router.post("/api/triages/{triage_id}/validation-draft")
+async def validation_draft(triage_id: str, request: Request, user: Principal = Depends(principal)):
+    from app.agent.validation_draft import prepare
+    async with request.app.state.db.connect() as conn:
+        return await prepare(conn, user, triage_id)
+
+
 @router.post("/api/conversations/{conversation_id}/triages", status_code=202)
 async def create_triage(conversation_id: str, body: TriageInput, request: Request, user: Principal = Depends(principal)):
     service = request.app.state.text_triage

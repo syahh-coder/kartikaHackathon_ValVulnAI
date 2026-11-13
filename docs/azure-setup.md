@@ -48,7 +48,7 @@ Periksa tanpa memanggil Azure atau menampilkan nilai key:
 .venv\Scripts\python.exe -m scripts.check_azure_config
 ```
 
-Saat tarif/kurs sudah diisi, output `minimum_reservation_idr` menghitung pembulatan ke atas biaya maksimum 8192 input +1024 output token. Isi reservasi setidaknya sebesar hasil itu. Pemeriksaan mengembalikan `CONFIGURATION_REQUIRED` bila ada field/bukti konfigurasi belum lengkap (exit 2), `CONFIGURATION_INVALID` jika tipe/nama field salah, atau `CONFIGURED_NOT_VERIFIED` bila konfigurasi lokal lengkap. Ini **nol request cloud**, bukan uji key, kuota, kredit atau model. Jangan menyetel semua flag true hanya agar pesan hilang. Hindari environment PowerShell `VALVULN_*` lama yang dapat menimpa file saat pemeriksaan host.
+Saat tarif/kurs sudah diisi, output `minimum_reservation_idr` menghitung pembulatan ke atas biaya maksimum 8192 input +4096 output token. Isi reservasi setidaknya sebesar hasil itu. Pemeriksaan mengembalikan `CONFIGURATION_REQUIRED` bila ada field/bukti konfigurasi belum lengkap (exit 2), `CONFIGURATION_INVALID` jika tipe/nama field salah, atau `CONFIGURED_NOT_VERIFIED` bila konfigurasi lokal lengkap. Ini **nol request cloud**, bukan uji key, kuota, kredit atau model. Jangan menyetel semua flag true hanya agar pesan hilang. Hindari environment PowerShell `VALVULN_*` lama yang dapat menimpa file saat pemeriksaan host.
 
 ## Menyalakan pada web yang sedang dipakai
 

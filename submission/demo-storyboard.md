@@ -2,6 +2,8 @@
 
 Status: **DRAFT / belum video submission**. Preview UI MOCK tersedia terpisah setelah capture. Rekam final setelah GT/bukti dan model nyata siap; materi ini tidak menggantikan hasil live. Jangan memasukkan secret, GT privat, password atau sesi ke rekaman. Semua penggunaan lab tetap mengikuti kontrol produk yang sudah ada.
 
+**Pembaruan13 November2026:** setelah saran AI tampil, tunjukkan tombol **Siapkan validasi dari saran AI**, field yang diekstrak dan konfirmasi pengguna sebelum run. Tampilkan satu OOS yang dihentikan backend. Provider utama OpenRouter, cadangan Azure dipilih operator. Jangan menyebut live berhasil sebelum smoke nyata; model simulasi dan planner fixture tetap dilabeli.
+
 | Waktu | Layar | Narasi / bukti yang harus nyata |
 | --- | --- | --- |
 | 00:00–00:45 | Judul dan batas produk | ValVuln membantu triage laporan, memisahkan izin backend, observasi dan review admin. Sebutkan tiga subtype dan mode yang sedang ditampilkan. |

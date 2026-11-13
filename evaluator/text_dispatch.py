@@ -12,6 +12,7 @@ from app.providers.openrouter import TextFailure
 from app.providers.text_provider import expected_model, input_token_bound, profile, require_configuration, secret
 from app.providers.text_provider import transport as make_transport
 from app.providers.redaction import redact_value
+from app.providers.triage_contracts import MAX_INPUT_TOKENS, MAX_OUTPUT_TOKENS
 from app.storage.db import one
 from evaluator.functional_v2 import EvaluationError, parse_prediction
 from evaluator.text_context import CONTRACT, PROMPT_VERSION, sha
@@ -24,7 +25,8 @@ def configuration(config) -> dict:
             "price_snapshot": c.triage_price_snapshot, "prompt_price": str(c.triage_prompt_usd_per_million),
             "completion_price": str(c.triage_completion_usd_per_million), "usd_to_idr": str(c.triage_usd_to_idr),
             "reservation_idr": c.triage_reservation_idr, "budget_idr": c.budget_idr,
-            "timeout_seconds": c.triage_timeout_seconds, "input_limit": 8192, "output_limit": 1024,
+            "timeout_seconds": c.triage_timeout_seconds,
+            "input_limit": MAX_INPUT_TOKENS, "output_limit": MAX_OUTPUT_TOKENS,
             "temperature": 0, "attempts_per_slot": 1, "fallbacks": [], "tools": [],
             "contract_hash": sha(packed(CONTRACT)), "prompt_version": PROMPT_VERSION, **profile(c)}
 

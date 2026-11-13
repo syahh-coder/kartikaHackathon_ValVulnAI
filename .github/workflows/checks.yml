@@ -1,0 +1,21 @@
+name: Backend checks
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: requirements-dev.lock
+      - run: python -m pip install -r requirements-dev.lock
+      - run: python -m pip install --no-deps -e .
+      - name: Provider and AI handoff tests (no live credentials)
+        run: >-
+          python -m pytest -q
+          tests/test_ai_validation_draft.py tests/test_provider_operations.py
+          tests/test_text_triage.py tests/test_azure_text.py
+          tests/test_text_benchmark.py tests/test_auth_reports.py

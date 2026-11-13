@@ -21,7 +21,7 @@ include = ["app*", "boundary*", "worker*", "lab*", "evaluator*"]
 
 [tool.setuptools.package-data]
 app = ["storage/migrations/*.sql", "templates/*.html", "static/*"]
-lab = ["migrations/*.sql"]
+lab = ["migrations/*.sql", "manual.html"]
 evaluator = ["catalog.json"]
 
 [tool.pytest.ini_options]

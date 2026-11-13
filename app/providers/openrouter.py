@@ -51,7 +51,7 @@ def request_body(config: Settings, prompt: str, *, system_prompt: str = SYSTEM_P
         "response_format": {"type": "json_schema", "json_schema": {
             "name": schema_name, "strict": True, "schema": schema if schema is not None else TriageSuggestion.model_json_schema()}},
         "provider": {"only": [config.triage_provider_slug], "allow_fallbacks": False,
-                     "require_parameters": False, "max_price": {
+                     "require_parameters": True, "max_price": {
                          "prompt": float(config.triage_prompt_usd_per_million or 0),
                          "completion": float(config.triage_completion_usd_per_million or 0), "request": 0}},
     }

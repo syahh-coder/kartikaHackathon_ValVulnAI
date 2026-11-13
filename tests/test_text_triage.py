@@ -24,6 +24,7 @@ SUGGESTION = {
     "category": "BAC", "subtype": "BAC-08", "missing_information": ["ID objek dan kontrol pemilik"],
     "scope_suggestion": "UNKNOWN", "capability_suggestion": "NEEDS_INFO",
     "reason": "Klaim membutuhkan pemeriksaan prasyarat; saran bukan verdict.",
+    "validation_fields": None,
 }
 
 
@@ -121,7 +122,7 @@ async def test_valid_http_through_intake_metadata_cost_and_private_raw(triage_en
     request = script.requests[0]
     assert str(request.url) == ENDPOINT
     body = json.loads(request.content)
-    assert body["model"] == MODEL and body["max_tokens"] == 1024 and not body["stream"]
+    assert body["model"] == MODEL and body["max_tokens"] == 4096 and not body["stream"]
     assert body["provider"]["only"] == ["synthetic"] and not body["provider"]["allow_fallbacks"]
     assert body["provider"]["require_parameters"] and body["provider"]["max_price"]["request"] == 0
     assert not any(k in body for k in ("tools", "tool_choice", "plugins", "models"))
@@ -426,7 +427,7 @@ async def test_context_extra_mode_fields_and_large_attachment_fail_before_dispat
 
 @pytest.mark.parametrize("usage", [
     {"prompt_tokens": -1, "completion_tokens": 5}, {"prompt_tokens": True, "completion_tokens": 5},
-    {"prompt_tokens": 10, "completion_tokens": 1025}, {"prompt_tokens": 8193, "completion_tokens": 5},
+    {"prompt_tokens": 10, "completion_tokens": 4097}, {"prompt_tokens": 8193, "completion_tokens": 5},
     {"prompt_tokens": 10, "completion_tokens": 5, "cost": -1},
     {"prompt_tokens": 10, "completion_tokens": 5, "cost": "0"},
 ])

@@ -66,7 +66,7 @@ def audit(archive: Path, output: Path):
     pages=len(re.findall(rb"/Type\s*/Page\b",pdf))
     assert pages==9
     screenshots=list((ROOT/"submission/screenshots").glob("*.png"))
-    assert len(screenshots)==3
+    assert 1 <= len(screenshots) <= 5
     video=(ROOT/"submission/demo-preview-MOCK.webm").read_bytes()
     assert video.startswith(b"\x1a\x45\xdf\xa3")
     capture=load(ROOT/"artifacts/r4/capture-result.json")

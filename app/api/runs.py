@@ -25,6 +25,13 @@ async def run_projection(conn, run, role: str):
         "capability_decision", "execution_mode", "tool_execution_mode", "model_id", "inference_provider", "error_code", "created_at", "finished_at")}
     output["counters"] = json.loads(run["counters_json"])
     output["validation_kind"] = await validation_kind(conn, run)
+    origin = await one(conn, "SELECT details_json FROM audit_events WHERE event_type='AI_CLAIM_CONFIRMED' "
+                       "AND json_extract(details_json,'$.report_revision_id')=? ORDER BY created_at DESC LIMIT 1",
+                       (run["report_revision_id"],))
+    if origin:
+        details = json.loads(origin[0])
+        output["claim_origin"] = {k: details[k] for k in ("source_triage_id", "mode", "provider", "requested_model")}
+        output["claim_origin"]["human_confirmed"] = True
     assessment = await one(conn, "SELECT * FROM assessments WHERE run_id=?", (run["run_id"],))
     output["assessment"] = None
     if assessment:

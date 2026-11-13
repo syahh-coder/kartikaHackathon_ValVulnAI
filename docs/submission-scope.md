@@ -1,5 +1,7 @@
 # Scope submission setelah review M6
 
+**Penyelesaian kode13 November2026:** AI TEXT-ONLY dapat mengisi draf klaim v2 yang harus dikonfirmasi pemilik sebelum run. Model tidak menetapkan scope/izin atau mengakses worker langsung; tiga subtype dan fixture tetap. OpenRouter utama/Azure cadangan dipilih eksplisit, tanpa fallback otomatis. [Implementasi](ai-validation-integration.md), [review terakhir](manual-final-review.md). Tidak memperluas M6 atau mengubah kebutuhan GT/live/evaluasi.
+
 **Checkpoint implementasi terbaru:** seluruh kode independen sisa R3 dan persiapan R4 telah disiapkan menjadi paket lokal READY_FOR_REVIEW_WITH_PENDING_INPUTS. [Indeks pengguna](final-review.md), [hasil R3/R4](r3-r4-verification.md). Runner/builder/freeze gate tersedia, tetapi GT0, bukti kandidat belum terikat, key/profil live belum tersedia dan benchmark belum berjalan. M6 tetap DEFERRED; publikasi menunggu review. Bagian yang menyebut belum ada runner menggambarkan keadaan saat keputusan scope awal.
 
 Keputusan aktif **7 November 2026**, setelah pengguna menyetujui rekomendasi penyempitan scope dan meminta dokumentasi serta prompt lanjutan. Ini perubahan rencana, bukan bukti implementasi. Dokumen ini memiliki keputusan cakupan submission; detail eksperimen berada di [evaluation.md](evaluation.md), urutan pekerjaan di [implementation.md](implementation.md), dan instruksi batch berikutnya di [execution-prompt.md](execution-prompt.md).

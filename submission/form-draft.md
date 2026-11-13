@@ -12,7 +12,7 @@ Sesuaikan kalimat status setelah verifikasi final; jangan menghapus keterbatasan
 
 | Field | Nilai / file | Status |
 | --- | --- | --- |
-| Link karya | https://github.com/syahh-coder/kartikaHackathon_ValVulnAI | Kanal ditetapkan; source terbaru/release belum dipublikasikan |
+| Link karya | https://github.com/syahh-coder/kartikaHackathon_ValVulnAI | Repo publik tersedia; integrasi batch ini kandidat lokal, release final pending |
 | Video YouTube | Diisi setelah rekaman dan upload disetujui | PENDING |
 | Slide publik | File lokal slides.html/slides.pdf tersedia setelah render | Upload/link PENDING |
 | Thumbnail | thumbnail.png, hasil render 1200x630 | Tinjau visual dan ukuran pada indeks final-review |

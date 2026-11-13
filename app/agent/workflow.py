@@ -1,5 +1,6 @@
 import asyncio
 import json
+import logging
 import time
 
 from app.agent.ledger import reserve
@@ -22,6 +23,7 @@ LIMITS = {"model_calls": 12, "target_requests": 40, "browser_actions": 30, "acti
           "queue_seconds": 300, "input_tokens": 8192, "output_tokens": 1024,
           "body_bytes": 131072, "response_bytes": 1048576, "screenshot_bytes": 2097152,
           "artifact_bytes": 16777216}
+logger = logging.getLogger(__name__)
 
 
 class Workflow:
@@ -227,9 +229,10 @@ class Workflow:
                     if run["process_status"] not in TERMINAL:
                         await self._stop(conn, run_id, "FAILED", "PROCESS_INTERRUPTED")
                 raise
-            except Exception:
+            except Exception as exc:
                 async with self.db.transaction() as conn:
                     await self._stop(conn, run_id, "FAILED", "INTERNAL_ERROR")
+                logger.error("Workflow failure run_id=%s error_type=%s", run_id, type(exc).__name__)
                 raise
 
     async def execute_lab(self, run_id: str):
@@ -334,8 +337,9 @@ class Workflow:
             self.wake.clear()
             try:
                 await self.tick()
-            except Exception:
+            except Exception as exc:
                 # Individual failure was persisted; keep the singleton dispatcher available.
+                logger.error("Dispatcher iteration failed error_type=%s", type(exc).__name__)
                 pass
             try:
                 await asyncio.wait_for(self.wake.wait(), timeout=0.25)

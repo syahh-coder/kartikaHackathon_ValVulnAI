@@ -13,7 +13,7 @@ from app.providers.openrouter import TextFailure, TextReply, strict_json
 from app.providers.text_provider import (expected_model as resolved_model, input_token_bound, profile, require_configuration,
                                          secret, transport)
 from app.providers.redaction import redact_text, redact_value
-from app.providers.triage_contracts import (MAX_INPUT_TOKENS, PROMPT_VERSION, SCHEMA_VERSION,
+from app.providers.triage_contracts import (MAX_INPUT_TOKENS, MAX_OUTPUT_TOKENS, PROMPT_VERSION, SCHEMA_VERSION,
                                            TriageSuggestion)
 from app.storage.db import Database, all_rows, one
 from app.storage.quota import check_storage
@@ -25,7 +25,7 @@ class MockTriageTransport:
             primary_claim="Simulasi triage; klaim belum diekstrak oleh model nyata.", category="UNKNOWN",
             subtype="UNKNOWN", missing_information=["Tinjau klaim dan prasyarat secara manual."],
             scope_suggestion="UNKNOWN", capability_suggestion="NEEDS_INFO",
-            reason="ADAPTER MOCK: respons tetap, bukan inferensi AI atau hasil validasi target.")
+            reason="ADAPTER MOCK: respons tetap, bukan inferensi AI atau hasil validasi target.", validation_fields=None)
         text = suggestion.model_dump_json()
         return TextReply(ProviderResult(call_id=call_id, provider_id="mock", requested_model_id="mock-triage-v1",
                                        resolved_model_id="mock-triage-v1", inference_provider="mock",
@@ -52,7 +52,8 @@ class TextTriage:
                 "completion_usd_per_million": str(c.triage_completion_usd_per_million),
                 "usd_to_idr": str(c.triage_usd_to_idr), "reservation_idr": c.triage_reservation_idr,
                 "timeout_seconds": c.triage_timeout_seconds, "retry_enabled": c.triage_retry_enabled,
-                "max_attempts": 2 if c.triage_retry_enabled else 1, "input_tokens": 8192, "output_tokens": 1024,
+                "max_attempts": 2 if c.triage_retry_enabled else 1,
+                "input_tokens": MAX_INPUT_TOKENS, "output_tokens": MAX_OUTPUT_TOKENS,
                 "token_bound": "operator-verified-utf8-byte-bpe-plus-1024", "tools": [], "fallbacks": [], **profile(c)}
 
     async def create(self, user, conversation_id: str, version: int, key: str) -> str:

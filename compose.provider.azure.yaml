@@ -1,0 +1,11 @@
+# Overlay for the EXISTING main app/volume/ledger, not a separate preview stack.
+# docker compose -f compose.yaml -f compose.provider.azure.yaml up -d --no-deps app
+services:
+  app:
+    env_file:
+      - path: .env.azure
+        required: true
+    environment:
+      VALVULN_TRIAGE_MODE: live
+      VALVULN_TRIAGE_PROVIDER: azure
+      VALVULN_EXECUTION_MODE: mock

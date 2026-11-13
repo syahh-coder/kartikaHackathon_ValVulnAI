@@ -5,8 +5,8 @@ from pydantic import Field, model_validator
 
 from app.schemas import DTO
 
-PROMPT_VERSION = "text-triage-v1"
-SCHEMA_VERSION = "triage-v1"
+PROMPT_VERSION = "text-triage-v2"
+SCHEMA_VERSION = "triage-v2"
 MAX_INPUT_TOKENS = 8192
 MAX_OUTPUT_TOKENS = 4096
 ShortText = Annotated[str, Field(min_length=1, max_length=500)]
@@ -14,6 +14,15 @@ ShortText = Annotated[str, Field(min_length=1, max_length=500)]
 
 class TriageInput(DTO):
     expected_draft_version: int = Field(ge=1)
+
+
+class ValidationFields(DTO):
+    """Untrusted extracted identifiers, not a tool call or permission."""
+    asset_alias: str | None = Field(max_length=64)
+    path: str | None = Field(max_length=2048)
+    control_path: str | None = Field(max_length=2048)
+    account_aliases: list[Annotated[str, Field(min_length=1, max_length=64)]] = Field(max_length=2)
+    claim_count: int = Field(ge=1, le=20)
 
 
 class TriageSuggestion(DTO):
@@ -24,6 +33,7 @@ class TriageSuggestion(DTO):
     scope_suggestion: Literal["IN_SCOPE", "OUT_OF_SCOPE", "UNKNOWN"]
     capability_suggestion: Literal["AVAILABLE", "UNSUPPORTED", "NEEDS_INFO"]
     reason: str = Field(min_length=1, max_length=1500)
+    validation_fields: ValidationFields | None
 
     @model_validator(mode="after")
     def consistent_subtype(self):
@@ -48,4 +58,10 @@ XSS-08 (notification DOM preview), UP-04 (upload name in attachment listing).
 Other subtypes, including BUSINESS_LOGIC lab, are unsupported. Do not infer
 availability from category alone. Scope is only a suggestion based on the supplied
 versioned public guideline; missing scope means UNKNOWN. Never emit a verdict.
+For validation_fields, extract only asset alias, canonical relative path, control
+path, account aliases and claim count explicitly present in the report or its
+attachment. Use null/empty arrays for missing values; never invent object IDs,
+controls, account direction or assets. Use null for validation_fields when the
+subtype is unsupported or unknown. These fields only prefill a human-confirmed
+draft. Never include scripts, payloads, URLs, headers, credentials or actions.
 """

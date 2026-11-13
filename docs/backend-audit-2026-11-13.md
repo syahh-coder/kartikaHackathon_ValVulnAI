@@ -1,5 +1,7 @@
 # Audit backend, akses lab dan OpenRouter — 13 November 2026
 
+**Tindak lanjut sesudah audit:** [integrasi AI-ke-validasi](ai-validation-integration.md) menyelesaikan draf klaim terikat saran, konsistensi cap4096, routing strict, smoke API bersama dan dokumentasi/provider priority. App utama diperbarui dengan data/ledger tetap. Hasil awal di bawah dipertahankan sebagai riwayat, termasuk tes gagal dan timeout; bukan status kode setelah integrasi.
+
 Lingkup: lima permintaan pengguna, yaitu kesesuaian orkestrasi, pembukaan lab Docker untuk manual, daftar celah yang diterapkan, kesiapan OpenRouter dengan key lokal, dan flowchart backend untuk handoff FE. Source/konfigurasi lokal dan runtime dibaca ulang; catatan 7 November bukan dianggap status live hari ini.
 
 ## Hasil utama

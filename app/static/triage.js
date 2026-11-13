@@ -61,6 +61,18 @@ const triageUI = {
     const result=await api(`/api/triages/${id}/cancel`,{method:"POST"});
     if(this.matches(cid,view,epoch)){this.current=result;this.render();}
   },
+  async prepareValidation(){
+    const r=this.current,c=state.conversation,view=state.viewVersion,epoch=this.epoch;
+    if(!r||!c||!own()||r.status!=="SUCCEEDED"||!r.is_current)return;
+    if($("#message-input").value.trim()){notice("Kirim perubahan draf dan minta saran terbaru terlebih dahulu.");return;}
+    const proposal=await api(`/api/triages/${r.triage_id}/validation-draft`,{method:"POST"});
+    if(!this.matches(c.conversation_id,view,epoch))return;
+    if(["OUT_OF_SCOPE","POLICY_BLOCKED","UNSUPPORTED"].includes(proposal.policy_status)){
+      const box=node("div");box.append(node("p",`Backend: ${proposal.scope_decision} · ${proposal.policy_status}. Tidak ada pengujian target yang dimulai.`));
+      proposal.missing_information.forEach(text=>box.append(node("p",text)));panel("Draf validasi belum dapat dilanjutkan",box);return;
+    }
+    await validation(proposal);
+  },
   render(){
     const area=$(".triage-area"),c=state.conversation;if(!area||!c)return;
     area.replaceChildren();const box=node("article",undefined,"assessment-card triage-card"),body=node("div",undefined,"assessment-content");
@@ -90,6 +102,10 @@ const triageUI = {
     if(own()){
       const request=button(this.pending?"Meminta saran…":"Minta saran AI",()=>this.request());
       request.disabled=this.pending||this.active()||c.draft_version<1||!!$("#message-input").value.trim();actions.append(request);
+      if(this.current?.status==="SUCCEEDED"&&this.current.is_current&&["BAC-08","XSS-08","UP-04"].includes(this.current.suggestion?.subtype)){
+        const prepare=button("Siapkan validasi dari saran AI",()=>this.prepareValidation());
+        prepare.disabled=!!$("#message-input").value.trim();actions.append(prepare);
+      }
     }
     if(this.active()&&(own()||state.program.role==="PROGRAM_ADMIN"))actions.append(button("Batalkan saran",()=>this.cancel()));
     actions.append(button("Perbarui status saran",()=>this.refresh()));body.append(actions);box.append(body);area.append(box);

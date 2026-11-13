@@ -72,7 +72,7 @@ def test_schema_factory_and_identity_pin():
     assert isinstance(transport(config), AzureTransport)
     assert secret(config) == KEY and expected_model(config) == MODEL
     body = request_body(config, "Synthetic JSON report")
-    assert body["model"] == config.triage_model and body["max_completion_tokens"] == 1024
+    assert body["model"] == config.triage_model and body["max_completion_tokens"] == 4096
     assert not any(k in body for k in ("provider", "tools", "functions", "max_tokens"))
     schema = body["response_format"]["json_schema"]["schema"]
     assert schema["additionalProperties"] is False

@@ -2,7 +2,7 @@
 
 Judul usulan: **ValVuln AI — purwarupa lokal untuk triage laporan dan review bukti**.
 
-ValVuln AI menerima laporan teks, menawarkan triage terstruktur dan menyediakan review bukti dengan role/scope server-side. Pemeriksaan produk tersedia untuk BAC-08, XSS-08 dan metadata nama upload UP-04 melalui fixture lab terdaftar. Planner pemeriksaan tetap deterministik; model hanya memproses teks.
+ValVuln AI menerima laporan teks, mengekstrak draf klaim lewat AI dan menghubungkannya ke validasi setelah konfirmasi pemilik serta gate backend. OpenRouter prioritas pertama; Azure Foundry cadangan dipilih eksplisit tanpa fallback otomatis. Pemeriksaan produk tersedia untuk BAC-08, XSS-08 dan metadata nama upload UP-04 melalui fixture lab terdaftar. Planner pemeriksaan tetap deterministik; model hanya memproses teks.
 
 Status kandidat review: CODE_TESTED lokal dengan simulasi. LIVE_VERIFIED, FROZEN dan EVALUATED belum terpenuhi. Dua puluh kandidat benchmark masih menunggu GT/bukti; tidak ada skor akurasi produk. Business logic dan sisa M6 DEFERRED untuk submission.
 

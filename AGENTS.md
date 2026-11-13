@@ -1,5 +1,9 @@
 # Instruksi pengembangan repositori
 
+## Integrasi AI selesai pada kode — steering13 November2026
+
+Instruksi terbaru pengguna: OpenRouter prioritas1, Azure Foundry2; kedua adapter harus tersedia secara teori/kode, live diperiksa setelah key/akses siap. Hubungkan AI ke validasi, selesaikan pekerjaan independen, letakkan verifikasi kerentanan/GT manual di akhir. Lihat `docs/ai-validation-integration.md`, `docs/provider-setup.md`, `docs/manual-final-review.md` dan `docs/final-review.md`. Schema triage-v2 mengisi draf klaim lewat endpoint validation-draft; owner mengonfirmasi snapshot dengan source_triage_id, backend tetap menentukan scope/readiness dan worker memakai fixture deterministik. Tidak ada model-to-worker dispatch/tools bebas. Output4096 diselaraskan dengan snapshot/evaluator/checker; require_parameters=true. Saran v1 tetap terbaca tetapi tidak dipakai sebagai draf v2. Tidak mengubah GT, mengejar M6, mengaktifkan Azure/PAYG atau melakukan inferensi cloud pada batch ini. App utama sudah diperbarui pada volume/ledger sama;26 tabel count/hash identik, worker/lab/manual tidak diganti. Detail audit di bawah adalah riwayat sebelum integrasi ini. Publikasi perubahan baru/release/submit tetap membutuhkan otorisasi yang sesuai.
+
 ## Audit dan steering 13 November 2026
 
 Pengguna meminta audit orkestrasi/BE, akses lab manual, inventaris celah dan cek OpenRouter dengan key yang sudah ditambahkan. Hasil di `docs/backend-audit-2026-11-13.md`, flowchart/API di `docs/backend-flow.md` dan `docs/api/openapi.json`. Profil lokal yang dibaca memilih OpenRouter, bukan mengaktifkan overlay Azure. Key valid; satu smoke gratis melalui API/ledger timeout dan LIVE_VERIFIED tetap false, reservasi Rp100 COST_UNKNOWN dipertahankan. Cap output4096 versus tes/freeze1024 serta require_parameters=false merupakan temuan terbuka; jangan menyatakan kontrak sudah lulus atau mengulang inferensi tanpa perubahan yang beralasan.

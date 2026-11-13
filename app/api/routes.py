@@ -210,6 +210,10 @@ async def snapshot(conversation_id: str, body: SnapshotInput, request: Request, 
         convo, _ = await owned(conn, "conversations", "conversation_id", conversation_id, user, owner_only=True)
         if convo["draft_version"] != body.expected_draft_version:
             raise AppError(409, "DRAFT_STALE", "Versi draf sudah berubah.")
+        source_triage = None
+        if body.source_triage_id:
+            from app.agent.validation_draft import current_source
+            source_triage = await current_source(conn, user, body.source_triage_id, conversation_id)
         attachment = await one(conn, "SELECT * FROM attachments WHERE conversation_id=?", (conversation_id,))
         if not convo["draft_body"].strip() and not attachment:
             raise AppError(422, "REPORT_EMPTY", "Isi laporan diperlukan.")
@@ -223,6 +227,9 @@ async def snapshot(conversation_id: str, body: SnapshotInput, request: Request, 
         if previous:
             if previous["content_hash"] != source_hash:
                 raise AppError(409, "SNAPSHOT_CONFLICT", "Buat revisi draf baru untuk mengubah klaim snapshot.")
+            if source_triage:
+                from app.agent.validation_draft import record_confirmation
+                await record_confirmation(conn, user, source_triage, previous["revision_id"], body.claim)
             return {"report_id": report_id, "report_revision_id": previous["revision_id"]}
         revision_id = uid()
         version = (await one(conn, "SELECT coalesce(max(revision_number),0)+1 FROM report_revisions WHERE report_id=?", (report_id,)))[0]
@@ -230,6 +237,9 @@ async def snapshot(conversation_id: str, body: SnapshotInput, request: Request, 
                            (revision_id, report_id, version, convo["draft_version"], convo["draft_title"], convo["draft_body"],
                             attachment["attachment_id"] if attachment else None, attachment["extracted_text"] if attachment else "",
                             source_hash, packed(body.claim.model_dump()), time.time()))
+        if source_triage:
+            from app.agent.validation_draft import record_confirmation
+            await record_confirmation(conn, user, source_triage, revision_id, body.claim)
     return {"report_id": report_id, "report_revision_id": revision_id}
 
 

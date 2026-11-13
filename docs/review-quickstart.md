@@ -1,5 +1,7 @@
 # Mencoba kandidat paket lokal
 
+**Checkpoint13 November2026:** README dan [provider-setup](provider-setup.md) memakai OpenRouter prioritas1/Azure2. Draf klaim AI memerlukan konfirmasi pemilik; [hasil integrasi](ai-validation-integration.md). Untuk Azure pada app utama gunakan `compose.provider.azure.yaml` pada project/ledger yang sama; overlay `compose.azure.yaml` di bawah adalah panduan preview lama. GT/validasi manual berada pada [review terakhir](manual-final-review.md).
+
 Status aktual dan arsip/checksum: [final-review.md](final-review.md). Paket adalah source kandidat review, bukan release publik atau image prebuilt. Model live dan benchmark belum diverifikasi. Python baseline 3.11; Docker Linux containers dan Compose diperlukan untuk topologi produk. Unduhan awal image/dependensi memerlukan internet; paket tidak sepenuhnya offline.
 
 ## Setup baru, terpisah dari data yang sudah ada

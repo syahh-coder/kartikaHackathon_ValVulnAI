@@ -1,5 +1,7 @@
 # Arsitektur dan kontrak implementasi
 
+**Update kontrak13 November2026:** hasil triage-v2 dapat menyiapkan Claim melalui `POST /api/triages/{triage_id}/validation-draft`; konfirmasi owner melalui snapshot membawa source_triage_id dan diaudit. Endpoint persiapan tidak membuat job atau memberi izin; scope, readiness, policy per aksi dan verifier tetap otoritas backend. Runtime teks4096 output; planner mock lama1024 terpisah. Prioritas OpenRouter/Azure dipilih operator tanpa fallback otomatis. [Kontrak/bukti terbaru](ai-validation-integration.md), [setup provider](provider-setup.md). Bagian historis di bawah yang menyebut saran belum mengisi klaim digantikan jalur konfirmasi ini.
+
 **Audit aktual 13 November 2026:** [backend-flow.md](backend-flow.md) memetakan jalur triage teks, snapshot/claim, gate, antrean/worker/verifier dan review/publikasi berdasarkan source. Triage live tidak membuat run dan planner LAB masih deterministik/mock. Snapshot schema FE: [api/openapi.json](api/openapi.json). Temuan schema/routing/cap provider dan hasil smoke berada di [audit BE](backend-audit-2026-11-13.md), bukan klaim seluruh kontrak sudah lolos.
 
 **Rancangan role 13 November 2026:** kebutuhan fitur bug hunter/admin dan matriks hak akses berada di [roles.md](roles.md). Admin mengelola scope serta dapat memasukkan laporan sendiri/kanal eksternal; hunter mengelola laporan sendiri. Atribusi pelapor eksternal tidak memberi kepemilikan akun. Fitur tambahan pada dokumen role masih usulan; belum mengubah schema/API atau membuktikan implementasi.

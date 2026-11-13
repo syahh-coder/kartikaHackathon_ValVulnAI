@@ -56,6 +56,7 @@ class Claim(DTO):
 class SnapshotInput(DTO):
     expected_draft_version: int = Field(ge=1)
     claim: Claim
+    source_triage_id: str | None = Field(default=None, min_length=1, max_length=64)
 
 
 class RunInput(DTO):

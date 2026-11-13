@@ -103,6 +103,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     @app.get("/api/readiness")
     async def readiness():
         from app.providers.contracts import ProviderFailure
+        from app.providers.triage_contracts import MAX_INPUT_TOKENS, MAX_OUTPUT_TOKENS, SCHEMA_VERSION
         from app.providers.text_provider import require_configuration
         try:
             require_configuration(config)
@@ -112,7 +113,10 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         text_readiness = {"triage_mode": config.triage_mode, "text_provider": text_status,
                           "lab_planner_mode": config.execution_mode,
                           "triage_provider": config.triage_provider if config.triage_mode == "live" else config.triage_mode,
-                          "triage_requested_model": config.triage_model if config.triage_mode == "live" else "mock-triage-v1"}
+                          "triage_requested_model": config.triage_model if config.triage_mode == "live" else "mock-triage-v1",
+                          "provider_priority": ["openrouter", "azure"], "automatic_provider_fallback": False,
+                          "triage_input_tokens": MAX_INPUT_TOKENS, "triage_output_tokens": MAX_OUTPUT_TOKENS,
+                          "triage_schema_version": SCHEMA_VERSION, "ai_validation_draft": "HUMAN_CONFIRMATION_REQUIRED"}
         if config.transport_key_file:
             try:
                 from app.transport import Handoff
