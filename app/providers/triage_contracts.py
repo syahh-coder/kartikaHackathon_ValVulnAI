@@ -8,7 +8,7 @@ from app.schemas import DTO
 PROMPT_VERSION = "text-triage-v1"
 SCHEMA_VERSION = "triage-v1"
 MAX_INPUT_TOKENS = 8192
-MAX_OUTPUT_TOKENS = 1024
+MAX_OUTPUT_TOKENS = 4096
 ShortText = Annotated[str, Field(min_length=1, max_length=500)]
 
 

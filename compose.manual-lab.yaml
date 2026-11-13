@@ -1,0 +1,39 @@
+# Explicit operator-only copy. Never added to app/worker target bindings.
+services:
+  manual_lab:
+    build:
+      context: .
+      dockerfile: lab/Dockerfile
+    image: valvuln-manual-lab:local
+    init: true
+    entrypoint: ["/usr/local/bin/lab-network", "manual"]
+    command: ["python", "-m", "uvicorn", "lab.main:create_app", "--factory", "--host", "0.0.0.0", "--port", "8001", "--workers", "1", "--no-access-log"]
+    environment:
+      LAB_DATA_DIR: /data
+      LAB_MANUAL_ORIGIN: http://127.0.0.1:8001
+    ports: ["127.0.0.1:8001:8001"]
+    volumes: ["manual_lab_data:/data"]
+    networks: [manual_only]
+    read_only: true
+    tmpfs: ["/tmp:size=32m,mode=1777"]
+    cap_drop: [ALL]
+    cap_add: [NET_ADMIN, SETUID, SETGID, SETPCAP]
+    security_opt: ["no-new-privileges:true"]
+    mem_limit: 512m
+    cpus: 1.0
+    pids_limit: 128
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8001/api/health', timeout=3)"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+volumes:
+  manual_lab_data:
+    external: true
+    name: valvuln_manual_lab_data_20261113
+networks:
+  manual_only:
+    # A normal bridge is needed for host port publishing. The manual bootstrap
+    # blocks new outbound traffic before dropping every capability/root UID.
+    driver: bridge

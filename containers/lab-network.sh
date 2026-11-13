@@ -15,6 +15,12 @@ if [ "$1" = worker ]; then
 elif [ "$1" = lab ]; then
     iptables -w -A INPUT -s 172.30.74.2 -p tcp --dport 8001 -j ACCEPT
     iptables -w -A OUTPUT -o lo -j ACCEPT
+elif [ "$1" = manual ]; then
+    # Separate manual-only bridge: Docker publishes this port on host loopback.
+    # New outbound connections remain blocked; the service then loses all caps.
+    [ "${LAB_MANUAL_ORIGIN:-}" = "http://127.0.0.1:8001" ] || exit 1
+    iptables -w -A INPUT -p tcp --dport 8001 -j ACCEPT
+    iptables -w -A OUTPUT -o lo -j ACCEPT
 else
     exit 1
 fi

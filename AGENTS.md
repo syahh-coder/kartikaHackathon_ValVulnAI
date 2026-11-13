@@ -1,5 +1,11 @@
 # Instruksi pengembangan repositori
 
+## Audit dan steering 13 November 2026
+
+Pengguna meminta audit orkestrasi/BE, akses lab manual, inventaris celah dan cek OpenRouter dengan key yang sudah ditambahkan. Hasil di `docs/backend-audit-2026-11-13.md`, flowchart/API di `docs/backend-flow.md` dan `docs/api/openapi.json`. Profil lokal yang dibaca memilih OpenRouter, bukan mengaktifkan overlay Azure. Key valid; satu smoke gratis melalui API/ledger timeout dan LIVE_VERIFIED tetap false, reservasi Rp100 COST_UNKNOWN dipertahankan. Cap output4096 versus tes/freeze1024 serta require_parameters=false merupakan temuan terbuka; jangan menyatakan kontrak sudah lulus atau mengulang inferensi tanpa perubahan yang beralasan.
+
+Lab manual terpisah telah dibuka di `http://127.0.0.1:8001` melalui `compose.manual-lab.yaml`, project `valvuln-manual`, volume `valvuln_manual_lab_data_20261113`. Tiga belas kondisi existing diaktifkan pada salinan, source DB asli tidak ditulis. Jangan memasukkan instance manual ke target binding worker atau menganggapnya bukti benchmark. Login/route/isolation dan7 tes akses lulus; satu tes kontrak OpenRouter gagal dan dicatat. Petunjuk serta daftar13 titik di `docs/manual-lab.md`. FE produk dikerjakan terpisah oleh teman pengguna; audit ini tidak mengubah tujuan TEXT-ONLY/M6 DEFERRED.
+
 ## Steering provider7 November2026
 
 Pengguna memilih Azure Foundry lewat akun pelajar. Adapter Azure teks, wiring triage/readiness/evaluator dan konfigurasi privat telah diimplementasikan serta diuji148 kasus simulasi/regresi; LIVE_VERIFIED tetap false. Ikuti `docs/azure-setup.md` dan `docs/azure-verification.md`. Preview8010 tetap MOCK sampai `.env.azure` lengkap dan overlay diaktifkan secara eksplisit pada project/volume/ledger preview yang sama. Key/endpoint/deployment, kredit/kuota/harga dan kompatibilitas model belum terverifikasi. Azure tidak memberi tagihan aktual per respons pada kontrak ini; tahan reservasi COST_UNKNOWN, jangan menyamakannya dengan nol atau estimasi tarif. Jangan mengaktifkan PAYG/provisioning, mereset budget/data atau mengulang M6. Ketentuan keamanan TEXT-ONLY dan review sebelum publikasi tetap berlaku.

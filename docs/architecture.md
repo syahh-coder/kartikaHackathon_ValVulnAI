@@ -1,5 +1,9 @@
 # Arsitektur dan kontrak implementasi
 
+**Audit aktual 13 November 2026:** [backend-flow.md](backend-flow.md) memetakan jalur triage teks, snapshot/claim, gate, antrean/worker/verifier dan review/publikasi berdasarkan source. Triage live tidak membuat run dan planner LAB masih deterministik/mock. Snapshot schema FE: [api/openapi.json](api/openapi.json). Temuan schema/routing/cap provider dan hasil smoke berada di [audit BE](backend-audit-2026-11-13.md), bukan klaim seluruh kontrak sudah lolos.
+
+**Rancangan role 13 November 2026:** kebutuhan fitur bug hunter/admin dan matriks hak akses berada di [roles.md](roles.md). Admin mengelola scope serta dapat memasukkan laporan sendiri/kanal eksternal; hunter mengelola laporan sendiri. Atribusi pelapor eksternal tidak memberi kepemilikan akun. Fitur tambahan pada dokumen role masih usulan; belum mengubah schema/API atau membuktikan implementasi.
+
 **Pembaruan Azure7 November:** pemilihan provider teks eksplisit `VALVULN_TRIAGE_PROVIDER`; adapter Azure Foundry OpenAI v1 tersedia tanpa tools atau worker dispatch. Deployment/requested model dipisahkan dari identitas model respons; endpoint dan expected model masuk snapshot konfigurasi. Key hanya di app/evaluator, COST_UNKNOWN mempertahankan reservasi penuh. CODE_TESTED148 tes terkait; live belum. [Konfigurasi](azure-setup.md), [bukti dan batas](azure-verification.md). Ini menggantikan kalimat lama yang menyebut Azure hanya rencana, tanpa mengubah kontrak verifier atau fallback benchmark.
 
 ## Kontrak submission aktif 7 November 2026

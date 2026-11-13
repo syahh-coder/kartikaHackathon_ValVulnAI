@@ -10,6 +10,8 @@ Tujuan: memeriksa scope laporan, mereproduksi klaim terhadap portal pengadaan/lo
 
 ## Status saat ini
 
+**Audit BE dan akses manual 13 November 2026:** lab salinan untuk verifikasi tersedia di **http://127.0.0.1:8001/**. [Login dan daftar 13 kasus](docs/manual-lab.md), [flowchart/kontrak backend](docs/backend-flow.md), [snapshot OpenAPI untuk FE](docs/api/openapi.json), [hasil audit](docs/backend-audit-2026-11-13.md). Key OpenRouter valid pada metadata; satu smoke triage nyata timeout, sehingga live belum terverifikasi. 7 tes akses manual lulus; 1 tes kontrak OpenRouter gagal akibat cap4096/1024 yang belum selaras. State/backend lama di bawah dibaca sebagai riwayat sesuai tanggalnya.
+
 **Paket review terbaru 7 November: READY_FOR_REVIEW_WITH_PENDING_INPUTS.** Sisa kode independen R3b–R3f dan persiapan R4 tersedia: konteks/prediksi A/B, runner teks dengan ledger aplikasi bersama, gate freeze, hasil pending, arsip source/checksum serta slide/gambar/preview demo lokal. [Buka indeks review, bukti tes dan input pengguna](docs/final-review.md). [Quick start kandidat paket](docs/review-quickstart.md), [runbook evaluator](docs/r3-runbook.md), [bahan presentasi](submission/README.md).
 
 **CODE_TESTED lokal; LIVE_VERIFIED=false, FROZEN=false, EVALUATED=false.** Dua puluh kandidat tetap 0 GT manusia dan 0 konteks bukti kasus final; metrik benchmark null. Simulasi40 slot terpisah dari hasil nyata. Schema source006 diuji pada data disposable; service/37 riwayat run/ledger pengguna tetap dipertahankan. Belum ada push, release, upload atau submit. Paragraf checkpoint R3a/R2 di bawah adalah riwayat sebelum paket review ini.

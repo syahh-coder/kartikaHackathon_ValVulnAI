@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="id">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Portal lab manual ValVuln AI</title>
+<style>
+body{font:16px system-ui;max-width:850px;margin:40px auto;padding:0 20px;background:#171c18;color:#e5ece4}a{color:#b2c8a6}label{display:block;margin-top:12px}input,select,button{font:inherit;padding:8px;margin:5px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#252c25;padding:16px}li{margin:9px 0}
+</style>
+<h1>Portal pengadaan — lab manual</h1>
+<p>Salinan khusus verifikasi lokal. Kondisi rentan diaktifkan untuk kasus yang sudah diimplementasikan. Data dan akun sintetis; instance ini terpisah dari target worker dan hasil benchmark.</p>
+<form id="login">
+<label>Akun uji <select id="alias"><option>requester-a</option><option>requester-b</option></select></label>
+<label>Password dari file akun lab lokal <input id="password" type="password" autocomplete="off" required></label>
+<button>Login akun uji</button>
+</form>
+<p id="status" role="status">Login untuk membuka fitur lab.</p>
+<button id="objects">Lihat ID objek akun ini</button>
+<pre id="output">Belum ada data dibaca.</pre>
+<ul>
+<li><a href="/catalog/search?q=contoh" target="_blank" rel="noopener">Pencarian katalog — XSS-01</a></li>
+<li><a id="supplier-link" target="_blank" rel="noopener">Pemasok — XSS-05 (baca ID objek dahulu)</a></li>
+<li><a href="/tracking" target="_blank" rel="noopener">Pelacakan — XSS-06</a></li>
+<li><a href="/requests/view" target="_blank" rel="noopener">Panel permintaan — XSS-07</a></li>
+<li><a href="/notifications/preview" target="_blank" rel="noopener">Pratinjau notifikasi — XSS-08</a></li>
+<li><a href="/api/health" target="_blank" rel="noopener">Health lab</a></li>
+</ul>
+<p>Route dengan ID objek serta rincian 13 kasus tersedia di docs/manual-lab.md. Untuk request mutasi manual, gunakan Origin halaman ini dan X-CSRF-Token dari respons login. Cookie sesi mengikuti browser; sesi akun uji berlaku lima menit.</p>
+<script>
+const status=document.getElementById('status'),output=document.getElementById('output');
+document.getElementById('login').addEventListener('submit',async event=>{
+ event.preventDefault();const password=document.getElementById('password');
+ try{
+  const response=await fetch('/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({login_name:document.getElementById('alias').value,password:password.value})});
+  password.value='';const data=await response.json();
+  if(!response.ok)throw Error('Login ditolak, HTTP '+response.status);
+  status.textContent='Login sebagai '+data.account_alias+'.';output.textContent=JSON.stringify(data,null,2);
+ }catch(error){password.value='';status.textContent=error.message;}
+});
+document.getElementById('objects').addEventListener('click',async()=>{
+ try{const response=await fetch('/manual/objects');const data=await response.json();output.textContent=JSON.stringify(data,null,2);if(!response.ok){status.textContent='Perlu login ulang: HTTP '+response.status;return;}if(data.objects.suppliers.length){const link=document.getElementById('supplier-link');link.href='/suppliers?supplier_id='+encodeURIComponent(data.objects.suppliers[0]);link.textContent='Pemasok akun ini — XSS-05';}}catch(error){status.textContent=error.message;}
+});
+</script>
+</html>

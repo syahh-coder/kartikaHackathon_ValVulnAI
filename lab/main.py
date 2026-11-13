@@ -13,6 +13,7 @@ from pwdlib import PasswordHash
 from boundary.middleware import BodyLimit
 
 from lab.storage import connect, migrate, one
+from lab.manual_access import register_manual_home, validate_manual_origin
 
 
 def hashed(value: str):
@@ -27,12 +28,17 @@ class Login(BaseModel):
 
 def create_app(db_path: Path | None = None):
     path = db_path or Path(os.environ.get("LAB_DATA_DIR", "/data")) / "lab.sqlite3"
+    manual_origin = validate_manual_origin(os.environ.get("LAB_MANUAL_ORIGIN", ""))
+    allowed_origins = {"http://lab:8001"}
+    if manual_origin:
+        allowed_origins.add(manual_origin)
     @asynccontextmanager
     async def lifespan(app):
         await migrate(path)
         yield
     app = FastAPI(title="Portal Lab Sintetis", docs_url=None, redoc_url=None, openapi_url=None, lifespan=lifespan)
     app.add_middleware(BodyLimit,maximum=4096)
+    register_manual_home(app, manual_origin)
 
     @app.middleware("http")
     async def headers_and_audit(request: Request, call_next):
@@ -53,7 +59,7 @@ def create_app(db_path: Path | None = None):
             raise HTTPException(401)
         request.state.actor=session["user_id"]
         if request.method in {"DELETE", "POST", "PATCH", "PUT"}:
-            if (request.headers.get("origin")!="http://lab:8001" or
+            if (request.headers.get("origin") not in allowed_origins or
                     not secrets.compare_digest(hashed(request.headers.get("x-csrf-token","")),session["csrf_hash"])):
                 raise HTTPException(403)
         return session
@@ -66,7 +72,7 @@ def create_app(db_path: Path | None = None):
 
     @app.post("/api/auth/login")
     async def login(body: Login, request: Request, response: Response):
-        if request.headers.get("origin")!="http://lab:8001":
+        if request.headers.get("origin") not in allowed_origins:
             raise HTTPException(403)
         async with connect(path) as db:
             user=await one(db,"SELECT * FROM users WHERE alias=?",(body.login_name,))
@@ -79,6 +85,18 @@ def create_app(db_path: Path | None = None):
             await db.commit()
         response.set_cookie("lab_session",token,httponly=True,samesite="strict",max_age=300)
         return {"account_alias":user["alias"],"user_id":user["id"],"csrf_token":csrf}
+
+    if manual_origin:
+        @app.get("/manual/objects", include_in_schema=False)
+        async def manual_objects(request: Request):
+            async with connect(path) as db:
+                user = await actor(request, db)
+                objects = {}
+                for table, owner in (("requests", "owner_id"), ("attachments", "uploader_id"),
+                                     ("catalog_items", "owner_id"), ("suppliers", "owner_id")):
+                    async with db.execute(f"SELECT id FROM {table} WHERE {owner}=? ORDER BY id LIMIT 128", (user["user_id"],)) as cursor:
+                        objects[table] = [row[0] for row in await cursor.fetchall()]
+            return {"account_alias": user["alias"], "objects": objects, "purpose": "MANUAL_COPY_ONLY"}
 
     @app.get("/api/requests")
     async def requests(request: Request):
