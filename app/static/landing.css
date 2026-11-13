@@ -38,14 +38,14 @@ body:has(.video-bg-container) {
 }
 
 html[data-theme="dark"] .video-bg-overlay {
-  background: rgba(7, 9, 14, 0.48);
+  background: rgba(7, 9, 14, 0.45);
 }
 
 html[data-theme="light"] .video-bg-overlay,
 :root:not([data-theme="dark"]) .video-bg-overlay {
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
+  background: rgba(225, 238, 248, 0.18);
+  backdrop-filter: blur(4px) saturate(125%);
+  -webkit-backdrop-filter: blur(4px) saturate(125%);
 }
 
 /* Canvas 3D Dinonaktifkan agar Video Background Menjadi Utama */
@@ -123,14 +123,15 @@ html[data-theme="dark"] .field-ink {
 .closing-readiness-card,
 .hero-glass-specimen,
 .telemetry-modal {
-  background: rgba(255, 255, 255, 0.35) !important;
-  backdrop-filter: blur(10px) saturate(150%) !important;
-  -webkit-backdrop-filter: blur(10px) saturate(150%) !important;
-  border: 1px solid rgba(0, 153, 255, 0.20) !important;
+  background: rgba(255, 255, 255, 0.15) !important;
+  background-image: radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.40) 0%, transparent 45%), radial-gradient(circle at 100% 100%, rgba(0, 153, 255, 0.12) 0%, transparent 40%) !important;
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  border: 1px solid rgba(0, 153, 255, 0.25) !important;
   border-radius: 26px !important;
-  color: #111114 !important;
+  color: #0f172a !important;
   box-shadow: 
-    0 0 10px 1px rgba(0, 153, 255, 0.16),
+    0 0 12px 1px rgba(0, 153, 255, 0.16),
     0 10px 24px -8px rgba(0, 0, 0, 0.05),
     inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.85) !important;
   transition: transform 0.28s var(--spring-feedback, cubic-bezier(0.34, 1.56, 0.64, 1)), box-shadow 0.25s ease, border-color 0.25s ease, background-color 0.25s ease !important;
@@ -144,10 +145,11 @@ html[data-theme="dark"] .field-ink {
 .hero-glass-specimen:hover,
 .telemetry-modal:hover {
   transform: translateY(-3px) scale(1.01) !important;
-  background: rgba(255, 255, 255, 0.48) !important;
-  border-color: rgba(0, 153, 255, 0.32) !important;
+  background: rgba(255, 255, 255, 0.25) !important;
+  background-image: radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.50) 0%, transparent 45%), radial-gradient(circle at 100% 100%, rgba(0, 153, 255, 0.18) 0%, transparent 40%) !important;
+  border-color: rgba(0, 153, 255, 0.40) !important;
   box-shadow: 
-    0 0 13px 1.5px rgba(0, 153, 255, 0.20),
+    0 0 16px 2px rgba(0, 153, 255, 0.22),
     0 14px 28px -8px rgba(0, 0, 0, 0.08),
     inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.95) !important;
 }
@@ -159,15 +161,14 @@ html[data-theme="dark"] .field-ink {
 .closing-readiness-card:active,
 .hero-glass-specimen:active,
 .telemetry-modal:active {
-  transform: scale(0.97) !important;
-  /* Kenaikan ambient halus hanya 5% saat diklik agar tidak menabrak kotak lain */
+  transform: scale(0.98) !important;
   box-shadow: 
     0 0 14px 1.5px rgba(0, 153, 255, 0.21),
     0 10px 24px -8px rgba(0, 0, 0, 0.08),
     inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.9) !important;
 }
 
-/* ColorOS 17 Floating Pill Navbar (Transparan Kaca Kristal — Foto 3 Tourera) */
+/* ColorOS 17 Floating Pill Navbar (Ultra-Transparan 5% Kaca Kristal Glassmorphism) */
 .segel-nav {
   position: sticky;
   top: 0.85rem;
@@ -179,14 +180,14 @@ html[data-theme="dark"] .field-ink {
   width: calc(100% - clamp(2rem, 6vw, 6rem));
   margin: 0.85rem auto;
   padding: 0.55rem 1.35rem;
-  background: rgba(255, 255, 255, 0.28) !important;
-  backdrop-filter: blur(20px) saturate(190%) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(190%) !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(24px) saturate(200%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(200%) !important;
   border: 1px solid rgba(255, 255, 255, 0.45) !important;
   border-radius: 999px;
   box-shadow: 
-    0 0 16px -2px rgba(0, 153, 255, 0.12),
-    0 8px 24px -5px rgba(17, 17, 20, 0.05),
+    0 0 16px -2px rgba(0, 153, 255, 0.15),
+    0 8px 32px rgba(0, 0, 0, 0.08),
     inset 0 1.5px 1.5px 0 rgba(255, 255, 255, 0.85) !important;
   transition: background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
   view-transition-name: segel-navbar;
@@ -1728,14 +1729,14 @@ html[data-theme="dark"] .sandbox-title {
 }
 
 html[data-theme="dark"] .segel-nav {
-  background: rgba(8, 12, 22, 0.24) !important;
-  backdrop-filter: blur(20px) saturate(190%) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(190%) !important;
+  background: rgba(8, 12, 22, 0.05) !important;
+  backdrop-filter: blur(24px) saturate(200%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(200%) !important;
   border: 1px solid rgba(255, 255, 255, 0.15) !important;
   border-radius: 999px;
   box-shadow: 
-    0 0 20px -2px rgba(0, 153, 255, 0.18),
-    0 8px 24px -6px rgba(0, 0, 0, 0.45),
+    0 0 20px -2px rgba(0, 153, 255, 0.22),
+    0 8px 32px rgba(0, 0, 0, 0.5),
     inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.25) !important;
 }
 
@@ -1842,16 +1843,17 @@ html[data-theme="dark"] .lab-track-card,
 html[data-theme="dark"] .closing-readiness-card,
 html[data-theme="dark"] .coloros-telemetry-chip,
 html[data-theme="dark"] .coloros-floating-chip {
-  background: rgba(14, 18, 28, 0.42) !important;
-  backdrop-filter: blur(10px) saturate(150%) !important;
-  -webkit-backdrop-filter: blur(10px) saturate(150%) !important;
-  border: 1px solid rgba(0, 153, 255, 0.30) !important;
+  background: rgba(10, 14, 24, 0.15) !important;
+  background-image: radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.15) 0%, transparent 45%), radial-gradient(circle at 100% 100%, rgba(0, 153, 255, 0.09) 0%, transparent 40%) !important;
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  border: 1px solid rgba(0, 153, 255, 0.35) !important;
   border-radius: 26px !important;
   color: #FFFFFF !important;
   box-shadow:
-    0 0 11px 1px rgba(0, 153, 255, 0.22),
-    0 12px 28px -8px rgba(0, 0, 0, 0.6),
-    inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.18) !important;
+    0 0 12px 1px rgba(0, 153, 255, 0.22),
+    0 14px 32px -8px rgba(0, 0, 0, 0.65),
+    inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.20) !important;
   transition: transform 0.28s var(--spring-feedback, cubic-bezier(0.34, 1.56, 0.64, 1)), box-shadow 0.25s ease, border-color 0.25s ease, background-color 0.25s ease !important;
 }
 
@@ -1866,12 +1868,13 @@ html[data-theme="dark"] .closing-readiness-card:hover,
 html[data-theme="dark"] .coloros-telemetry-chip:hover,
 html[data-theme="dark"] .coloros-floating-chip:hover {
   transform: translateY(-3px) scale(1.01) !important;
-  background: rgba(20, 26, 40, 0.58) !important;
-  border-color: rgba(0, 153, 255, 0.45) !important;
+  background: rgba(10, 14, 24, 0.25) !important;
+  background-image: radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.22) 0%, transparent 45%), radial-gradient(circle at 100% 100%, rgba(0, 153, 255, 0.15) 0%, transparent 40%) !important;
+  border-color: rgba(0, 153, 255, 0.55) !important;
   box-shadow:
-    0 0 14px 1.5px rgba(0, 153, 255, 0.25),
-    0 16px 32px -8px rgba(0, 0, 0, 0.7),
-    inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.25) !important;
+    0 0 18px 2px rgba(0, 153, 255, 0.30),
+    0 18px 36px -8px rgba(0, 0, 0, 0.75),
+    inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.28) !important;
 }
 
 html[data-theme="dark"] .coloros-glass-card:active,
@@ -2203,295 +2206,181 @@ svg,
 }
 
 /* ==========================================================================
-   DAY / NIGHT THEME SWITCH (ColorOS Kinetic Uiverse Toggle)
+   MINIMALIST PILL THEME TOGGLE (Clean, Non-Intrusive, Yesicon Sun/Moon)
    ========================================================================== */
-.theme-switch {
-  --toggle-size: 6.5px;
-  --container-width: 5.625em;
-  --container-height: 2.5em;
-  --container-radius: 6.25em;
-  --container-light-bg: #347cf8;
-  --container-night-bg: #070b19;
-  --circle-container-diameter: 3.375em;
-  --sun-moon-diameter: 2.125em;
-  --sun-bg: #ecca2f;
-  --moon-bg: #c4c9d1;
-  --spot-color: #959db1;
-  --circle-container-offset: calc((var(--circle-container-diameter) - var(--container-height)) / -2);
-  --stars-color: #fff;
-  --clouds-color: #f3e22e;
-  --back-clouds-color: #aacadf;
-  --transition: .5s cubic-bezier(0, -0.02, 0.4, 1.25);
-  --circle-transition: .3s cubic-bezier(0, -0.02, 0.35, 1.17);
+.segel-theme-toggle {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.85rem !important;
+  font-size: 0.8125rem !important;
+  border-radius: 999px !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  color: var(--text) !important;
   cursor: pointer;
-  user-select: none;
-  margin: 0 0.25rem;
+  transition: all 0.2s ease !important;
 }
 
-.theme-switch, .theme-switch *, .theme-switch *::before, .theme-switch *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-size: var(--toggle-size);
+html[data-theme="dark"] .segel-theme-toggle {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border-color: rgba(255, 255, 255, 0.16) !important;
+  color: #FFFFFF !important;
 }
 
-.theme-switch__checkbox {
-  display: none !important;
-}
-
-.theme-switch__container {
-  width: var(--container-width);
-  height: var(--container-height);
-  background-color: var(--container-light-bg);
-  border-radius: var(--container-radius);
-  overflow: hidden;
-  cursor: pointer;
-  box-shadow: 0em -0.062em 0.062em rgba(0, 0, 0, 0.25), 0em 0.062em 0.125em rgba(255, 255, 255, 0.94);
-  transition: var(--transition);
-  position: relative;
-}
-
-.theme-switch__container::before {
-  content: "";
-  position: absolute;
-  z-index: 1;
-  inset: 0;
-  box-shadow: 0em 0.05em 0.187em rgba(0, 0, 0, 0.25) inset, 0em 0.05em 0.187em rgba(0, 0, 0, 0.25) inset;
-  border-radius: var(--container-radius);
-}
-
-.theme-switch__checkbox:checked + .theme-switch__container {
-  background-color: var(--container-night-bg);
-}
-
-.theme-switch__circle-container {
-  width: var(--circle-container-diameter);
-  height: var(--circle-container-diameter);
-  background-color: rgba(255, 255, 255, 0.1);
-  position: absolute;
-  left: var(--circle-container-offset);
-  top: var(--circle-container-offset);
-  border-radius: var(--container-radius);
-  box-shadow: inset 0 0 0 3.375em rgba(255, 255, 255, 0.1), inset 0 0 0 3.375em rgba(255, 255, 255, 0.1), 0 0 0 0.625em rgba(255, 255, 255, 0.1), 0 0 0 1.25em rgba(255, 255, 255, 0.1);
-  display: flex;
-  transition: var(--circle-transition);
-  pointer-events: none;
-}
-
-.theme-switch__sun-moon-container {
-  pointer-events: auto;
-  position: relative;
-  z-index: 2;
-  width: var(--sun-moon-diameter);
-  height: var(--sun-moon-diameter);
-  margin: auto;
-  border-radius: var(--container-radius);
-  background-color: var(--sun-bg);
-  box-shadow: 0.062em 0.062em 0.062em 0em rgba(254, 255, 239, 0.61) inset, 0em -0.062em 0.062em 0em #a1872a inset;
-  filter: drop-shadow(0.062em 0.125em 0.125em rgba(0, 0, 0, 0.25)) drop-shadow(0em 0.062em 0.125em rgba(0, 0, 0, 0.25));
-  overflow: hidden;
-  transition: var(--transition);
-}
-
-.theme-switch__moon {
-  transform: translateX(100%);
-  width: 100%;
-  height: 100%;
-  background-color: var(--moon-bg);
-  border-radius: inherit;
-  box-shadow: 0.062em 0.062em 0.062em 0em rgba(254, 255, 239, 0.61) inset, 0em -0.062em 0.062em 0em #969696 inset;
-  transition: var(--transition);
-  position: relative;
-}
-
-.theme-switch__spot {
-  position: absolute;
-  top: 0.75em;
-  left: 0.312em;
-  width: 0.75em;
-  height: 0.75em;
-  border-radius: var(--container-radius);
-  background-color: var(--spot-color);
-  box-shadow: 0em 0.0312em 0.062em rgba(0, 0, 0, 0.25) inset;
-}
-
-.theme-switch__spot:nth-of-type(2) {
-  width: 0.375em;
-  height: 0.375em;
-  top: 0.937em;
-  left: 1.375em;
-}
-
-.theme-switch__spot:nth-of-type(3) {
-  width: 0.25em;
-  height: 0.25em;
-  top: 0.312em;
-  left: 0.812em;
-}
-
-.theme-switch__clouds {
-  width: 1.25em;
-  height: 1.25em;
-  background-color: var(--clouds-color);
-  border-radius: var(--container-radius);
-  position: absolute;
-  bottom: -0.625em;
-  left: 0.312em;
-  box-shadow: 0.937em 0.312em var(--clouds-color), -0.312em -0.312em var(--back-clouds-color), 1.437em 0.375em var(--clouds-color), 0.5em -0.125em var(--back-clouds-color), 2.187em 0 var(--clouds-color), 1.25em -0.062em var(--back-clouds-color), 2.937em 0.312em var(--clouds-color), 2em -0.312em var(--back-clouds-color), 3.625em -0.062em var(--clouds-color), 2.625em 0em var(--back-clouds-color), 4.5em -0.312em var(--clouds-color), 3.375em -0.437em var(--back-clouds-color), 4.625em -1.75em 0 0.437em var(--clouds-color), 4em -0.625em var(--back-clouds-color), 4.125em -2.125em 0 0.437em var(--back-clouds-color);
-  transition: 0.5s cubic-bezier(0, -0.02, 0.4, 1.25);
-}
-
-.theme-switch__stars-container {
-  margin-top: -0.062em;
-  margin-left: -0.062em;
-  width: 2.75em;
-  height: auto;
-  transform: translateY(-2em);
-  opacity: 0;
-  transition: var(--transition);
-}
-
-.theme-switch__stars-container svg {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-.theme-switch__checkbox:checked + .theme-switch__container .theme-switch__circle-container {
-  left: calc(100% - var(--circle-container-offset) - var(--circle-container-diameter));
-}
-
-.theme-switch__checkbox:checked + .theme-switch__container .theme-switch__circle-container:hover {
-  left: calc(100% - var(--circle-container-offset) - var(--circle-container-diameter) - 0.187em);
-}
-
-.theme-switch__circle-container:hover {
-  left: calc(var(--circle-container-offset) + 0.187em);
-}
-
-.theme-switch__checkbox:checked + .theme-switch__container .theme-switch__moon {
-  transform: translate(0);
-}
-
-.theme-switch__checkbox:checked + .theme-switch__container .theme-switch__clouds {
-  bottom: -4.062em;
-}
-
-.theme-switch__checkbox:checked + .theme-switch__container .theme-switch__stars-container {
-  transform: translateY(0.4em);
-  opacity: 1;
+.segel-theme-toggle:hover {
+  background: rgba(0, 153, 255, 0.18) !important;
+  border-color: rgba(0, 153, 255, 0.45) !important;
+  box-shadow: 0 0 12px rgba(0, 153, 255, 0.25) !important;
+  transform: translateY(-1px);
 }
 
 /* ==========================================================================
-   BRAND SKELETON LOADER OVERLAY (User Card Animation)
+   FIRST-LOAD SKELETON SHIMMER REVEAL CURTAIN
    ========================================================================== */
-.brand-loader-overlay {
+.page-skeleton-curtain {
   position: fixed;
   inset: 0;
-  z-index: 9999;
+  z-index: 99999;
+  background: rgba(8, 12, 22, 0.92);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.45);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  padding: 1.25rem 2rem;
+  pointer-events: none;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.45s ease;
 }
 
-.brand-loader-overlay[hidden] {
-  display: none !important;
+html[data-theme="light"] .page-skeleton-curtain {
+  background: rgba(230, 240, 250, 0.90);
 }
 
-.loader {
-  position: relative;
-  box-sizing: border-box;
-  width: 260px;
-  height: 140px;
-  margin-inline: auto;
-  padding: 1.25rem;
-  background-color: rgba(255, 255, 255, 0.85);
-  border-radius: 1.25rem;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.25), 0 8px 10px -6px rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+.page-skeleton-curtain.fade-out {
+  opacity: 0;
+  visibility: hidden;
 }
 
-html[data-theme="dark"] .loader {
-  background-color: rgba(18, 22, 34, 0.88);
-  border-color: rgba(0, 153, 255, 0.35);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 0 30px rgba(0, 153, 255, 0.15);
+.skeleton-nav-pill {
+  width: min(100%, 1160px);
+  height: 52px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.18) 50%, rgba(255, 255, 255, 0.05) 100%);
+  background-size: 200% 100%;
+  animation: skeletonPulse 1.2s infinite ease-in-out;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  margin-bottom: 3.5rem;
 }
 
-.loader .wrapper {
-  width: 100%;
-  height: 100%;
-  position: relative;
+.skeleton-hero-grid {
+  width: min(100%, 1160px);
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 3rem;
+  align-items: center;
 }
 
-.loader .wrapper > div {
-  background: linear-gradient(90deg, rgba(235, 235, 235, 1) 0%, rgba(200, 200, 200, 1) 30%, rgba(240, 240, 240, 1) 65%, rgba(235, 235, 235, 1) 100%);
-  background-size: 400%;
-  animation: gradient-animation_2 1.5s ease-in-out infinite;
-  border-radius: 9999px;
+@media (max-width: 900px) {
+  .skeleton-hero-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
 }
 
-html[data-theme="dark"] .loader .wrapper > div {
-  background: linear-gradient(90deg, #1e293b 0%, #334155 30%, #1e293b 65%, #334155 100%);
-  background-size: 400%;
+.skeleton-hero-left {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
 }
 
-.loader .circle {
-  width: 50px;
-  height: 50px;
-  border-radius: 50% !important;
+.skeleton-line {
+  border-radius: 12px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.16) 50%, rgba(255, 255, 255, 0.05) 100%);
+  background-size: 200% 100%;
+  animation: skeletonPulse 1.2s infinite ease-in-out;
 }
 
-.loader .line-1 {
-  position: absolute;
-  top: 11px;
-  left: 62px;
-  height: 10px;
-  width: 110px;
+.skeleton-title {
+  height: 54px;
+  width: 75%;
+  border-radius: 16px;
 }
 
-.loader .line-2 {
-  position: absolute;
-  top: 34px;
-  left: 62px;
-  height: 10px;
-  width: 140px;
-}
-
-.loader .line-3 {
-  position: absolute;
-  top: 60px;
-  left: 0px;
-  height: 10px;
-  width: 100%;
-}
-
-.loader .line-4 {
-  position: absolute;
-  top: 84px;
-  left: 0px;
-  height: 10px;
+.skeleton-subtitle {
+  height: 22px;
   width: 90%;
 }
 
-@keyframes gradient-animation_2 {
-  0% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+.skeleton-desc {
+  height: 22px;
+  width: 60%;
+}
+
+.skeleton-actions-row {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.skeleton-btn {
+  width: 170px;
+  height: 46px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(198, 244, 50, 0.2) 0%, rgba(198, 244, 50, 0.45) 50%, rgba(198, 244, 50, 0.2) 100%);
+  background-size: 200% 100%;
+  animation: skeletonPulse 1.2s infinite ease-in-out;
+}
+
+.skeleton-link {
+  width: 140px;
+  height: 46px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.skeleton-card {
+  width: 100%;
+  height: 340px;
+  border-radius: 26px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(0, 153, 255, 0.08) 100%);
+  border: 1px solid rgba(0, 153, 255, 0.25);
+  box-shadow: 0 0 20px rgba(0, 153, 255, 0.15);
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.skeleton-card-header {
+  height: 28px;
+  width: 50%;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.skeleton-card-body {
+  height: 120px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.skeleton-card-footer {
+  height: 36px;
+  width: 80%;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+@keyframes skeletonPulse {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
 
 /* ==========================================================================
-   3D PERSPECTIVE TILT ANIMATION FOR LOGIN MODAL
+   STABLE ROCK-SOLID LOGIN MODAL (3D Entrance Without Hover Jitter)
    ========================================================================== */
 .login-dialog.segel-dialog {
   perspective: 1000px;
@@ -2499,13 +2388,12 @@ html[data-theme="dark"] .loader .wrapper > div {
 
 .login-dialog.segel-dialog #login-form {
   transform-style: preserve-3d;
-  animation: form-animation 0.5s ease-in-out;
-  transition: transform 0.3s ease-in-out;
+  animation: form-animation 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @keyframes form-animation {
   from {
-    transform: rotateX(-20deg) scale(0.95);
+    transform: rotateX(-15deg) scale(0.96);
     opacity: 0;
   }
   to {
@@ -2515,23 +2403,30 @@ html[data-theme="dark"] .loader .wrapper > div {
 }
 
 .login-dialog.segel-dialog .login-input {
-  transition: border-color 0.3s ease-in-out, background-color 0.3s ease-in-out, transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-  transform-style: preserve-3d;
-  backface-visibility: hidden;
+  transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .login-dialog.segel-dialog .login-input:hover {
-  transform: scale(1.02) rotateY(3deg);
-  box-shadow: 0 4px 12px rgba(0, 153, 255, 0.15);
+  border-color: rgba(0, 153, 255, 0.7) !important;
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 0 14px rgba(0, 153, 255, 0.2) !important;
+}
+
+.login-dialog.segel-dialog .login-input:focus {
+  border-color: #0099ff !important;
+  box-shadow: 0 0 16px rgba(0, 153, 255, 0.35) !important;
 }
 
 .login-dialog.segel-dialog .login-submit-btn {
-  transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-  transform-style: preserve-3d;
-  backface-visibility: hidden;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease, transform 0.15s ease;
 }
 
 .login-dialog.segel-dialog .login-submit-btn:hover {
-  transform: scale(1.03) rotateY(3deg) rotateX(2deg);
-  box-shadow: 0 8px 18px rgba(198, 244, 50, 0.4);
+  filter: brightness(1.08);
+  box-shadow: 0 6px 20px rgba(198, 244, 50, 0.45) !important;
+  transform: translateY(-1px);
+}
+
+.login-dialog.segel-dialog .login-submit-btn:active {
+  transform: scale(0.98);
 }

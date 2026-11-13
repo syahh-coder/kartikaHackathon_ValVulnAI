@@ -369,15 +369,16 @@ function commitThemeState(theme) {
   document.documentElement.dataset.theme = theme;
   [$("#theme-toggle"), $("#landing-theme-toggle")].forEach(toggle => {
     if (!toggle) return;
-    if (toggle.id === "landing-theme-toggle") {
-      toggle.checked = theme === "dark";
-      toggle.setAttribute("aria-label", theme === "light" ? "Gunakan tema gelap" : "Gunakan tema terang");
-      return;
-    }
     toggle.dataset.icon = theme === "light" ? "moon" : "sun";
     toggle.setAttribute("aria-label", theme === "light" ? "Gunakan tema gelap" : "Gunakan tema terang");
     const icon = makeSvg(toggle.dataset.icon);
-    toggle.replaceChildren(icon);
+    if (toggle.id === "landing-theme-toggle") {
+      const label = document.createElement("span");
+      label.textContent = theme === "light" ? "Gelap" : "Terang";
+      toggle.replaceChildren(icon, label);
+    } else {
+      toggle.replaceChildren(icon);
+    }
   });
   try {
     localStorage.setItem("valvuln-theme", theme);
@@ -2445,21 +2446,18 @@ const landingUI = {
       b?.addEventListener("click", () => this.openLogin())
     );
     $("#login-close")?.addEventListener("click", () => $("#login-dialog").close());
-    $("#landing-theme-toggle")?.addEventListener("change", (e) => {
-      const next = e.target.checked ? "dark" : "light";
+    $("#landing-theme-toggle")?.addEventListener("click", () => {
+      const next = document.documentElement.dataset.theme === "light" ? "dark" : "light";
       applyTheme(next, true);
     });
 
-    $("#valvuln-brand-logo")?.addEventListener("click", (e) => {
-      e.preventDefault();
-      const loader = $("#brand-loader-overlay");
-      if (loader) {
-        loader.hidden = false;
-        setTimeout(() => {
-          loader.hidden = true;
-        }, 1200);
-      }
-    });
+    const curtain = $("#page-skeleton-curtain");
+    if (curtain) {
+      setTimeout(() => {
+        curtain.classList.add("fade-out");
+        setTimeout(() => curtain.remove(), 400);
+      }, 750);
+    }
 
     // ColorOS Popover Dialog Telemetry Handler
     const popover = $("#telemetry-popover");
@@ -2648,7 +2646,7 @@ document.addEventListener("visibilitychange", () => {
 
 try {
   const saved = localStorage.getItem("valvuln-theme");
-  commitThemeState(saved === "dark" ? "dark" : "light");
+  commitThemeState(saved ? saved : "dark");
 } catch {}
 iconize();
 guard(boot);
