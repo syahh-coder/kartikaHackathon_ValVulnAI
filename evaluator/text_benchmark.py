@@ -31,7 +31,7 @@ def source_hash() -> str:
 def config_readiness(config: Settings) -> dict:
     # Called once by the preparation command; never print secret values or their lengths.
     c = config
-    key_name = "azure_key" if c.triage_provider == "azure" else ("agentrouter_key" if c.triage_provider == "agentrouter" else "openrouter_key")
+    key_name = c.triage_provider + "_key"
     required = {"live_mode": c.triage_mode == "live", key_name: bool(secret(c).strip()),
                 "fixed_model": bool(c.triage_model), "provider_slug": bool(c.triage_provider_slug),
                 "provider_name": bool(c.triage_provider_name), "access_verified": c.triage_access_verified,

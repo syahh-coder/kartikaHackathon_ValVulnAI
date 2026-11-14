@@ -1,17 +1,23 @@
 """Explicit provider selection for text paths. Never falls back or dispatches a worker."""
 import json
 
-from app.providers import agentrouter, azure, openrouter
+from app.providers import agentrouter, azure, groq, openrouter
+
+PROVIDER_PRIORITY = ["groq", "openrouter", "azure"]
 
 
 def _module(config):
+    if config.triage_provider == "groq":
+        return groq
     if config.triage_provider == "agentrouter":
         return agentrouter
     return azure if config.triage_provider == "azure" else openrouter
 
 
 def secret(config) -> str:
-    if config.triage_provider == "agentrouter":
+    if config.triage_provider == "groq":
+        key = config.groq_api_key
+    elif config.triage_provider == "agentrouter":
         key = config.agentrouter_api_key
     elif config.triage_provider == "azure":
         key = config.azure_api_key
@@ -30,6 +36,8 @@ def input_token_bound(config, prompt, **contract):
 
 
 def transport(config, **contract):
+    if config.triage_provider == "groq":
+        return groq.GroqTransport(config, **contract)
     if config.triage_provider == "agentrouter":
         return agentrouter.AgentRouterTransport(config, **contract)
     if config.triage_provider == "azure":
@@ -40,6 +48,9 @@ def transport(config, **contract):
 def profile(config) -> dict:
     # Persist resource/model identity so freeze detects endpoint or deployment changes.
     if config.triage_mode == "live":
+        if config.triage_provider == "groq":
+            return {"groq_endpoint": groq.ENDPOINT, "reasoning_effort": "low", "include_reasoning": False,
+                    "cost_accounting": "FULL_RESERVATION_COST_UNKNOWN", "schema_mode": "STRICT_SUBSET_LOCAL_FULL_VALIDATION"}
         if config.triage_provider == "azure":
             return {"azure_endpoint": azure.endpoint(config), "resolved_model_expected": config.azure_expected_model,
                     "cost_accounting": "FULL_RESERVATION_COST_UNKNOWN"}

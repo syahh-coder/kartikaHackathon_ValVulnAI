@@ -13,6 +13,8 @@ MVP memakai satu program. Hak admin berlaku pada program yang dikelolanya. Role 
 
 ## 2. Fitur admin program
 
+Tambahan14 November2026: tombol Reset data lab menyediakan pilihan **Lab rentan / Lab kontrol diperbaiki** untuk tiga subtype demo. Keduanya memerlukan konfirmasi, idle, health dan sinkronisasi snapshot; pilihan ini tidak membuat verdict dan tidak memberikan kemampuan memperbaiki celah kepada AI. [Kontrak](lab-reset-ui.md).
+
 ### 2.1 Mengatur scope dan guideline
 
 Admin dapat menyusun, menyimpan draf dan mengaktifkan aturan program yang berisi:
@@ -87,7 +89,9 @@ Tabel berikut adalah target izin fitur. Akses setiap objek tetap memerlukan memb
 | Membagikan ringkasan hasil | Tidak | Ya, setelah review |
 | Membaca/mengekspor hasil publikasi | Milik sendiri | Dalam programnya |
 | Mengubah role, key model atau budget | Tidak | Bukan kewenangan admin program |
-| Mengatur seed/reset/kondisi rentan lab | Tidak | Bukan kewenangan admin program |
+| Memilih lab rentan/kontrol diperbaiki dan reset data demo | Tidak | Ya, enum vulnerable/fixed lewat konfirmasi UI; ditolak saat run aktif |
+| Mengaktifkan sesi manual pada target worker yang sama | Tidak | Ya, jika idle; validasi dikunci sampai reset |
+| Reset bebas, command atau mengubah target terdaftar | Tidak | Tetap kewenangan operator, bukan admin program |
 
 Admin yang membaca laporan hunter tidak otomatis boleh mengirim ulang draf atau memicu pemeriksaan baru atas nama hunter. Pekerjaan tersebut membutuhkan aksi pemilik atau alur delegasi khusus yang ditunda dari MVP.
 
@@ -120,7 +124,7 @@ Pemisahan akun pembuat dengan atribusi pelapor eksternal adalah kebutuhan rancan
 - `CONFIRMED` memerlukan bukti dampak, `REFUTED` memerlukan bantahan/kontrol yang memadai, dan `INCONCLUSIVE` dipakai saat bukti belum cukup.
 - Error model, timeout, OOS dan kategori belum didukung tidak otomatis menjadi laporan tidak valid.
 - Publikasi hanya membuka ringkasan/bukti yang diizinkan. Raw credential, catatan privat dan data akun lain tetap dibatasi.
-- Role admin program tidak memberi akses konfigurasi infrastruktur, API key, GT evaluator atau reset lab. Pekerjaan itu milik operator di luar dua role produk ini.
+- Role admin program tidak memberi akses konfigurasi infrastruktur, API key, GT evaluator atau reset bebas. Pengecualian demo yang disetujui pengguna: enum vulnerable/fixed dan reset data tiga subtype melalui tombol admin dengan guard backend. Pekerjaan infrastruktur lainnya tetap milik operator.
 
 Dokumen ini tidak memperluas kemampuan pemeriksaan yang sudah disepakati pada [scope submission](submission-scope.md); pengembangan M6 yang ditunda tetap di luar lingkup aktif.
 

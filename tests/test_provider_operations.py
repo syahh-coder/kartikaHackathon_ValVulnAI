@@ -13,8 +13,8 @@ from test_text_triage import live_config
 
 
 def env_file(tmp_path, config):
-    values = config.model_dump(exclude={"openrouter_api_key", "azure_api_key", "agentrouter_api_key"})
-    for key in ("openrouter_api_key", "azure_api_key"):
+    values = config.model_dump(exclude={"openrouter_api_key", "azure_api_key", "agentrouter_api_key", "groq_api_key"})
+    for key in ("openrouter_api_key", "azure_api_key", "groq_api_key"):
         secret = getattr(config, key)
         if secret:
             values[key] = secret.get_secret_value()
@@ -37,7 +37,7 @@ def test_reservation_schema_and_snapshots_match_wire_contract(tmp_path, provider
     assert result["status"] == "CONFIGURED_NOT_VERIFIED", result
     assert result["minimum_reservation_idr"] == 279
     assert not result["live_verified"] and result["provider_requests"] == 0
-    assert result["priority"] == ["openrouter", "azure"] and not result["automatic_fallback"]
+    assert result["priority"] == ["groq", "openrouter", "azure"] and not result["automatic_fallback"]
     schema = request["response_format"]["json_schema"]["schema"]
     assert "validation_fields" in schema["required"]
     assert "validation_fields" in TriageSuggestion.model_json_schema()["properties"]

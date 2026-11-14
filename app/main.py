@@ -15,6 +15,8 @@ from app.api import routes
 from app.api import runs
 from app.api import business_records
 from app.api import triage
+from app.api import lab_reset
+from app.agent.lab_reset import LabReset
 from app.agent.text_triage import TextTriage
 from app.agent.workflow import Workflow
 from app.common import AppError, error_response, uid
@@ -38,10 +40,12 @@ def create_app(settings: Settings | None = None) -> FastAPI:
             await db.migrate()
             await app.state.workflow.recover()
             await app.state.text_triage.recover()
+            await app.state.lab_reset.recover()
             if config.dispatcher_enabled:
                 task = asyncio.create_task(app.state.workflow.loop())
             yield
         finally:
+            await app.state.lab_reset.close()
             await app.state.text_triage.close()
             app.state.workflow.stop_event.set()
             if task:
@@ -55,6 +59,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.state.db = db
     app.state.workflow = Workflow(db, config)
     app.state.text_triage = TextTriage(db, config)
+    app.state.lab_reset = LabReset(db, config)
     app.add_middleware(BodyLimitMiddleware)
     app.add_middleware(TrustedHostMiddleware, allowed_hosts=[urlsplit(config.public_origin).hostname])
     app.include_router(auth.router)
@@ -62,6 +67,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.include_router(runs.router)
     app.include_router(business_records.router)
     app.include_router(triage.router)
+    app.include_router(lab_reset.router)
     app.add_exception_handler(AppError, error_response)
     templates = Jinja2Templates(directory=Path(__file__).parent / "templates")
     app.mount("/static", StaticFiles(directory=Path(__file__).parent / "static"), name="static")
@@ -104,6 +110,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     async def readiness():
         from app.providers.contracts import ProviderFailure
         from app.providers.triage_contracts import MAX_INPUT_TOKENS, MAX_OUTPUT_TOKENS, SCHEMA_VERSION
+        from app.providers.text_provider import PROVIDER_PRIORITY
         from app.providers.text_provider import require_configuration
         try:
             require_configuration(config)
@@ -114,7 +121,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
                           "lab_planner_mode": config.execution_mode,
                           "triage_provider": config.triage_provider if config.triage_mode == "live" else config.triage_mode,
                           "triage_requested_model": config.triage_model if config.triage_mode == "live" else "mock-triage-v1",
-                          "provider_priority": ["openrouter", "azure"], "automatic_provider_fallback": False,
+                          "provider_priority": PROVIDER_PRIORITY, "automatic_provider_fallback": False,
                           "triage_input_tokens": MAX_INPUT_TOKENS, "triage_output_tokens": MAX_OUTPUT_TOKENS,
                           "triage_schema_version": SCHEMA_VERSION, "ai_validation_draft": "HUMAN_CONFIRMATION_REQUIRED"}
         if config.transport_key_file:

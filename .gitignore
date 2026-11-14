@@ -9,6 +9,7 @@ docs/sources/*.txt
 .env.*
 !.env.example
 !.env.azure.example
+!.env.groq.example
 artifacts/
 *.sqlite
 *.sqlite3

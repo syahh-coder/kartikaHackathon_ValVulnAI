@@ -1,0 +1,11 @@
+# Existing main app_data/ledger only; no preview or reset.
+# docker compose -f compose.yaml -f compose.provider.groq.yaml up -d --no-deps app
+services:
+  app:
+    env_file:
+      - path: .env.groq
+        required: true
+    environment:
+      VALVULN_TRIAGE_MODE: live
+      VALVULN_TRIAGE_PROVIDER: groq
+      VALVULN_EXECUTION_MODE: mock

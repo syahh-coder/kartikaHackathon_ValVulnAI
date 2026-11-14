@@ -1,6 +1,6 @@
-# Provider AI: OpenRouter pertama, Azure Foundry kedua
+# Provider AI: Groq, OpenRouter dan Azure Foundry
 
-Keputusan aktif13 November2026. Kedua adapter tersedia pada intake dan evaluator teks. Uji integrasi menggunakan HTTP simulasi; **bukan jaminan setiap model/provider/deployment kompatibel**. Live diperiksa setelah key, akses dan profil lengkap tersedia. AgentRouter tetap kode legacy opsional, bukan prioritas submission.
+**Keputusan aktif14 November2026: Groq utama**, OpenRouter lalu Azure Foundry sebagai cadangan yang dipilih eksplisit; tanpa fallback otomatis. [Groq setup dan satu smoke live sukses](groq-setup.md). Adapter tersedia pada intake/evaluator teks; hasil sukses satu model bukan jaminan semua model/deployment kompatibel. AgentRouter tetap kode legacy opsional, bukan prioritas submission. Petunjuk OpenRouter/Azure di bawah tetap berlaku untuk pemilihan provider tersebut.
 
 ## 1. Kontrak bersama
 
@@ -12,7 +12,7 @@ Keputusan aktif13 November2026. Kedua adapter tersedia pada intake dan evaluator
 
 Dasar API: [OpenRouter Structured Outputs](https://openrouter.ai/docs/guides/features/structured-outputs) menjelaskan `response_format=json_schema` serta pemilihan endpoint kompatibel; aplikasi memakai `require_parameters=true`. [Microsoft structured outputs](https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/structured-outputs?view=foundry-classic) mendokumentasikan schema pada Chat Completions dan endpoint resource OpenAI v1. Kontrak source dibatasi ke deployment chat yang diverifikasi, bukan seluruh model Foundry.
 
-## 2. OpenRouter — prioritas1
+## 2. OpenRouter — cadangan
 
 1. Untuk setup pertama salin `.env.example` ke `.env` jika file belum ada. Konfigurasi yang sudah ada tidak ditimpa.
 2. Isi `VALVULN_TRIAGE_MODE=live`, `VALVULN_TRIAGE_PROVIDER=openrouter`, key lokal, exact model ID, inference provider slug/name, akses/tier, tarif/kurs dan reservasi.
@@ -32,7 +32,7 @@ Setelah konfigurasi diubah, terapkan ke app pada project yang sama, ketika tidak
 docker compose up -d --no-deps app
 ```
 
-## 3. Azure Foundry — prioritas2
+## 3. Azure Foundry — cadangan berikutnya
 
 1. Isi `.env.azure` berdasarkan `.env.azure.example` jika belum dibuat. Panduan akun/deployment: [Azure setup](azure-setup.md), [Students](azure-students.md).
 2. Gunakan resource origin seperti `https://NAMA.openai.azure.com`, bukan project endpoint. Adapter menuju `/openai/v1/chat/completions` dengan `api-key` dan deployment name pada `model`.
@@ -60,6 +60,7 @@ Smoke memakai **API app yang sedang berjalan dan ledger aslinya**, tanpa menguji
 ```powershell
 .\.venv\Scripts\python.exe -m scripts.smoke_text_provider
 # Jalankan salah satu secara eksplisit ketika key/profil siap:
+.\.venv\Scripts\python.exe -m scripts.smoke_text_provider --execute --provider groq
 .\.venv\Scripts\python.exe -m scripts.smoke_text_provider --execute --provider openrouter
 # Atau sesudah overlay Azure diterapkan:
 .\.venv\Scripts\python.exe -m scripts.smoke_text_provider --execute --provider azure

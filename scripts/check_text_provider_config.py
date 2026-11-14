@@ -8,12 +8,12 @@ from pydantic import ValidationError
 
 from app.config import Settings
 from app.providers.contracts import ProviderFailure
-from app.providers.text_provider import require_configuration, secret
+from app.providers.text_provider import PROVIDER_PRIORITY, require_configuration, secret
 from app.providers.triage_contracts import MAX_INPUT_TOKENS, MAX_OUTPUT_TOKENS
 
 
 def check(path: Path, provider: str) -> dict:
-    result = {"provider": provider, "priority": ["openrouter", "azure"],
+    result = {"provider": provider, "priority": PROVIDER_PRIORITY,
               "automatic_fallback": False, "provider_requests": 0, "live_verified": False,
               "input_tokens": MAX_INPUT_TOKENS, "output_tokens": MAX_OUTPUT_TOKENS}
     if not path.is_file():
@@ -50,10 +50,10 @@ def check(path: Path, provider: str) -> dict:
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--provider", choices=["openrouter", "azure"], default="openrouter")
+    parser.add_argument("--provider", choices=["groq", "openrouter", "azure"], default="groq")
     parser.add_argument("--env-file", type=Path)
     args = parser.parse_args(argv)
-    path = args.env_file or Path(".env" if args.provider == "openrouter" else ".env.azure")
+    path = args.env_file or Path(".env" if args.provider == "openrouter" else ".env." + args.provider)
     result = check(path, args.provider)
     print(json.dumps(result, ensure_ascii=False, indent=2))
     return 0 if result["status"] == "CONFIGURED_NOT_VERIFIED" else 2

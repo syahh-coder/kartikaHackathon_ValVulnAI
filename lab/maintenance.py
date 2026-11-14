@@ -15,13 +15,17 @@ from lab.uploads import POINTS as UPLOAD_POINTS
 
 async def reset(path: Path, accounts: dict, condition: str, *, xss_condition: str = "fixed",
                 xss_point: str | None = None, point_condition: str = "fixed",
-                upload_point: str | None = None, upload_condition: str = "fixed"):
+                upload_point: str | None = None, upload_condition: str = "fixed",
+                all_supported: bool = False):
     if condition not in {"vulnerable", "fixed"} or xss_condition not in {"vulnerable", "fixed"} or set(accounts) != {"requester-a", "requester-b"}:
         raise ValueError("Invalid operator configuration")
     if (xss_point is not None and xss_point not in POINTS) or point_condition not in {"vulnerable", "fixed"}:
         raise ValueError("Invalid XSS point configuration")
     if (upload_point is not None and upload_point not in UPLOAD_POINTS) or upload_condition not in {"vulnerable", "fixed"}:
         raise ValueError("Invalid upload point configuration")
+    if all_supported and (xss_point is not None or upload_point is not None):
+        raise ValueError("Select all supported points or one point, not both")
+    all_vulnerable = all_supported and condition == "vulnerable"
     await migrate(path)
     hashes = {alias: await asyncio.to_thread(PasswordHash.recommended().hash, data["password"]) for alias,data in accounts.items()}
     snapshot_id = str(uuid.uuid4())
@@ -32,11 +36,11 @@ async def reset(path: Path, accounts: dict, condition: str, *, xss_condition: st
         for table in ("business_events", "business_fulfillments", "business_requests", "business_staff", "business_items", "uploads", "upload_blobs", "comments", "request_reviewers", "request_details", "catalog_items", "suppliers", "sessions", "attachments", "requests", "users", "access_log", "settings"):
             await db.execute("DELETE FROM "+table)
         await db.executemany("INSERT INTO settings VALUES (?,?)", [("delete_owner_check", "0" if condition=="vulnerable" else "1"), ("snapshot_id", snapshot_id)])
-        await db.execute("INSERT INTO settings VALUES ('notification_dom_html',?)", ("1" if xss_condition == "vulnerable" else "0",))
+        await db.execute("INSERT INTO settings VALUES ('notification_dom_html',?)", ("1" if (condition if all_supported else xss_condition) == "vulnerable" else "0",))
         await db.executemany("INSERT INTO settings VALUES (?,?)",
-            [(key, "1" if point == xss_point and point_condition == "vulnerable" else "0") for point, key in POINTS.items()])
+            [(key, "1" if all_vulnerable or (not all_supported and point == xss_point and point_condition == "vulnerable") else "0") for point, key in POINTS.items()])
         await db.executemany("INSERT INTO settings VALUES (?,?)",
-            [(key, "1" if point == upload_point and upload_condition == "vulnerable" else "0") for point, key in UPLOAD_POINTS.items()])
+            [(key, "1" if all_vulnerable or (not all_supported and point == upload_point and upload_condition == "vulnerable") else "0") for point, key in UPLOAD_POINTS.items()])
         for index,alias in enumerate(sorted(accounts)):
             user, request, attachment = (str(uuid.uuid4()) for _ in range(3))
             await db.execute("INSERT INTO users(id,alias,unit,password_hash,display_name) VALUES (?,?,?,?,?)",
@@ -74,6 +78,7 @@ async def main():
     parser.add_argument("--point-condition", choices=["vulnerable", "fixed"], default="fixed")
     parser.add_argument("--upload-point", choices=sorted(UPLOAD_POINTS))
     parser.add_argument("--upload-condition", choices=["vulnerable", "fixed"], default="fixed")
+    parser.add_argument("--all-supported", action="store_true", help="Apply condition to every implemented lab point")
     args = parser.parse_args()
     path = Path(os.environ.get("LAB_DATA_DIR", "/data")) / "lab.sqlite3"
     if args.operation=="reset":
@@ -82,7 +87,8 @@ async def main():
         accounts = json.loads(Path(os.environ.get("LAB_ACCOUNTS_FILE", "/run/secrets/lab_accounts")).read_text())
         result = await reset(path, accounts, args.condition, xss_condition=args.xss_condition,
                              xss_point=args.xss_point, point_condition=args.point_condition,
-                             upload_point=args.upload_point, upload_condition=args.upload_condition)
+                             upload_point=args.upload_point, upload_condition=args.upload_condition,
+                             all_supported=args.all_supported)
     elif args.operation=="inspect":
         result = await inspect(path)
     elif args.operation == "arm-delay":

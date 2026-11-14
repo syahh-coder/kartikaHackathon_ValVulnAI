@@ -64,7 +64,7 @@ async def smoke(args):
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--execute", action="store_true", help="Explicitly send a live request via the app ledger")
-    parser.add_argument("--provider", choices=["openrouter", "azure"], default="openrouter")
+    parser.add_argument("--provider", choices=["groq", "openrouter", "azure"], default="groq")
     parser.add_argument("--origin", default="http://127.0.0.1:8000")
     parser.add_argument("--username", default="hunter-a")
     parser.add_argument("--password-file", type=Path, default=Path(".local-data/demo-password.txt"))

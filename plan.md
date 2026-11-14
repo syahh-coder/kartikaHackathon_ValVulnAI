@@ -1,5 +1,14 @@
 # Rencana proyek Kartika Cyber Hackathon 2026
 
+**Koreksi cakupan demo14 November2026:** reset admin kini mengatur seluruh13 titik lab existing agar katalog dan fitur lain mengikuti pilihan rentan/kontrol.23 tes terarah dan smoke UI dua mode lulus; validasi otomatis tetap3 subtype, tidak membuka M6. Kondisi akhir rentan/manual aktif; data/ledger dipertahankan. [Bukti/batas](docs/lab-reset-ui.md).
+
+**Akses manual14 November2026:** pengujian manual kini memakai target worker yang sama di8001 dengan aktivasi admin/maintenance, agar pilihan rentan/kontrol benar-benar bisa diperiksa pada instance yang sama. Salinan lama dipertahankan berhenti/opsional8002. Data/ledger dan batas model tetap; tidak memperluas eksploitasi/M6. [Operasi](docs/manual-lab.md).
+
+**Perubahan demo14 November2026:** tombol admin diperluas menjadi pilihan lab rentan/kontrol diperbaiki untuk tiga subtype yang didukung. Tujuannya perbandingan laporan yang sama; reset tidak menentukan verdict atau memperbaiki celah melalui AI. Guard/data/ledger dan scope M6 tetap. [Kontrak/hasil](docs/lab-reset-ui.md).
+
+**Checkpoint14 November2026:** Groq direct selesai kode dan satu triage live terverifikasi melalui API/ledger asli. Prioritas aktif Groq?OpenRouter?Azure.85 tes terarah mempunyai hasil terakhir lulus; GT/validasi manual, freeze/benchmark dan submission tetap pekerjaan terakhir. [Hasil](docs/groq-setup.md).
+
+
 **Checkpoint aktif13 November2026:** integrasi kode AI-ke-draf klaim selesai pada scope tiga subtype. Prioritas OpenRouter lalu Azure Foundry, dipilih eksplisit; model live diuji setelah key/akses siap. Backend tetap memeriksa scope/izin dan worker fixture terpisah. Output teks4096 diselaraskan; app utama diperbarui dengan26 tabel/data/ledger identik. [Hasil dan batas](docs/ai-validation-integration.md), [provider](docs/provider-setup.md), [review manual terakhir](docs/manual-final-review.md), [paket review](docs/final-review.md). GT/validasi kerentanan manual ditempatkan terakhir, bukan label otomatis atau alasan mengulang M6.
 
 **Audit BE 13 November:** pengguna meminta pemeriksaan orkestrasi, akses lab manual, inventaris celah dan OpenRouter serta handoff flowchart untuk FE teman pengguna. [Audit](docs/backend-audit-2026-11-13.md) dan [flowchart/API](docs/backend-flow.md) tersedia; salinan lab Docker berjalan pada127.0.0.1:8001 dengan13 kondisi existing, tanpa reset data asal. Key OpenRouter valid namun satu smoke timeout; ketidaksesuaian cap output/schema routing dicatat terbuka. Dokumen hasil tidak mengklaim live, benchmark atau agent adaptif sudah lulus. M6 tetap ditunda.

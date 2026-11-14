@@ -6,6 +6,6 @@ RUN pip install --no-cache-dir -r requirements.lock && apt-get update && apt-get
 COPY lab ./lab
 COPY boundary ./boundary
 COPY containers/lab-network.sh /usr/local/bin/lab-network
-RUN chmod 755 /usr/local/bin/lab-network && mkdir /data && chown 10001:10001 /data
+RUN chmod 755 /usr/local/bin/lab-network && mkdir /data /lab-control && chown 10001:10001 /data /lab-control
 ENTRYPOINT ["/usr/local/bin/lab-network", "lab"]
 CMD ["uvicorn", "lab.main:create_app", "--factory", "--host", "0.0.0.0", "--port", "8001", "--workers", "1", "--no-access-log"]

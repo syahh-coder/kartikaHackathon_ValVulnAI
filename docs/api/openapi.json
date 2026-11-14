@@ -1348,6 +1348,135 @@
         }
       }
     },
+    "/api/programs/{program_id}/lab-manual-session": {
+      "post": {
+        "summary": "Open Manual",
+        "operationId": "open_manual_api_programs__program_id__lab_manual_session_post",
+        "parameters": [
+          {
+            "name": "program_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Program Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ManualInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/programs/{program_id}/lab-reset": {
+      "get": {
+        "summary": "Status",
+        "operationId": "status_api_programs__program_id__lab_reset_get",
+        "parameters": [
+          {
+            "name": "program_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Program Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Start",
+        "operationId": "start_api_programs__program_id__lab_reset_post",
+        "parameters": [
+          {
+            "name": "program_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Program Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResetInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/health": {
       "get": {
         "summary": "Health",
@@ -1577,6 +1706,21 @@
         ],
         "title": "Login"
       },
+      "ManualInput": {
+        "properties": {
+          "confirm": {
+            "type": "string",
+            "const": "OPEN_SHARED_MANUAL_LAB",
+            "title": "Confirm"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "confirm"
+        ],
+        "title": "ManualInput"
+      },
       "MessageInput": {
         "properties": {
           "body": {
@@ -1662,6 +1806,33 @@
           "reviewer_note"
         ],
         "title": "NoteInput"
+      },
+      "ResetInput": {
+        "properties": {
+          "confirm": {
+            "type": "string",
+            "enum": [
+              "RESET_VULNERABLE_DEMO",
+              "RESET_DEMO_LAB"
+            ],
+            "title": "Confirm"
+          },
+          "condition": {
+            "type": "string",
+            "enum": [
+              "vulnerable",
+              "fixed"
+            ],
+            "title": "Condition",
+            "default": "vulnerable"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "confirm"
+        ],
+        "title": "ResetInput"
       },
       "ReviewInput": {
         "properties": {

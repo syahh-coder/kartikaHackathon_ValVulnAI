@@ -15,10 +15,13 @@ services:
       VALVULN_COOKIE_SECURE: ${VALVULN_COOKIE_SECURE:-false}
       VALVULN_BUDGET_IDR: ${VALVULN_BUDGET_IDR:-50000}
       VALVULN_TRANSPORT_KEY_FILE: /run/secrets/job_key
+      VALVULN_LAB_RESET_CONTROL_DIR: /lab-control
+      VALVULN_SHARED_LAB_MANUAL: "true"
     volumes:
       - app_data:/data
       - job_inbox:/handoff/inbox
       - job_outbox:/handoff/outbox:ro
+      - lab_control:/lab-control
     secrets:
       - job_key
     networks:
@@ -86,11 +89,17 @@ services:
       context: .
       dockerfile: lab/Dockerfile
     init: true
-    volumes: ["lab_data:/data"]
+    volumes: ["lab_data:/data", "lab_control:/lab-control"]
+    environment:
+      LAB_RESET_CONTROL_DIR: /lab-control
+      LAB_MANUAL_ORIGIN: http://127.0.0.1:8001
+      LAB_SHARED_MANUAL: "1"
+    ports: ["127.0.0.1:8001:8001"]
     secrets: [lab_accounts]
     networks:
       lab_internal:
         ipv4_address: 172.30.74.3
+      lab_manual_access: {}
     read_only: true
     tmpfs: ["/tmp:size=32m,mode=1777"]
     cap_drop: [ALL]
@@ -110,8 +119,10 @@ volumes:
   lab_data:
   job_inbox:
   job_outbox:
+  lab_control:
 networks:
   app_net:
+  lab_manual_access:
   lab_internal:
     internal: true
     enable_ipv6: false

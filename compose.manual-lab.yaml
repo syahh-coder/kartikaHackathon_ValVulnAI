@@ -10,8 +10,8 @@ services:
     command: ["python", "-m", "uvicorn", "lab.main:create_app", "--factory", "--host", "0.0.0.0", "--port", "8001", "--workers", "1", "--no-access-log"]
     environment:
       LAB_DATA_DIR: /data
-      LAB_MANUAL_ORIGIN: http://127.0.0.1:8001
-    ports: ["127.0.0.1:8001:8001"]
+      LAB_MANUAL_ORIGIN: http://127.0.0.1:8002
+    ports: ["127.0.0.1:8002:8001"]
     volumes: ["manual_lab_data:/data"]
     networks: [manual_only]
     read_only: true

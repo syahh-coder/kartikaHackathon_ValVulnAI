@@ -22,10 +22,13 @@ def validate_manual_origin(value: str) -> str | None:
     return value
 
 
-def register_manual_home(app, origin: str | None) -> None:
+def register_manual_home(app, origin: str | None, *, shared: bool = False) -> None:
     if origin is None:
         return
 
     @app.get("/", response_class=HTMLResponse, include_in_schema=False)
     async def manual_home():
-        return HTMLResponse(Path(__file__).with_name("manual.html").read_text(encoding="utf-8"))
+        text = Path(__file__).with_name("manual.html").read_text(encoding="utf-8")
+        description = ("Target yang sama dengan worker ValVuln. Kondisi mengikuti pilihan admin. Aktifkan pengujian manual di panel Reset data lab sebelum membuka fitur; validasi agent dikunci selama sesi manual. Selesai menguji, terapkan kondisi/reset dari panel admin untuk membuka validasi kembali." if shared else
+                       "Salinan khusus verifikasi lokal, terpisah dari target worker. Kondisi salinan ini tidak mengikuti tombol admin ValVuln.")
+        return HTMLResponse(text.replace("__TARGET_DESCRIPTION__", description))

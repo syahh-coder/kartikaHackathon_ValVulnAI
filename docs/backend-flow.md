@@ -1,5 +1,11 @@
 # Flowchart dan kontrak backend ValVuln AI
 
+**Sesi manual bersama14 November2026:** POST lab-manual-session admin → idle guard → maintenance → sesi1jam terikat snapshot → akses8001 pada DB worker asli. Selama sesi, start validasi lab ditolak. Reset mencabut sesi/menunggu handler manual sebelum seed/health/ack snapshot. GET lab-reset menyediakan manual_available/manual_active/manual_url. [API FE](lab-reset-ui.md), [operasi](manual-lab.md).
+
+**Tambahan14 November2026:** reset admin adalah jalur eksplisit terpisah: admin/CSRF + enum vulnerable/fixed → idle guard → maintenance → mailbox privat app-lab → backup/reset/health → cek condition balasan → ack worker → target siap. Tidak dipicu report/AI atau menentukan verdict. Endpoint GET/POST lab-reset dan schema konfirmasi tersedia di [OpenAPI](api/openapi.json), kontrak FE/operasi pada [lab-reset-ui.md](lab-reset-ui.md).
+
+**Update provider14 November2026:** triage/evaluator juga mendukung Groq direct, prioritas Groq→OpenRouter→Azure. Satu smoke triage Groq berhasil; draf/konfirmasi/worker tetap kontrak yang sama, tanpa model-to-worker dispatch. [Hasil dan batas](groq-setup.md).
+
 Source dan integrasi **13 November 2026**. Fokus backend, tanpa redesign FE. Snapshot schema API tersedia pada [api/openapi.json](api/openapi.json): **36 path / 38 operasi** diekspor dari source tanpa startup/database. [Hasil integrasi AI](ai-validation-integration.md). Hak role mengikuti [roles.md](roles.md); daftar usulan di sana tidak otomatis berarti endpoint-nya sudah ada.
 
 ## 1. Kesimpulan orkestrasi
@@ -19,7 +25,7 @@ flowchart TD
     VALIDATE --> ACTIVATE[Aktifkan versi dan naikkan authorization epoch]
     MEMBERSHIP --> DRAFT[Percakapan, teks atau upload TXT/MD]
     DRAFT --> CHOICE{Aksi pengguna}
-    CHOICE -->|Minta saran| TRIAGE[Triage teks OpenRouter, Azure atau AgentRouter]
+    CHOICE -->|Minta saran| TRIAGE[Triage teks Groq, OpenRouter atau Azure]
     TRIAGE --> ADVICE[Saran klaim, subtype, identifier dan informasi kurang]
     ADVICE --> DRAFT
     ADVICE --> PREPARE[Siapkan draf klaim terikat triage dan scope]

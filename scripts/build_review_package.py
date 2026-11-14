@@ -9,8 +9,8 @@ from zipfile import ZIP_DEFLATED, ZipFile, ZipInfo
 DIRECTORIES = ("app", "boundary", "worker", "lab", "evaluator", "containers", "scripts", "tests", "docs", "submission")
 FILES = ("README.md", "AGENTS.md", "plan.md", "prd.md", "pyproject.toml", "requirements.lock", "requirements-dev.lock",
          "requirements-worker.lock", "Dockerfile", "compose.yaml", "compose.preview.yaml", "compose.azure.yaml",
-         "compose.manual-lab.yaml", "compose.provider.azure.yaml", ".github/workflows/checks.yml",
-         ".env.azure.example", ".dockerignore", ".gitignore", ".env.example")
+         "compose.manual-lab.yaml", "compose.provider.azure.yaml", "compose.provider.groq.yaml", ".github/workflows/checks.yml",
+         ".env.azure.example", ".env.groq.example", ".dockerignore", ".gitignore", ".env.example")
 SUFFIXES = {".py", ".sql", ".js", ".cjs", ".css", ".html", ".md", ".json", ".yaml", ".lock", ".toml", ".txt", ".png", ".svg", ".pdf", ".webm"}
 
 

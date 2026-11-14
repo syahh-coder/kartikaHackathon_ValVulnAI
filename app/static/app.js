@@ -135,6 +135,51 @@ function review(run){const form=node("form"),choice=select(form,"Keputusan anali
 function guidelineRules(value){let parsed;try{parsed=JSON.parse(value);}catch{throw Error("Aturan scope terstruktur: JSON tidak sah. Salin objek JSON tanpa penanda ``` dan periksa tanda kutip/kurung/koma.");}if(!parsed||typeof parsed!=="object"||Array.isArray(parsed))throw Error("Aturan scope terstruktur harus berupa objek JSON.");return parsed;}
 async function guidelines(edit=false){const g=await api(`/api/programs/${state.program.program_id}/guidelines`);const box=node("div");box.append(node("p",`Status: ${g.state} · versi ${g.version||"belum aktif"}`),node("pre",g.source_text||"Admin perlu membuat dan mengaktifkan guideline."));if(g.rules)box.append(node("pre",JSON.stringify(g.rules,null,2)));
  if(edit&&state.program.role==="PROGRAM_ADMIN"){const form=node("form"),source=field(form,"Teks guideline",g.source_text||"","textarea"),rules=field(form,"Aturan scope terstruktur (JSON)",JSON.stringify(g.rules||{in_scope_rules:[],out_of_scope_rules:[],business_rules:""},null,2),"textarea");source.required=true;rules.required=true;form.append(node("p","Isi kedua kolom: teks guideline yang dapat dibaca dan objek JSON aturan scope. Simpan draf tidak langsung mengaktifkan aturan."));const submit=node("button","Simpan draf guideline","primary-button");submit.type="submit";form.append(submit);form.addEventListener("submit",e=>{e.preventDefault();guard(async()=>{if(!source.value.trim())throw Error("Teks guideline wajib diisi; kolom JSON saja belum cukup.");const parsed=guidelineRules(rules.value);const draft=await api(`/api/programs/${state.program.program_id}/scope-drafts`,{method:"POST",body:JSON.stringify({...parsed,source_text:source.value})});notice(`Draf v${draft.version} tersimpan; belum aktif.`);await guidelines(true);});});box.append(form);const drafts=await api(`/api/programs/${state.program.program_id}/scope-drafts`);drafts.forEach(d=>box.append(button(`Aktifkan draf v${d.version}`,async()=>{await api(`/api/programs/${state.program.program_id}/scope-drafts/${d.scope_version_id}/activate`,{method:"POST"});notice("Scope diaktifkan; run lama dihentikan.");await guidelines(true);})));}panel(edit?"Guideline program":"Scope program",box);}
+async function labResetPanel(){
+ const programId=state.program.program_id,authVersion=state.authVersion;
+ const current=await api(`/api/programs/${programId}/lab-reset`);
+ if(programId!==state.program?.program_id||authVersion!==state.authVersion)return;
+ const box=node("div");box.append(node("p","Pilih kondisi lab untuk membandingkan pengujian yang sama. Mode kontrol diperbaiki memakai konfigurasi pembanding yang sudah disiapkan, bukan perbaikan oleh AI. Verdict tetap dihitung dari bukti."),node("p","Reset mengganti data sintetis dan ID objek lab. Laporan, bukti dan ledger tetap tersimpan. Gunakan ID baru untuk laporan BAC/upload; tunggu atau batalkan validasi aktif sebelum reset."));
+ const condition=select(box,"Kondisi target setelah reset",[["vulnerable","Lab rentan"],["fixed","Lab kontrol diperbaiki"]],current.applied_condition||"vulnerable");
+ const conditionLabel=value=>value==="fixed"?"Lab kontrol diperbaiki":value==="vulnerable"?"Lab rentan":"Belum tercatat untuk snapshot ini";
+ const applied=node("p");box.append(applied);
+ const status=node("p"),objects=node("pre"),error=node("p",undefined,"composer-error");status.role="status";error.role="alert";
+ const manual=button("Aktifkan pengujian manual",async()=>{
+  manual.disabled=true;error.textContent="";
+  try{await api(`/api/programs/${programId}/lab-manual-session`,{method:"POST",body:JSON.stringify({confirm:"OPEN_SHARED_MANUAL_LAB"})});render(await api(`/api/programs/${programId}/lab-reset`));}
+  catch(e){error.textContent=e.message;manual.disabled=false;}
+ });
+ const manualLink=node("a","Buka lab manual di port 8001","secondary-button");manualLink.href="http://127.0.0.1:8001/";manualLink.target="_blank";manualLink.rel="noopener noreferrer";manualLink.hidden=true;
+ const reset=button("Terapkan kondisi & reset data lab",async()=>{
+  reset.disabled=true;condition.disabled=true;error.textContent="";status.textContent="Menyiapkan ulang data lab…";
+  try{const result=await api(`/api/programs/${programId}/lab-reset`,{method:"POST",body:JSON.stringify({confirm:"RESET_DEMO_LAB",condition:condition.value})});render(result);await poll();}
+  catch(e){error.textContent=e.message;reset.disabled=false;condition.disabled=false;}
+ },"primary-button");
+ function render(result){
+  reset.disabled=!current.configured||result.status==="RUNNING";
+  condition.disabled=reset.disabled;
+  manual.disabled=!current.manual_available||result.status==="RUNNING"||!!result.manual_active;
+  manualLink.hidden=!result.manual_active;
+  const installed=result.applied_condition??(result.status==="SUCCEEDED"&&!result.target?result.condition:null);
+  const coverage=result.applied_coverage??(!result.target&&result.status==="SUCCEEDED"?result.coverage:null);
+  applied.textContent=`Kondisi terpasang: ${conditionLabel(installed)}. ${coverage==="ALL_IMPLEMENTED"?"Berlaku untuk seluruh 13 titik lab yang sudah diimplementasikan, termasuk pencarian katalog.":"Reset lama hanya mencakup sebagian fitur; terapkan ulang kondisi untuk seluruh titik lab."} Validasi otomatis agent tetap BAC-08, XSS-08 dan UP-04.`;
+  const needsReset=result.target&&(result.target.dirty||result.target.maintenance||!result.target.ready);
+  status.textContent=result.manual_active?"Pengujian manual aktif pada target worker yang sama. Validasi agent dikunci. Setelah selesai, terapkan kondisi dan reset data untuk membuka validasi kembali.":result.status==="RUNNING"?`Menerapkan ${conditionLabel(result.condition)}. Menunggu health dan sinkronisasi worker…`:result.status==="SUCCEEDED"&&!needsReset?`Lab siap. Kondisi terpasang: ${conditionLabel(installed)}. Lo bisa mulai validasi lagi.`:result.status==="FAILED"?`Reset belum berhasil (${result.error_code||"RESET_FAILED"}). Target tetap terkunci; periksa operator sebelum mencoba kembali.`:`Status target: ${needsReset?"perlu reset":result.target?.ready?"siap":"belum siap"}.`;
+  objects.textContent=result.objects?JSON.stringify(result.objects,null,2):"";objects.hidden=!result.objects;
+ }
+ async function poll(){
+  for(let i=0;i<60;i++){
+   await new Promise(resolve=>setTimeout(resolve,1000));
+   if(authVersion!==state.authVersion||programId!==state.program?.program_id||!$("#detail-dialog").open||!box.isConnected)return;
+   const result=await api(`/api/programs/${programId}/lab-reset`);render(result);
+   if(result.status!=="RUNNING"){await triageUI.status();return;}
+  }
+  error.textContent="Status belum selesai. Tutup lalu buka panel ini untuk memeriksa kembali; jangan mengirim reset berulang.";
+ }
+ if(!current.configured)error.textContent="Reset UI belum diaktifkan pada instalasi ini.";
+ box.append(status,node("p","Port 8001 sekarang membuka target yang sama dengan worker. Aktifkan pengujian manual terlebih dahulu; selama sesi ini validasi agent dikunci."),manual,manualLink,objects,error,reset);panel("Kondisi dan reset lab",box,"Admin program · kontrol pengujian lab");render(current);
+ if(current.status==="RUNNING")await poll();
+}
 async function boot(){const me=await api("/api/me");state.user=me;state.csrf=me.csrf_token;state.programs=await api("/api/programs");await triageUI.status();$("#login-dialog").close();$("#app-shell").inert=false;$("#logout").hidden=false;$("#account-name").textContent=me.login_name;if(!state.programs.length){notice("Akun tidak mempunyai keanggotaan program aktif.");return;}await chooseProgram(state.programs[0]);}
 $("#login-form").addEventListener("submit",e=>{e.preventDefault();guard(async()=>{const b=$("#login-form button");b.disabled=true;try{state.csrf=(await api("/api/auth/csrf")).csrf_token;await api("/api/auth/login",{method:"POST",body:JSON.stringify({login_name:$("#login-name").value,password:$("#login-password").value})});$("#login-password").value="";$("#login-error").textContent="";await boot();}catch(error){$("#login-error").textContent=error.message;}finally{b.disabled=false;}});});
 $("#login-dialog").addEventListener("cancel",e=>e.preventDefault());
@@ -148,6 +193,7 @@ $("#detail-dialog").addEventListener("close",()=>{if(state.user)$("#scope-button
 [$("#scope-button"),$("#sidebar-guide")].forEach(b=>b.addEventListener("click",()=>guard(()=>guidelines())));
 $("#model-info").addEventListener("click",()=>triageUI.info());
 $("#workspace-switch").addEventListener("click",()=>{const box=node("div");state.programs.forEach(p=>box.append(button(p.display_name,async()=>{$("#detail-dialog").close();await chooseProgram(p);})));panel("Pilih program",box);});
+$("[data-view=lab-reset]").addEventListener("click",()=>guard(labResetPanel));
 $("[data-view=guidelines]").addEventListener("click",()=>guard(()=>guidelines(true)));$("[data-view=reports]").addEventListener("click",()=>guard(async()=>{await history();notice("Sidebar menampilkan laporan program yang diizinkan server.");}));
 $("#theme-toggle").addEventListener("click",()=>{document.documentElement.dataset.theme=document.documentElement.dataset.theme==="light"?"dark":"light";});
 $("#search-toggle").addEventListener("click",()=>{const input=$("#history-search");input.hidden=!input.hidden;$("#search-toggle").setAttribute("aria-expanded",String(!input.hidden));if(!input.hidden)$("#history-query").focus();});$("#history-query").addEventListener("input",()=>guard(history));

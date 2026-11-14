@@ -1,5 +1,5 @@
 import asyncio
-from contextlib import asynccontextmanager
+from contextlib import asynccontextmanager, suppress
 import hashlib
 import os
 from pathlib import Path
@@ -14,6 +14,7 @@ from boundary.middleware import BodyLimit
 
 from lab.storage import connect, migrate, one
 from lab.manual_access import register_manual_home, validate_manual_origin
+from boundary.files import read_json
 
 
 def hashed(value: str):
@@ -32,13 +33,52 @@ def create_app(db_path: Path | None = None):
     allowed_origins = {"http://lab:8001"}
     if manual_origin:
         allowed_origins.add(manual_origin)
+    shared_manual = os.environ.get("LAB_SHARED_MANUAL") == "1"
+    control_dir = Path(os.environ["LAB_RESET_CONTROL_DIR"]) if os.environ.get("LAB_RESET_CONTROL_DIR") else None
+    if shared_manual and (manual_origin != "http://127.0.0.1:8001" or control_dir is None):
+        raise ValueError("Shared manual target requires its private control channel and loopback origin")
+    manual_lock = asyncio.Lock()
     @asynccontextmanager
     async def lifespan(app):
         await migrate(path)
-        yield
+        reset_task = None
+        if control_dir is not None:
+            from lab.reset_control import loop
+            reset_task = asyncio.create_task(loop(control_dir, path, manual_lock))
+        try:
+            yield
+        finally:
+            if reset_task:
+                reset_task.cancel()
+                with suppress(asyncio.CancelledError):
+                    await reset_task
     app = FastAPI(title="Portal Lab Sintetis", docs_url=None, redoc_url=None, openapi_url=None, lifespan=lifespan)
     app.add_middleware(BodyLimit,maximum=4096)
-    register_manual_home(app, manual_origin)
+    register_manual_home(app, manual_origin, shared=shared_manual)
+
+    async def manual_enabled():
+        try:
+            session = read_json(control_dir, "manual-session.json", 4096)
+            if session.get("active") is not True or time.time() >= session["expires_at"]:
+                return False
+            async with connect(path) as db:
+                snapshot = await one(db, "SELECT value FROM settings WHERE key='snapshot_id'")
+            return bool(snapshot and session.get("snapshot_id") == snapshot[0])
+        except (OSError, ValueError, KeyError, TypeError):
+            return False
+
+    @app.middleware("http")
+    async def manual_gate(request: Request, call_next):
+        # Worker identity is its fixed internal peer IP, not a spoofable Host/Origin.
+        manual_peer = shared_manual and (not request.client or request.client.host != "172.30.74.2")
+        public = request.method == "GET" and request.url.path in {"/", "/api/health"}
+        if manual_peer and not public:
+            async with manual_lock:
+                if not await manual_enabled():
+                    from fastapi.responses import JSONResponse
+                    return JSONResponse({"error_code": "MANUAL_SESSION_REQUIRED", "detail": "Aktifkan pengujian manual melalui tombol admin ValVuln terlebih dahulu."}, status_code=409)
+                return await call_next(request)
+        return await call_next(request)
 
     @app.middleware("http")
     async def headers_and_audit(request: Request, call_next):
@@ -96,7 +136,10 @@ def create_app(db_path: Path | None = None):
                                      ("catalog_items", "owner_id"), ("suppliers", "owner_id")):
                     async with db.execute(f"SELECT id FROM {table} WHERE {owner}=? ORDER BY id LIMIT 128", (user["user_id"],)) as cursor:
                         objects[table] = [row[0] for row in await cursor.fetchall()]
-            return {"account_alias": user["alias"], "objects": objects, "purpose": "MANUAL_COPY_ONLY"}
+                snapshot = await one(db, "SELECT value FROM settings WHERE key='snapshot_id'")
+            return {"account_alias": user["alias"], "objects": objects,
+                    "snapshot_id": snapshot[0] if snapshot else None,
+                    "purpose": "SHARED_WORKER_TARGET" if shared_manual else "MANUAL_COPY_ONLY"}
 
     @app.get("/api/requests")
     async def requests(request: Request):

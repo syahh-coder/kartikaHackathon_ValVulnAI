@@ -1,20 +1,22 @@
 # Lab Docker untuk verifikasi manual
 
-Status **13 November 2026**: salinan lab manual berjalan dan dapat dibuka di **http://127.0.0.1:8001/**. Ini target sintetis milik proyek untuk operator. Salinan terpisah dari portal `lab:8001` yang terdaftar pada worker; verifikasi manual di sini tidak otomatis menjadi bukti run/GT pada instance lain.
+Status **14 November2026**: **http://127.0.0.1:8001/** membuka service/database yang sama dengan target worker `lab:8001`. Pilihan admin **Lab rentan / Lab kontrol diperbaiki** kini mengatur seluruh13 titik existing BAC-08/XSS-01..08/UP-01..04, termasuk pencarian katalog. Ini memperbaiki cakupan reset sebelumnya yang hanya3 titik produk, serta menggantikan salinan terpisah8001. Bukti manual tetap perlu dicatat terikat snapshot; tidak otomatis menjadi evidence run atau GT manusia yang diterima.
+
+**Hasil terbaru:**23 tes terarah lulus; tombol UI sudah diuji fixed lalu vulnerable dengan13 flag cocok dan snapshot port8001 sama. Teks inert pada hasil pencarian katalog mengikuti mode; parameter view=text tetap kontrol aman. Kondisi akhir rentan/sesi manual aktif. Setelah reset, login ulang dan masukkan ulang data/payload karena seed/ID/sesi lab diganti. [Bukti dan batas pemeriksaan](lab-reset-ui.md#cakupan-seluruh-titik-existing-14-november-2026).
 
 ## 1. Login dan objek uji
 
-1. Buka http://127.0.0.1:8001/.
+1. Di ValVuln8000 sebagai admin, buka **Reset data lab**, pilih kondisi dan terapkan/reset. Klik **Aktifkan pengujian manual**, lalu tautan **Buka lab manual di port8001**. Aktivasi tidak mengganti data/kondisi; agent dikunci maintenance selama sesi ini.
 2. Pilih akun `requester-a` atau `requester-b`. Password masing-masing tersedia pada file privat `.local-data/secrets/lab-accounts.json`; nilainya tidak disalin ke dokumen/source/chat.
 3. Tekan Login, lalu **Lihat ID objek akun ini**. Respons memuat ID permintaan, lampiran, barang katalog dan pemasok yang dimiliki akun tersebut.
 4. Buka halaman contoh melalui tautan. Route yang membutuhkan ID menggunakan ID dari akun yang sesuai. Login akun kedua melalui profil/incognito browser terpisah bila perlu membandingkan dua aktor.
 5. Untuk request mutasi manual, pertahankan cookie sesi, `Origin: http://127.0.0.1:8001` dan `X-CSRF-Token` dari respons login. Sesi lab berlaku lima menit; login ulang bila kedaluwarsa.
 
-`GET /manual/objects` hanya tersedia pada instance manual dan memerlukan login. Di lab default endpoint ini tidak terdaftar. Halaman awal adalah bantuan operator minimal; FE produk dikerjakan terpisah.
+`GET /manual/objects` memerlukan login dan sesi manual admin aktif; respons menampilkan snapshot_id yang sama dengan target worker serta purpose SHARED_WORKER_TARGET. Root/login tidak mengaktifkan sesi admin dengan sendirinya. Jika MANUAL_SESSION_REQUIRED/409, aktifkan kembali dari panel admin. Sesi manual berlaku1jam, sementara cookie akun lab lima menit. Selesai menguji, gunakan **Terapkan kondisi & reset data lab** untuk mencabut sesi dan membuka validasi kembali; ID objek berubah. Kedaluwarsa sesi tidak otomatis membuka validasi agent.
 
 ## 2. Kerentanan yang sudah diimplementasikan
 
-Katalog mencatat **13 titik dengan reproduksi operator historis**. Kondisi masing-masing diaktifkan pada salinan manual tanggal 13 November. Pada batch ini yang diperiksa ulang adalah akses/login/route normal dan konfigurasi kondisi, bukan reproduksi eksploitasi ulang 13 titik. GT manusia tetap memerlukan verifikasi klaim yang relevan.
+Katalog mencatat **13 titik dengan reproduksi operator historis**. Salinan lama mengaktifkan13 titik pada13 November; volume itu tetap disimpan dan kini berhenti. Tombol admin pada target bersama8001 sekarang mengatur seluruh13 kondisi pada tabel. Kontrol pembanding seperti pencarian view=text tetap escaped meskipun mode rentan. Kapabilitas otomatis tetap3 subtype produk; flag mode/laporan tes tidak mengesahkan GT atau menyatakan reproduksi eksploitasi13 titik telah diulang.
 
 | ID | Fitur dan route aktual | Perilaku rentan yang tersedia | Kontrol pembanding |
 | --- | --- | --- | --- |
@@ -42,28 +44,25 @@ Kemampuan produk otomatis saat ini hanya subtype **BAC-08, XSS-08 dan UP-04**. T
 
 | Bagian | Nilai |
 | --- | --- |
-| Project Compose | `valvuln-manual` |
-| File Compose | [compose.manual-lab.yaml](../compose.manual-lab.yaml) |
-| Container | `valvuln-manual-manual_lab-1` |
+| Project Compose | `kartikahackathon` |
+| File Compose | [compose.yaml](../compose.yaml) |
+| Container | `kartikahackathon-lab-1` |
 | Port | `127.0.0.1:8001` saja |
-| Volume salinan | `valvuln_manual_lab_data_20261113` |
-| Volume asal | `kartikahackathon_lab_data`, hanya dibaca saat penyalinan |
+| Volume target bersama | `kartikahackathon_lab_data` |
+| Volume salinan lama, dipertahankan | `valvuln_manual_lab_data_20261113`, service berhenti |
 | Origin manual | `http://127.0.0.1:8001` |
-| Akun/isi | Dua akun dan data sintetis yang disalin dari lab proyek |
+| Akun/isi | Dua akun dan data sintetis target worker yang sama |
 
 ```powershell
-# Menjalankan ulang salinan yang sudah disiapkan, tanpa reset data
-docker compose -p valvuln-manual -f compose.manual-lab.yaml up -d
-
-# Menghentikan akses manual, tanpa menghapus volume
-docker compose -p valvuln-manual -f compose.manual-lab.yaml stop
+# Startup normal, tidak mereset data atau membuka sesi manual otomatis
+docker compose up -d --build
 ```
 
-Bootstrap manual menerima koneksi pada port 8001 yang dipublikasikan Docker di loopback, menolak koneksi keluar baru dan menurunkan proses Uvicorn menjadi UID 10001 tanpa capability. Network ini terpisah dari network worker. API model/key dan evaluator/GT tidak dipasang pada container manual.
+Lab tetap mempunyai IP internal worker172.30.74.3 dan network tambahan lab_manual_access untuk publish loopback8001. Bootstrap menolak koneksi keluar baru/forwarding dan menurunkan Uvicorn keUID10001 tanpa capability. App tidak masuk network target; API model/key, app DB, Docker socket dan GT tidak dipasang pada lab. Salinan lama tidak dijalankan normal. [Compose salinan](../compose.manual-lab.yaml) disediakan hanya opsional pada8002; jika operator membutuhkannya, rebuild eksplisit diperlukan untuk origin/port baru. Kondisinya terpisah dari tombol admin.
 
-Normalisasi Origin manual bersifat opt-in melalui `LAB_MANUAL_ORIGIN`; lab default tetap menggunakan `http://lab:8001`. Origin asing dan mutasi tanpa token CSRF tetap ditolak. Konfigurasi manual tidak dimasukkan ke binding target worker atau manifest benchmark.
+Origin manual opt-in LAB_MANUAL_ORIGIN dengan LAB_SHARED_MANUAL dan kanal kontrol privat; worker tetap memakai http://lab:8001. Origin asing/mutasi tanpaCSRF ditolak. Peer worker dikenali melalui IP internal tetap, bukan header Host/Origin. Request manual selain root/health membutuhkan sesi aktif terikat snapshot; reset menunggu handler manual yang masih berjalan. Worker tetap tidak memperoleh kontrol reset/sesi manual.
 
-## 4. Kondisi data dan pemeriksaan aktual
+## 4. Riwayat salinan awal13 November2026
 
 - [Helper persiapan](../scripts/prepare_manual_lab.py) membaca database dan WAL dari volume asal saat lab asal berhenti, memakai backup SQLite ke volume manual baru dan memeriksa hash source tetap sama. Helper menolak menimpa DB manual yang sudah ada.
 - Snapshot salinan saat dibuat: `fc21167a-402c-459b-80b2-a027bf94ba4d`. Perubahan manual selanjutnya perlu dicatat oleh operator bila hendak dijadikan bukti.
@@ -73,3 +72,25 @@ Normalisasi Origin manual bersifat opt-in melalui `LAB_MANUAL_ORIGIN`; lab defau
 - Percobaan salinan awal gagal karena akses SQLite WAL pada mount read-only; artefak volume awal dipertahankan. Bridge internal awal tidak mempublikasikan port host; konfigurasi diganti bridge khusus dengan firewall egress sebelum dinyatakan dapat diakses.
 
 Hasil pemeriksaan disimpan privat pada `artifacts/backend-audit-20261113/`. Tidak ada klaim seluruh celah direproduksi ulang, GT disahkan, benchmark berjalan atau target asli direset oleh pembukaan akses ini.
+
+## 4a. Akses bersama14 November2026
+
+28 tes terarah lulus31,34detik: role/CSRF/idle, sesi manual aktif/kedaluwarsa/snapshot salah, jalur worker, revokasi saat reset, lock handler manual, dua mode/reset/anti-replay serta akses manual legacy. Smoke UI menerapkan vulnerable lalu fixed, mengaktifkan sesi manual dan login dua akun di8001. Snapshot dan objek akun yang dibaca manual cocok dengan status target worker pada kedua mode. Halaman pratinjau memakai innerHTML saat vulnerable dan textContent saat fixed; hanya teks inert diuji, tidak mengeksekusi payload/script uji.
+
+14 tabel aplikasi yang diperiksa termasuk68 baris ledger identik sebelum/sesudah. Jalur health worker keIP pinned172.30.74.3 tetap OK, UID lab10001 dan koneksi keluar baru diblok. Salinan lama berhenti tanpa volume dihapus. Kondisi akhir fixed dengan sesi manual aktif, target maintenance/dirty dan worker IDLE; ini penguncian yang disengaja sampai admin reset, bukan kegagalan kesiapan. Tidak ada inferensi model, exploit, run validasi baru atau pengesahan GT.
+
+Artefak privat: `artifacts/shared-manual-lab-20261114/targeted.xml`, `ui-smoke.json`, screenshot admin, `before.json` dan `preservation.json`. OpenAPI diperbarui; source belum di-push/rilis. Snapshot/ID berubah jika pengguna melakukan reset lagi.
+
+## 5. Cek XSS-08 manual dan kendala popup
+
+Pada akses bersama sekarang, pilih kondisi lalu **Aktifkan pengujian manual** di admin sebelum login dan mencoba URL. Mode rentan memakai sink HTML; kontrol diperbaiki menampilkan payload sebagai teks. Setelah setiap reset, sesi manual perlu diaktifkan lagi dan akun lab perlu login ulang. Riwayat pengujian browser berikut dilakukan pada salinan lama, bukan bukti otomatis untuk snapshot baru.
+
+Login pada origin yang sama `http://127.0.0.1:8001/`, lalu buka URL berikut dan reload halaman setelah URL berubah:
+
+```text
+http://127.0.0.1:8001/notifications/preview#%3Cimg%20src%3D%22data%3A%2C%22%20onerror%3D%22alert%28%27ValVuln-XSS%27%29%22%3E
+```
+
+Pada kondisi rentan, popup `ValVuln-XSS` berasal dari event handler elemen yang dimasukkan melalui fragment URL. Halaman membaca fragment hanya saat load; navigasi yang hanya mengubah hash pada tab yang sudah terbuka tidak mengeksekusi sink lagi. Gunakan reload/Ctrl+Shift+R. Jika halaman berisi HTTP401, login ulang; sesi berlaku lima menit. Pertahankan hostname127.0.0.1 yang sama dengan halaman login.
+
+Kontrol inert: `/notifications/preview#Kontrol-inert-ValVuln`, lalu reload; teks tampil tanpa popup. Pada14 November2026, Chromium host menguji kedua akun pada salinan manual: kontrol tanpa alert, perubahan hash saja tanpa alert, reload payload menghasilkan alert pada masing-masing akun. Bukti privat: `artifacts/manual-check-20261114/browser-xss08.json`. Pemeriksaan ini tidak mengubah target worker, kondisi lab, GT atau ledger dan tidak melakukan inferensi model. Hasil salinan manual tidak otomatis menjadi bukti run produk.

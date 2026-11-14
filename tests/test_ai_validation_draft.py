@@ -7,11 +7,13 @@ import pytest
 from app.common import packed, uid
 from app.providers.azure import AzureTransport
 from app.providers.openrouter import OpenRouterTransport
+from app.providers.groq import GroqTransport
 from app.storage.db import all_rows, one
 from conftest import activate
 from test_azure_text import azure_config, completion as azure_completion
 from test_text_triage import HttpScript, SUGGESTION, completion, finished, live_config, submit
 from test_m3_bac import runtime
+from test_groq_text import groq_config, completion as groq_completion
 
 RID = "10000000-0000-4000-8000-000000000001"
 PATHS = {
@@ -51,12 +53,12 @@ async def case(env, provider="openrouter", kind="BAC", *, fields_update=None, su
     response = await hunter.post(f"/api/conversations/{cid}/messages", json={"expected_draft_version": 0,
         "body": text or f"Laporan {kind} pada portal, requester-a dan requester-b. Path {path} kontrol {control or 'tidak ada'}."})
     assert response.status_code == 201, response.text
-    config = (azure_config if provider == "azure" else live_config)(data_dir=app.state.config.data_dir, min_free_bytes=0)
-    body = (azure_completion if provider == "azure" else completion)(choices=[{
+    config = {"azure": azure_config, "openrouter": live_config, "groq": groq_config}[provider](data_dir=app.state.config.data_dir, min_free_bytes=0)
+    body = {"azure": azure_completion, "openrouter": completion, "groq": groq_completion}[provider](choices=[{
         "finish_reason": "stop", "message": {"content": packed(suggestion)}}])
     script = HttpScript([body])
     app.state.text_triage.config = config
-    cls = AzureTransport if provider == "azure" else OpenRouterTransport
+    cls = {"azure": AzureTransport, "groq": GroqTransport, "openrouter": OpenRouterTransport}[provider]
     app.state.text_triage.transport = cls(config, http_transport=httpx.MockTransport(script))
     response = await submit(hunter, cid)
     assert response.status_code == 202, response.text
@@ -69,7 +71,7 @@ async def case(env, provider="openrouter", kind="BAC", *, fields_update=None, su
     return app, hunter, other, admin, cid, tid, script
 
 
-@pytest.mark.parametrize("provider", ["openrouter", "azure"])
+@pytest.mark.parametrize("provider", ["openrouter", "azure", "groq"])
 @pytest.mark.parametrize("kind", list(PATHS))
 async def test_provider_to_draft_confirmation_run_and_provenance(env, provider, kind):
     app, hunter, _, _, cid, tid, script = await case(env, provider, kind)
@@ -99,8 +101,8 @@ async def test_provider_to_draft_confirmation_run_and_provenance(env, provider, 
         assert proof["provider"] == provider and len(proof["confirmed_claim_hash"]) == 64
         assert (await one(conn, "SELECT count(*) FROM actions"))[0] == 0
         ledger = await one(conn, "SELECT status,actual_idr FROM ledger WHERE triage_id=?", (tid,))
-        assert ledger["status"] == ("COST_UNKNOWN" if provider == "azure" else "SETTLED")
-        if provider == "azure":
+        assert ledger["status"] == ("SETTLED" if provider == "openrouter" else "COST_UNKNOWN")
+        if provider != "openrouter":
             assert ledger["actual_idr"] is None
         else:
             assert ledger["actual_idr"] == 17
@@ -162,14 +164,14 @@ async def test_ai_cannot_authorize_paths_controls_or_capability(env, variant, ex
         assert (await one(conn, "SELECT count(*) FROM runs"))[0] == 0
 
 
-@pytest.mark.parametrize("provider", ["openrouter", "azure"])
+@pytest.mark.parametrize("provider", ["openrouter", "azure", "groq"])
 async def test_malformed_validation_fields_fail_before_proposal(env, provider):
     _, hunter, _, _, _, tid, _ = await case(env, provider, fields_update={"path": "x" * 2049}, expect_error="SCHEMA_ERROR")
     response = await hunter.post(f"/api/triages/{tid}/validation-draft")
     assert response.status_code == 409 and response.json()["error_code"] == "TRIAGE_NOT_READY"
 
 
-@pytest.mark.parametrize("provider", ["openrouter", "azure"])
+@pytest.mark.parametrize("provider", ["openrouter", "azure", "groq"])
 @pytest.mark.parametrize("condition,verdict", [("vulnerable", "CONFIRMED"), ("fixed", "REFUTED")])
 async def test_ai_to_worker_verifier_admin_and_hunter(env, tmp_path, monkeypatch, provider, condition, verdict):
     # Real local ASGI lab and HTTP worker, intercepted model, no cloud or external target.

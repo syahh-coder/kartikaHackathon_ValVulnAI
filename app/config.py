@@ -17,10 +17,11 @@ class Settings(BaseSettings):
     execution_mode: Literal["mock", "live", "replay"] = "mock"
     # Text inference is independent of the deterministic lab planner.
     triage_mode: Literal["mock", "live", "replay"] = "mock"
-    triage_provider: Literal["openrouter", "azure", "agentrouter"] = "openrouter"
+    triage_provider: Literal["openrouter", "azure", "agentrouter", "groq"] = "openrouter"
     openrouter_api_key: SecretStr | None = Field(default=None, repr=False)
     azure_api_key: SecretStr | None = Field(default=None, repr=False)
     agentrouter_api_key: SecretStr | None = Field(default=None, repr=False)
+    groq_api_key: SecretStr | None = Field(default=None, repr=False)
     agentrouter_endpoint: str = Field(default="https://agentrouter.org/v1/chat/completions", max_length=300)
     azure_endpoint: str = Field(default="", max_length=300)
     azure_expected_model: str = Field(default="", max_length=128)
@@ -45,6 +46,8 @@ class Settings(BaseSettings):
     queue_limit: int = Field(default=5, ge=1, le=5)
     dispatcher_enabled: bool = True
     transport_key_file: Path | None = None
+    lab_reset_control_dir: Path | None = None
+    shared_lab_manual: bool = False
 
     @model_validator(mode="after")
     def secure_origin(self) -> "Settings":

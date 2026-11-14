@@ -1,5 +1,14 @@
 # Arsitektur dan kontrak implementasi
 
+**Cakupan mode14 November2026:** pemilih mode lab kini all_supported13 titik existing, bukan hanya3 validator produk. Result coverage ALL_IMPLEMENTED wajib sebelum release snapshot; reset evaluator individual default lama tidak berubah. Kapabilitas agent/worker/verifier tetap3 subtype dan mode/cakupan tidak menjadi jawaban model. [Kontrak](lab-reset-ui.md).
+
+**Akses manual bersama14 November2026:** atas permintaan pengguna, lab worker kini dipublikasikan pada127.0.0.1:8001. Manual dan agent memakai snapshot/objek/konfigurasi yang sama dengan sesi eksklusif: admin/idle → maintenance → sesi manual snapshot-bound → HTTP manual, lalu reset mencabut sesi/menunggu handler → seed/health/ack → validasi agent dibuka. Worker dikenali daripeer internal tetap, bukan Host/Origin. App tidak diberi jaringan target, Docker socket atau tools model baru. [Kontrak aktif](manual-lab.md); pemisahan salinan8001 di catatan lama telah diganti.
+
+**Reset UI14 November2026, keputusan terbaru:** admin memilih enum vulnerable/fixed untuk tiga subtype demo melalui mailbox privat app-lab. Mode balasan harus cocok dengan permintaan sebelum acknowledgment snapshot worker. Mode tidak masuk input model atau menentukan verdict; fixed adalah kontrol yang disiapkan, bukan perbaikan AI. Guard maintenance tetap; tidak membuka reset HTTP lab, jaringan app-ke-target, Docker socket atau reset hunter. Tiga container/lima named volume tetap. [Kontrak dan batas](lab-reset-ui.md).
+
+**Provider14 November2026:** adapter Groq fixed-origin/strict schema memakai registry teks dan ledger existing, prioritas Groq?OpenRouter?Azure. Satu triage live sukses; draf klaim v2, konfirmasi pemilik dan gate/worker tetap sama. [Kontrak/bukti](groq-setup.md).
+
+
 **Update kontrak13 November2026:** hasil triage-v2 dapat menyiapkan Claim melalui `POST /api/triages/{triage_id}/validation-draft`; konfirmasi owner melalui snapshot membawa source_triage_id dan diaudit. Endpoint persiapan tidak membuat job atau memberi izin; scope, readiness, policy per aksi dan verifier tetap otoritas backend. Runtime teks4096 output; planner mock lama1024 terpisah. Prioritas OpenRouter/Azure dipilih operator tanpa fallback otomatis. [Kontrak/bukti terbaru](ai-validation-integration.md), [setup provider](provider-setup.md). Bagian historis di bawah yang menyebut saran belum mengisi klaim digantikan jalur konfirmasi ini.
 
 **Audit aktual 13 November 2026:** [backend-flow.md](backend-flow.md) memetakan jalur triage teks, snapshot/claim, gate, antrean/worker/verifier dan review/publikasi berdasarkan source. Triage live tidak membuat run dan planner LAB masih deterministik/mock. Snapshot schema FE: [api/openapi.json](api/openapi.json). Temuan schema/routing/cap provider dan hasil smoke berada di [audit BE](backend-audit-2026-11-13.md), bukan klaim seluruh kontrak sudah lolos.

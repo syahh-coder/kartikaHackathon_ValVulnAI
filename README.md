@@ -2,7 +2,11 @@
 
 Purwarupa lokal untuk membantu triage laporan kerentanan, menyiapkan klaim pemeriksaan, dan memverifikasi klaim yang didukung pada lab sendiri.
 
-**Status 13 November 2026:** integrasi kode OpenRouter dan Azure Foundry diuji dengan HTTP simulasi. AI dapat mengisi draf klaim; pengguna mengonfirmasi sebelum backend membuat run. **Model live dan benchmark belum terverifikasi.** [Hasil dan batas](docs/ai-validation-integration.md).
+**Kondisi lab dari UI:** login admin → **Reset data lab** → pilih **Lab rentan / Lab kontrol diperbaiki** → **Terapkan kondisi & reset data lab**. Pilihan berlaku untuk13 titik existing BAC-08/XSS-01..08/UP-01..04, termasuk pencarian katalog. Validasi otomatis agent tetap3 jalur BAC-08/XSS-08/UP-04 dan verdict mengikuti bukti. Laporan/ledger tersimpan, ID objek lab berubah. Mode kontrol bukan AI memperbaiki celah. [Panduan dan API untuk FE](docs/lab-reset-ui.md).
+
+**Uji manual target yang sama:** di panel admin klik **Aktifkan pengujian manual**, lalu **Buka lab manual di port8001**. Login memakai akun lab requester-a/requester-b. Snapshot, objek dan kondisi mengikuti target worker. Selama sesi manual, validasi agent dikunci; setelah selesai gunakan reset untuk membuka validasi kembali. [Panduan](docs/manual-lab.md).
+
+**Status 14 November 2026:** **Groq GPT-OSS120B berhasil satu triage live** melalui API aplikasi/ledger existing;85 tes terarah mempunyai hasil terakhir lulus. AI mengisi draf klaim dan pengguna mengonfirmasi sebelum backend membuat run. **Benchmark/GT manual belum selesai.** [Hasil dan konfigurasi Groq](docs/groq-setup.md), [baseline integrasi](docs/ai-validation-integration.md).
 
 Tim: **ukas and codex vs everbody**. [Repository](https://github.com/syahh-coder/kartikaHackathon_ValVulnAI).
 
@@ -10,7 +14,7 @@ Tim: **ukas and codex vs everbody**. [Repository](https://github.com/syahh-coder
 
 1. Hunter/admin login, memilih program, lalu mengirim teks atau laporan TXT/MD.
 2. Admin mengatur guideline dan in-scope/out-of-scope terversi, terpisah dari laporan.
-3. **Minta saran AI** mengekstrak klaim dan informasi yang kurang. Prioritas provider: **OpenRouter**, lalu **Azure Foundry** yang dipilih operator; tanpa fallback otomatis.
+3. **Minta saran AI** mengekstrak klaim dan informasi yang kurang. Prioritas provider: **Groq**, **OpenRouter**, lalu **Azure Foundry**, dipilih operator tanpa fallback otomatis.
 4. **Siapkan validasi dari saran AI** mengisi formulir klaim. Backend memeriksa binding, scope, subtype dan prasyarat. Pengguna memeriksa/melengkapi field lalu mengonfirmasi.
 5. Backend memeriksa ulang izin/readiness, membuat run, dan worker menjalankan fixture HTTP/browser terdaftar.
 6. Verifier menilai dampak/kontrol. Admin meninjau lalu membagikan ringkasan tersanitasi kepada hunter.
@@ -41,9 +45,10 @@ Tiga container normal: app, worker dan lab. SQLite app/lab terpisah; satu worker
 
 ## Provider AI
 
-[Konfigurasi dan pergantian provider](docs/provider-setup.md). Key hanya di file privat; tidak diberikan ke worker/lab.
+[Groq yang sudah terhubung](docs/groq-setup.md), [konfigurasi dan pergantian provider](docs/provider-setup.md). Key hanya di file privat; tidak diberikan ke worker/lab.
 
 ```powershell
+.\.venv\Scripts\python.exe -m scripts.check_text_provider_config --provider groq
 .\.venv\Scripts\python.exe -m scripts.check_text_provider_config --provider openrouter
 .\.venv\Scripts\python.exe -m scripts.check_text_provider_config --provider azure
 ```
@@ -57,7 +62,7 @@ Checker tidak menghubungi provider. Kedua adapter memerlukan endpoint/model yang
 | Validasi produk | BAC-08: hapus lampiran lintas pemilik; XSS-08: pratinjau notifikasi; UP-04: nama lampiran |
 | Lab manual | 13 kondisi existing: BAC-08, XSS-01..08, UP-01..04; bukan 13 subtype produk otomatis |
 | Di luar scope aktif | BUSINESS_LOGIC, BAC-01..07, DoS/race, eksekusi PoC/script bebas |
-| AI live | Belum terverifikasi; smoke OpenRouter sebelumnya timeout; Azure menunggu konfigurasi |
+| AI live | Groq GPT-OSS120B: satu triage sukses; OpenRouter sebelumnya timeout, Azure menunggu konfigurasi |
 | Evaluasi | 20 kandidat; GT manual/bukti per kasus dan 40 slot A/B nyata masih pending |
 | Materi | Slide, thumbnail dan screenshot lokal tersedia; video/tautan final menunggu review |
 
