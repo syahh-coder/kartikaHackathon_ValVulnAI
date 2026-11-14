@@ -214,3 +214,284 @@
   color: var(--muted);
   font-size: var(--text-small);
 }
+
+/* ==========================================================================
+   COLOROS 17 GLASSMORPHISM WORKSPACE OVERHAUL (PORTAL & ALL ACCOUNTS)
+   ========================================================================== */
+
+/* Stacking & Layout Foundations */
+.app-shell {
+  position: relative;
+  z-index: 10;
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  height: calc(100dvh - 42px);
+  min-height: 520px;
+}
+
+.prototype-bar {
+  position: relative;
+  z-index: 15;
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 4px 20px;
+  border-bottom: 1px solid rgba(0, 153, 255, 0.18);
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+html[data-theme="dark"] .prototype-bar {
+  background: rgba(10, 14, 24, 0.8);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Glass Sidebar */
+.sidebar {
+  position: relative;
+  z-index: 12;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 14px 0;
+  min-height: 0;
+  background: rgba(248, 250, 252, 0.78) !important;
+  backdrop-filter: blur(24px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  border-right: 1px solid rgba(0, 153, 255, 0.2) !important;
+  transition: transform 280ms var(--ease-out-expo), background-color 220ms var(--ease);
+}
+
+html[data-theme="dark"] .sidebar {
+  background: rgba(10, 14, 24, 0.82) !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Glass Topbar */
+.topbar {
+  position: relative;
+  z-index: 11;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  background: rgba(255, 255, 255, 0.72) !important;
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  border-bottom: 1px solid rgba(0, 153, 255, 0.18) !important;
+}
+
+html[data-theme="dark"] .topbar {
+  background: rgba(10, 14, 24, 0.8) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Workspace Main Stage */
+.workspace-main {
+  position: relative;
+  z-index: 10;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: rgba(240, 248, 255, 0.38) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+}
+
+html[data-theme="dark"] .workspace-main {
+  background: rgba(6, 9, 16, 0.55) !important;
+  backdrop-filter: blur(10px) !important;
+}
+
+/* Welcome Screen 3D Glass Card */
+.welcome {
+  position: relative;
+  background: rgba(255, 255, 255, 0.3) !important;
+  background-image: radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.6) 0%, transparent 45%), radial-gradient(circle at 100% 100%, rgba(0, 153, 255, 0.15) 0%, transparent 40%) !important;
+  backdrop-filter: blur(24px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  border: 1px solid rgba(0, 153, 255, 0.3) !important;
+  border-radius: 26px !important;
+  box-shadow: 
+    0 0 16px 2px rgba(0, 153, 255, 0.18),
+    0 16px 36px -10px rgba(0, 0, 0, 0.08),
+    inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.95) !important;
+  padding: 34px 32px;
+  color: #0f172a !important;
+}
+
+html[data-theme="dark"] .welcome {
+  background: rgba(12, 16, 26, 0.35) !important;
+  background-image: radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.12) 0%, transparent 45%), radial-gradient(circle at 100% 100%, rgba(0, 153, 255, 0.18) 0%, transparent 40%) !important;
+  border: 1px solid rgba(0, 153, 255, 0.35) !important;
+  box-shadow: 
+    0 0 18px 2px rgba(0, 153, 255, 0.22),
+    0 20px 40px -12px rgba(0, 0, 0, 0.6),
+    inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.25) !important;
+  color: #ffffff !important;
+}
+
+.welcome h1 {
+  color: inherit !important;
+  font-family: var(--font-heading);
+  letter-spacing: -0.02em;
+}
+
+.welcome p {
+  color: var(--muted) !important;
+}
+
+/* Starter Cards (BAC, XSS, Upload) as Glass Tiles */
+.starter-card {
+  background: rgba(255, 255, 255, 0.45) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  border: 1px solid rgba(0, 153, 255, 0.22) !important;
+  border-radius: 18px !important;
+  padding: 16px 14px;
+  color: #0f172a !important;
+  box-shadow: 0 4px 14px rgba(0, 153, 255, 0.08), inset 0 1px 1px rgba(255, 255, 255, 0.8) !important;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease, border-color 0.2s ease !important;
+}
+
+.starter-card:hover {
+  transform: translateY(-3px) scale(1.02) !important;
+  border-color: rgba(0, 153, 255, 0.5) !important;
+  box-shadow: 0 0 16px rgba(0, 153, 255, 0.25) !important;
+}
+
+html[data-theme="dark"] .starter-card {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3) !important;
+}
+
+html[data-theme="dark"] .starter-card:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-color: rgba(0, 153, 255, 0.6) !important;
+  box-shadow: 0 0 20px rgba(0, 153, 255, 0.35) !important;
+}
+
+/* Buttons Rule 1: Lime Green #c6f432 for Action Buttons */
+.primary-button,
+.new-report,
+#hero-login-cta,
+#landing-login-btn,
+.segel-nav-login,
+#closing-login-btn,
+#telemetry-modal-action,
+.send-button {
+  background: #c6f432 !important;
+  color: #111114 !important;
+  font-weight: 700 !important;
+  border: 1px solid #c6f432 !important;
+  border-radius: 999px !important;
+  box-shadow: 0 0 16px rgba(198, 244, 50, 0.45) !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease !important;
+}
+
+.primary-button:hover:not(:disabled),
+.new-report:hover:not(:disabled),
+.send-button:hover:not(:disabled) {
+  background: #d4f755 !important;
+  transform: translateY(-2px) scale(1.02) !important;
+  box-shadow: 0 0 24px rgba(198, 244, 50, 0.65) !important;
+}
+
+.primary-button:active:not(:disabled),
+.new-report:active:not(:disabled),
+.send-button:active:not(:disabled) {
+  transform: scale(0.97) !important;
+}
+
+/* Non-Table Nav Links Rule 3: Bold, No Underline, Active #ff6b5b */
+.admin-nav button,
+.conversation-item,
+.guide-link,
+.workspace-switch {
+  font-weight: 600 !important;
+  text-decoration: none !important;
+  color: #0f172a !important;
+  transition: color 0.15s ease, transform 0.15s ease, background-color 0.15s ease !important;
+}
+
+html[data-theme="dark"] .admin-nav button,
+html[data-theme="dark"] .conversation-item,
+html[data-theme="dark"] .guide-link,
+html[data-theme="dark"] .workspace-switch {
+  color: #ffffff !important;
+}
+
+.admin-nav button:hover,
+.conversation-item:hover,
+.guide-link:hover,
+.workspace-switch:hover {
+  text-decoration: none !important;
+}
+
+.admin-nav button:active,
+.conversation-item:active,
+.guide-link:active,
+.workspace-switch:active {
+  color: #ff6b5b !important;
+  transform: scale(0.98) !important;
+}
+
+.admin-nav button.selected,
+.conversation-item.selected {
+  font-weight: 700 !important;
+  border-left: 3px solid #c6f432 !important;
+  background: rgba(198, 244, 50, 0.12) !important;
+}
+
+/* Key Hints */
+.key-hint {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: 10px;
+  background: rgba(0, 0, 0, 0.1);
+  color: #111114;
+  padding: 2px 6px;
+  border-radius: 6px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Admin Panels (Guideline, Scope, Reset Data Lab) */
+.admin-panel,
+.admin-header,
+.admin-guide-status {
+  background: rgba(255, 255, 255, 0.45) !important;
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  border: 1px solid rgba(0, 153, 255, 0.25) !important;
+  border-radius: 24px !important;
+  box-shadow: 0 0 16px rgba(0, 153, 255, 0.15) !important;
+}
+
+html[data-theme="dark"] .admin-panel,
+html[data-theme="dark"] .admin-header,
+html[data-theme="dark"] .admin-guide-status {
+  background: rgba(12, 16, 26, 0.5) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 0 20px rgba(0, 153, 255, 0.2) !important;
+}
+
+/* Inspector Pane Glass Refinement */
+.inspector-pane {
+  background: rgba(255, 255, 255, 0.45) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border-left: 1px solid rgba(0, 153, 255, 0.2) !important;
+}
+
+html[data-theme="dark"] .inspector-pane {
+  background: rgba(10, 14, 24, 0.75) !important;
+  border-left: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
