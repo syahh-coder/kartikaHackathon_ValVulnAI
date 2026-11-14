@@ -1,6 +1,6 @@
 # Desain UI ValVuln AI
 
-**Penyesuaian scope 7 November 2026:** pertahankan baseline grafit/sage. Pada R2 tambahkan label model/provider aktual, mode inference, mode pemeriksaan lab, prediksi/saran AI dan hasil verifier secara terpisah. Dukungan aktif hanya subtype BAC-08/XSS-08/UP-04; business logic tetap belum didukung untuk validasi lab. Saran model tidak menjadi tombol eksekusi baru atau keputusan izin. Tidak membangun UI besar/review bisnis baru. Ini spesifikasi belum diimplementasikan; [cakupan aktif](submission-scope.md).
+**Pembaruan arah visual 13 November 2026 ("SEGEL"):** arah visual diperbarui menjadi sistem desain editorial **SEGEL** (mode terang default: Bone `#EEEAE0`, Chalk `#F7F5EF`, Ink `#111114`, aksen Cobalt `#1B35E8`, serta mode gelap seimbang; warna status hanya pada data verdict nyata). Seluruh kontrak keamanan, pemisahan label `MOCK`/`LIVE`, batas worker/API, serta alur review/publikasi pada R2–R4 tetap berlaku tanpa perubahan. Pada R2 tambahkan label model/provider aktual, mode inference, mode pemeriksaan lab, prediksi/saran AI dan hasil verifier secara terpisah. Dukungan aktif hanya subtype BAC-08/XSS-08/UP-04; business logic tetap belum didukung untuk validasi lab. Saran model tidak menjadi tombol eksekusi baru atau keputusan izin. Tidak membangun UI besar/review bisnis baru. Ini spesifikasi belum diimplementasikan; [cakupan aktif](submission-scope.md).
 
 Status 5 November 2026: baseline grafit + sage diterima pengguna pada 4 November. UI M3 memakai session/API aktual; M4b menambah pemilih BAC/XSS pratinjau, label browser aktual/planner mock serta review/ringkasan aman. [Hasil M4b](m4b-verification.md), [M3](m3-verification.md). Model live dan widget PNG mentah belum tersedia. Prototipe tetap simulasi; spesifikasi lanjutan belum seluruhnya diimplementasikan.
 
@@ -16,7 +16,7 @@ MVP memiliki satu program: **Portal Pengadaan & Logistik — Lab Demo**. Tetap a
 
 ## 2. Tampilan dan token
 
-Arah visual yang dipilih pengguna: gelap grafit dengan aksen hijau sage, teks Bahasa Indonesia. Tema terang tersedia sebagai alternatif pratinjau. Area percakapan lebih dominan daripada statistik. Tanpa ilustrasi dekoratif atau grafik yang belum punya data.
+Arah visual aktif ("SEGEL"): homepage menceritakan alur klaim disegel melewati Scope Gate, Worker Sandbox, dan Target Lab dengan satu kanvas WebGL Three.js minimal (serta fallback bertingkat hingga SVG statis), bidang warna utuh per layar (`Bone → Cobalt → Ink → Bone → Cobalt`), tipografi kontras tinggi, dan ruang kerja pasca-login yang tenang berbasis garis tipis tanpa kartu bersarang atau dekorasi AI generik. Konten dinamis tetap ditampilkan inert melalui `.textContent`. Spec visual tetap fleksibel untuk penyempurnaan tanpa mengunci kelas HTML non-fungsional di luar kontrak selektor QA.
 
 | Token | Nilai | Penggunaan |
 | --- | --- | --- |
@@ -31,7 +31,7 @@ Arah visual yang dipilih pengguna: gelap grafit dengan aksen hijau sage, teks Ba
 | Kontrol selesai | `#B1C9A9` | Langkah berhasil; bukan aplikasi aman |
 | Error | `#EFACA2` | Gagal/diblokir |
 
-Font UI system-ui/Segoe UI; bukti memakai Cascadia Code/Consolas. Sidebar sekitar 248 px, konten chat maksimal sekitar 800 px, drawer bukti 360–440 px jika ruang cukup. Pada laptop 1366 × 768, drawer dapat menutup sebagian area chat; pada layar kecil menjadi panel layar penuh. Composer tetap mudah dijangkau tanpa menutupi pesan terakhir. Gunakan focus state, label input dan ikon beserta teks. Kontras dan akses keyboard perlu diverifikasi saat UI dibangun.
+Tipografi self-hosted (`app/static/fonts/`, `font-display: swap`): Display `Newsreader` (variable opsz, 300–500 + italic terbatas), UI/Body `Schibsted Grotesk` (17px, line-height 1.6; minimum fungsional 14px), dan Mono bukti/ID/hash `Spline Sans Mono` (400/500, >= 14px, tanpa letter-spacing). Sidebar sekitar 248 px, konten chat maksimal sekitar 800 px, drawer bukti 360–440 px jika ruang cukup. Pada laptop 1366 × 768, drawer dapat menutup sebagian area chat; pada layar kecil menjadi panel layar penuh. Composer tetap mudah dijangkau tanpa menutupi pesan terakhir. Gunakan focus state, label input dan ikon beserta teks. Kontras dan akses keyboard perlu diverifikasi saat UI dibangun.
 
 ## 3. Login dan pilihan program
 

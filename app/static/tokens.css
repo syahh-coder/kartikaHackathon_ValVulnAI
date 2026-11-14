@@ -1,0 +1,287 @@
+/* ValVuln AI — Design System "SEGEL" (Tokens, Font Self-Host, Palet, Skala & Motion) */
+
+/* ==========================================================================
+   1. Font Self-Host (Subset Latin, SIL OFL 1.1, font-display: swap)
+   ========================================================================== */
+
+@font-face {
+  font-family: "Newsreader";
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url("/static/fonts/newsreader-latin-opsz-normal.woff2") format("woff2-variations");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Newsreader";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/static/fonts/newsreader-latin-400-italic.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Schibsted Grotesk";
+  font-style: normal;
+  font-weight: 400 900;
+  font-display: swap;
+  src: url("/static/fonts/schibsted-grotesk-latin-wght-normal.woff2") format("woff2-variations");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Spline Sans Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/static/fonts/spline-sans-mono-latin-400-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Spline Sans Mono";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/static/fonts/spline-sans-mono-latin-500-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* ==========================================================================
+   2. Tokens Warna, Tipografi, Spasi & Motion — Default Mode Terang ("Bone")
+   ========================================================================== */
+
+:root {
+  color-scheme: light;
+
+  /* Bidang warna utama — PURE WHITE 100% */
+  --bone: #FFFFFF;
+  --chalk: #FAFAFA;
+  --ink: #111114;
+  --ink-secondary: #5B5A55;
+  --line: #E4E4E7;
+  --line-strong: #D4D4D8;
+  --cobalt: #1B35E8;
+  --cobalt-hover: #152BC4;
+  --cobalt-ink: #FFFFFF;
+
+  /* Token semantik aktif (Mode Terang) — Latar 100% Putih */
+  --bg: #FFFFFF;
+  --surface: #FFFFFF;
+  --surface-raised: #FFFFFF;
+  --text: #111114;
+  --text-muted: #52525B;
+  --accent: #1B35E8;
+  --accent-hover: #152BC4;
+  --accent-ink: #FFFFFF;
+  --focus-ring: #1B35E8;
+
+  /* Token Khusus ColorOS 17 Luminous Glass UI */
+  --btn-lime: #c6f432;
+  --btn-lime-hover: #d4f755;
+  --btn-lime-ink: #111114;
+  --nav-link-active: #ff6b5b;
+  --ambient-blue: #0099ff;
+  --spring-feedback: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Pasangan kontras khusus bidang homepage (kini kanvas putih) */
+  --on-cobalt: #111114;
+  --on-cobalt-muted: #52525B;
+  --on-cobalt-line: #E4E4E7;
+  --on-ink: #111114;
+  --on-ink-muted: #52525B;
+  --on-ink-line: #E4E4E7;
+
+  /* Warna status KHUSUS data verdict nyata (Confirmed disesuaikan ke #0D7344 agar >= 4.5:1 di atas Bone #EEEAE0) */
+  --verdict-confirmed: #0D7344;
+  --verdict-confirmed-bg: #D7EFE2;
+  --verdict-refuted: #B3261E;
+  --verdict-refuted-bg: #FADAD7;
+  --verdict-pending: #8A5A00;
+  --verdict-pending-bg: #F7E8C6;
+
+  /* Tipografi */
+  --font-display: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-sans: "Schibsted Grotesk", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "Spline Sans Mono", Consolas, ui-monospace, monospace;
+
+  /* Skala ukuran & leading (lantai fungsional minimal 14px) */
+  --text-h1: clamp(3.5rem, 11vw, 11rem);
+  --leading-h1: 0.92;
+  --tracking-h1: -0.04em;
+  --text-h2: clamp(2.125rem, 4.5vw, 4rem);
+  --leading-h2: 1.04;
+  --tracking-h2: -0.025em;
+  --text-h3: clamp(1.375rem, 2.2vw, 2rem);
+  --leading-h3: 1.25;
+  --text-body: 1.0625rem;
+  --leading-body: 1.6;
+  --text-ui: 0.9375rem;
+  --text-min: 0.875rem;
+
+  /* Radius & elevasi netral (tanpa glow berwarna atau glass blur) */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-pill: 999px;
+  --shadow-float: 0 10px 28px rgba(17, 17, 20, 0.08);
+  --scrim: rgba(17, 17, 20, 0.56);
+
+  /* Skala motion tunggal (tanpa bounce) */
+  --ease-segel: cubic-bezier(0.25, 1, 0.5, 1);
+  --dur-fast: 150ms;
+  --dur-base: 220ms;
+  --dur-slow: 300ms;
+
+  /* Jembatan kompatibilitas penuh untuk stylesheet workspace (#app-shell & #page-view) */
+  --bg-elevated: var(--chalk);
+  --raised: var(--surface-raised);
+  --surface-2: var(--chalk);
+  --sidebar: var(--chalk);
+  --panel: #FFFFFF;
+  --hover: #E5E0D3;
+  --border: var(--line);
+  --border-strong: var(--line-strong);
+  --muted: var(--text-muted);
+  --muted-2: var(--text-muted);
+  --dim: #5B5A55;
+  --text-secondary: var(--text-muted);
+  --text-small: 0.875rem;
+  --text-caption: 0.875rem;
+  --mono: var(--font-mono);
+  --tracking-heading: var(--tracking-h2);
+  --radius-xs: 4px;
+  --radius-lg: 18px;
+  --space-6: 24px;
+  --crosshair-size: 16px;
+  --ease: var(--ease-segel);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --focus: var(--focus-ring);
+
+  --accent-soft: rgba(27, 53, 232, 0.08);
+  --accent-fg: var(--accent-ink);
+  --accent-ink-tint: #1B35E8;
+  --accent-border: rgba(27, 53, 232, 0.28);
+  --btn-bg: var(--cobalt);
+  --btn-bg-hover: var(--cobalt-hover);
+  --btn-ink: #FFFFFF;
+  --info-bg: rgba(27, 53, 232, 0.08);
+
+  --success: var(--verdict-confirmed);
+  --success-soft: var(--verdict-confirmed-bg);
+  --success-bg: var(--verdict-confirmed-bg);
+  --success-border: rgba(13, 115, 68, 0.34);
+  --success-ink: var(--verdict-confirmed);
+
+  --error: var(--verdict-refuted);
+  --error-soft: var(--verdict-refuted-bg);
+  --danger-bg: var(--verdict-refuted-bg);
+  --error-border: rgba(179, 38, 30, 0.34);
+  --error-ink: var(--verdict-refuted);
+
+  --warning: var(--verdict-pending);
+  --warning-soft: var(--verdict-pending-bg);
+  --warning-bg: var(--verdict-pending-bg);
+  --warning-border: rgba(138, 90, 0, 0.34);
+  --warning-ink: var(--verdict-pending);
+
+  --ai-surface: #ECE8DD;
+  --ai-border: var(--line);
+  --ai-text: var(--ink-secondary);
+
+  --font-heading: var(--font-display);
+  --shadow: var(--shadow-float);
+  --grid-line: transparent;
+}
+
+/* ==========================================================================
+   3. Mode Gelap
+   ========================================================================== */
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg: #090A0E;
+  --surface: #12131A;
+  --surface-raised: #181A22;
+  --text: #F2EFE8;
+  --text-muted: #9E9A90;
+  --line: #22242D;
+  --line-strong: #363844;
+
+  /* Warna Cobalt/Aksen di mode gelap — Luminous Royal Blue & Ice Indigo */
+  --cobalt: #8FA0FF;
+  --cobalt-hover: #A6B4FF;
+  --cobalt-ink: #FFFFFF;
+  --cobalt-dark-field: #0A0F1E;
+
+  /* Link & teks aksen */
+  --accent: #8FA0FF;
+  --accent-hover: #A6B4FF;
+  --accent-ink: #FFFFFF;
+  --focus-ring: #687FE8;
+
+  /* Status mode gelap: tipe warna sama dalam versi gelap */
+  --verdict-confirmed: #4DD48D;
+  --verdict-confirmed-bg: #082414;
+  --verdict-refuted: #FF867E;
+  --verdict-refuted-bg: #400C09;
+  --verdict-pending: #E5A93B;
+  --verdict-pending-bg: #301E00;
+
+  --shadow-float: 0 14px 36px rgba(0, 0, 0, 0.6);
+  --scrim: rgba(0, 0, 0, 0.85);
+
+  /* Jembatan kompatibilitas penuh mode gelap */
+  --bg-elevated: var(--surface);
+  --raised: var(--surface-raised);
+  --surface-2: var(--surface);
+  --sidebar: #0C0D12;
+  --panel: var(--surface);
+  --hover: #1C1E26;
+  --dim: #8E8A80;
+  --accent-soft: rgba(143, 160, 255, 0.12);
+  --accent-ink-tint: #9AA9FF;
+  --accent-border: rgba(143, 160, 255, 0.28);
+  --btn-bg: #2563EB;
+  --btn-bg-hover: #1D4ED8;
+  --btn-ink: #FFFFFF;
+  --info-bg: rgba(20, 31, 64, 0.45);
+
+  --success-bg: #082414;
+  --success-border: #144D2B;
+  --success-ink: #4DD48D;
+
+  --danger-bg: #400C09;
+  --error-border: #6B1612;
+  --error-ink: #FF867E;
+
+  --warning-bg: #301E00;
+  --warning-border: #523400;
+  --warning-ink: #E5A93B;
+
+  --ai-surface: #14151C;
+  --ai-border: #262834;
+  --ai-text: #B4B0A6;
+}
+
+/* ==========================================================================
+   4. Hormati prefers-reduced-motion
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-fast: 0.01ms;
+    --dur-base: 0.01ms;
+    --dur-slow: 0.01ms;
+  }
+
+  *:not(html):not(body),
+  *:not(html):not(body)::before,
+  *:not(html):not(body)::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

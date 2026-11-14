@@ -1,10 +1,60 @@
 <!doctype html>
 <html lang="id">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>ValVuln AI · Fondasi lokal</title><link rel="stylesheet" href="/static/status.css"></head>
-<body><main>
-  <p class="eyebrow">VALVULN AI <span>Fondasi {{ phase }}</span></p>
-  <h1>Fondasi lokal tersedia.</h1>
-  <p>API laporan, akun demo dan antrean sudah tersedia. Antarmuka chat backend menyusul pada M3; prototipe UI tetap terpisah.</p>
-  <p>Mode model: <strong>{{ mode }}</strong>. {% if phase == 'M2' %}Worker HTTP dan portal lab dikendalikan operator lokal. Validasi lab dari chat menyusul pada M3.{% else %}Worker dan portal lab belum terhubung.{% endif %} Model live belum tersedia. Hasil mock bukan bukti kerentanan.</p>
-  <a href="/api/readiness">Periksa kesiapan</a> <a href="/openapi.json">Schema API lokal</a>
-</main></body></html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>ValVuln AI · Status layanan</title>
+  <link rel="icon" href="/static/mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/static/tokens.css">
+  <link rel="stylesheet" href="/static/components.css">
+  <link rel="stylesheet" href="/static/status.css">
+</head>
+<body class="status-page">
+  <main class="status-shell">
+    <header class="status-topbar">
+      <a class="status-brand" href="/">
+        <svg class="vv-svg status-mark" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="9.5" fill="none" stroke="currentColor" stroke-width="1.6"/>
+          <rect x="8.75" y="6.75" width="6.5" height="10.5" rx="3.25" class="vv-draw" fill="none" stroke="currentColor" stroke-width="1.6"/>
+          <circle cx="12" cy="12" r="1.4" fill="currentColor" stroke="none"/>
+        </svg>
+        <span>ValVuln</span>
+      </a>
+      <a class="segel-link" href="/api/readiness">Kesiapan layanan</a>
+    </header>
+
+    <section class="status-statement" aria-labelledby="status-heading">
+      <h1 id="status-heading" class="segel-display status-title">Layanan lokal siap.</h1>
+      <p class="segel-lead status-copy">
+        API laporan, antrean terisolasi, dan ruang kerja aktif pada host lokal. Mode simulasi tidak menggantikan pengujian lab maupun model nyata.
+      </p>
+    </section>
+
+    <ul class="segel-ledger status-facts" aria-label="Ringkasan konfigurasi aktif">
+      <li class="segel-ledger-row">
+        <span class="segel-ledger-label">Tahap layanan</span>
+        <code class="segel-ledger-value">{{ phase }}</code>
+      </li>
+      <li class="segel-ledger-row">
+        <span class="segel-ledger-label">Mode inferensi</span>
+        <code class="segel-ledger-value">{{ mode }}</code>
+      </li>
+      <li class="segel-ledger-row">
+        <span class="segel-ledger-label">Batas pengikatan</span>
+        <span class="segel-ledger-value">Teks terpisah dari eksekusi lab</span>
+      </li>
+    </ul>
+
+    <nav class="status-actions" aria-label="Navigasi layanan">
+      <a class="btn-pill btn-pill-primary" href="/">
+        <span>Buka ruang kerja</span>
+        <svg class="vv-svg vv-arrow" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4.5 12h15m-5.5-5.5 5.5 5.5-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+      <a class="btn-pill btn-pill-outline" href="/openapi.json">Skema OpenAPI</a>
+    </nav>
+  </main>
+</body>
+</html>
