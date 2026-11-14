@@ -22,12 +22,14 @@ body:has(.video-bg-container) {
   position: absolute;
   top: 50%;
   left: 50%;
-  min-width: 100%;
-  min-height: 100%;
+  min-width: 104%;
+  min-height: 104%;
   width: auto;
   height: auto;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) scale(1.04);
   object-fit: cover;
+  filter: blur(12px);
+  -webkit-filter: blur(12px);
   transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -67,6 +69,7 @@ html[data-theme="light"] .video-bg--light,
   position: absolute;
   inset: 0;
   pointer-events: none;
+  z-index: 1;
   transition: background-color 0.4s ease, backdrop-filter 0.4s ease;
 }
 
@@ -79,6 +82,18 @@ html[data-theme="light"] .video-bg-overlay,
   background: rgba(235, 245, 255, 0.12);
   backdrop-filter: blur(2px) saturate(120%);
   -webkit-backdrop-filter: blur(2px) saturate(120%);
+}
+
+/* Micro-Grain Noise Procedural Layer — Menyamarkan Resolusi 1080p & Menghilangkan Pikselasi */
+.video-bg-grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.045'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  mix-blend-mode: overlay;
+  opacity: 0.9;
 }
 
 /* Canvas 3D Dinonaktifkan agar Video Background Menjadi Utama */
