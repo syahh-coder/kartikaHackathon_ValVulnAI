@@ -95,11 +95,19 @@ html[data-theme="light"] .video-bg-overlay,
   color: var(--text);
 }
 
-/* Bidang Warna Homepage Transparan agar Aurora Video Terpancar di Bawah Kaca 3D */
+/* Bidang Warna Homepage 100% Transparan di Kedua Tema agar Video Fluid Motion Tampil Penuh */
+.segel-home,
+.segel-section,
 .field-bone,
 .field-cobalt,
-.field-ink {
+.field-ink,
+#hero,
+#scope,
+#sandbox,
+#lab,
+#closing {
   background: transparent !important;
+  background-color: transparent !important;
   position: relative;
   z-index: 4;
 }
@@ -110,9 +118,10 @@ html[data-theme="light"] .field-ink,
 :root:not([data-theme="dark"]) .field-bone,
 :root:not([data-theme="dark"]) .field-cobalt,
 :root:not([data-theme="dark"]) .field-ink {
-  background: rgba(255, 255, 255, 0.85) !important;
-  backdrop-filter: blur(14px) saturate(160%) !important;
-  -webkit-backdrop-filter: blur(14px) saturate(160%) !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   color: var(--text) !important;
 }
 
@@ -120,6 +129,7 @@ html[data-theme="dark"] .field-bone,
 html[data-theme="dark"] .field-cobalt,
 html[data-theme="dark"] .field-ink {
   background: transparent !important;
+  background-color: transparent !important;
 }
 
 /* Tipografi Pernapasan Web (Word Spacing & Breathing Room) */
