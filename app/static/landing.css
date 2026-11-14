@@ -28,13 +28,46 @@ body:has(.video-bg-container) {
   height: auto;
   transform: translate(-50%, -50%);
   object-fit: cover;
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.video-bg--dark {
+  opacity: 1;
+  visibility: visible;
+}
+
+.video-bg--light {
+  opacity: 0;
+  visibility: hidden;
+}
+
+html[data-theme="dark"] .video-bg--dark {
+  opacity: 1;
+  visibility: visible;
+}
+
+html[data-theme="dark"] .video-bg--light {
+  opacity: 0;
+  visibility: hidden;
+}
+
+html[data-theme="light"] .video-bg--dark,
+:root:not([data-theme="dark"]) .video-bg--dark {
+  opacity: 0;
+  visibility: hidden;
+}
+
+html[data-theme="light"] .video-bg--light,
+:root:not([data-theme="dark"]) .video-bg--light {
+  opacity: 1;
+  visibility: visible;
 }
 
 .video-bg-overlay {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  transition: background-color 0.4s ease;
+  transition: background-color 0.4s ease, backdrop-filter 0.4s ease;
 }
 
 html[data-theme="dark"] .video-bg-overlay {
@@ -43,9 +76,9 @@ html[data-theme="dark"] .video-bg-overlay {
 
 html[data-theme="light"] .video-bg-overlay,
 :root:not([data-theme="dark"]) .video-bg-overlay {
-  background: rgba(225, 238, 248, 0.18);
-  backdrop-filter: blur(4px) saturate(125%);
-  -webkit-backdrop-filter: blur(4px) saturate(125%);
+  background: rgba(235, 245, 255, 0.12);
+  backdrop-filter: blur(2px) saturate(120%);
+  -webkit-backdrop-filter: blur(2px) saturate(120%);
 }
 
 /* Canvas 3D Dinonaktifkan agar Video Background Menjadi Utama */

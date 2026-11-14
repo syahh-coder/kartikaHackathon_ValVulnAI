@@ -21,10 +21,13 @@
 <body class="has-video-bg">
   <a class="skip-link" href="#main-content">Lewati navigasi</a>
 
-  <!-- Latar Belakang Video Ambient Fluid Motion (14478075_1920_1080_30fps.mp4) -->
+  <!-- Latar Belakang Video Ambient Fluid Motion (Tema Gelap & Tema Terang) -->
   <div class="video-bg-container" aria-hidden="true">
-    <video class="video-bg" autoplay loop muted playsinline preload="auto">
+    <video id="video-bg-dark" class="video-bg video-bg--dark" autoplay loop muted playsinline preload="auto">
       <source src="/static/bg-aurora.mp4" type="video/mp4">
+    </video>
+    <video id="video-bg-light" class="video-bg video-bg--light" autoplay loop muted playsinline preload="auto">
+      <source src="/static/bg-light.mp4" type="video/mp4">
     </video>
     <div class="video-bg-overlay"></div>
   </div>

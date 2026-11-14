@@ -383,6 +383,13 @@ function commitThemeState(theme) {
   try {
     localStorage.setItem("valvuln-theme", theme);
   } catch {}
+  const darkVideo = document.getElementById("video-bg-dark");
+  const lightVideo = document.getElementById("video-bg-light");
+  if (theme === "dark") {
+    darkVideo?.play()?.catch(() => {});
+  } else {
+    lightVideo?.play()?.catch(() => {});
+  }
   if (typeof landingUI !== "undefined" && landingUI.syncTheme) {
     landingUI.syncTheme(theme);
   }
